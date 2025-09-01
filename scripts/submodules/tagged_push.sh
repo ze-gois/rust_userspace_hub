@@ -19,9 +19,8 @@ for sub in "${submodules[@]}"; do
     # Cria ou muda para a branch
     git switch -C "$branch_name"
 
-    # Cria tag de backup
+    # Tag de backup
     tag="${branch_name}-$(whoami)-backup-$(date +%Y%m%d%H%M%S)"
-
     read -p "Criar tag de backup '$tag' e enviar para o remoto? [y/N] " yn
     if [[ "$yn" =~ ^[Yy]$ ]]; then
         git tag "$tag"
@@ -33,15 +32,23 @@ for sub in "${submodules[@]}"; do
 
     # Comita mudanças locais, se houver
     if ! git diff-index --quiet HEAD --; then
-        read -p "Há mudanças locais em $sub. Comitar e pushar para '$branch_name'? [y/N] " yn
+        read -p "Há mudanças locais em $sub. Comitar? [y/N] " yn
         if [[ "$yn" =~ ^[Yy]$ ]]; then
             git add .
             git commit -m "initing $branch_name"
-            git push --set-upstream origin "$branch_name"
-            echo "Alterações enviadas."
+            echo "Commit realizado."
         else
             echo "Alterações locais não commitadas."
         fi
+    fi
+
+    # Push do branch para origin
+    read -p "Push do branch '$branch_name' para origin? [y/N] " yn
+    if [[ "$yn" =~ ^[Yy]$ ]]; then
+        git push --set-upstream origin "$branch_name"
+        echo "Branch pushada."
+    else
+        echo "Push ignorado."
     fi
 
     cd ..
@@ -68,15 +75,23 @@ git add "${submodules[@]}"
 
 # Comita mudanças no pai se houver
 if ! git diff-index --quiet HEAD --; then
-    read -p "Há mudanças no repositório pai. Comitar e pushar para '$branch_name'? [y/N] " yn
+    read -p "Há mudanças no repositório pai. Comitar? [y/N] " yn
     if [[ "$yn" =~ ^[Yy]$ ]]; then
         git add .
         git commit -m "initing $branch_name"
-        git push --set-upstream origin "$branch_name"
-        echo "Alterações enviadas."
+        echo "Commit realizado."
     else
         echo "Alterações locais do pai não commitadas."
     fi
+fi
+
+# Push do branch do pai
+read -p "Push do branch '$branch_name' do pai para origin? [y/N] " yn
+if [[ "$yn" =~ ^[Yy]$ ]]; then
+    git push --set-upstream origin "$branch_name"
+    echo "Branch do pai pushada."
+else
+    echo "Push do pai ignorado."
 fi
 
 echo "=== Sincronização interativa completa ==="
