@@ -1,0 +1,15 @@
+[submodule "crate"]
+	path = crate
+	url = git@github.com:ze-gois/rust_userspace_crate
+[submodule "build"]
+	path = build
+	url = git@github.com:ze-gois/rust_userspace_build
+[submodule "ample"]
+	path = ample
+	url = git@github.com:ze-gois/rust_ample
+[submodule "hub"]
+	path = hub
+	url = git@github.com:ze-gois/rust_userspace_hub
+[submodule "kernel"]
+	path = kernel
+	url = git@github.com:ze-gois/rust_kernelspace
