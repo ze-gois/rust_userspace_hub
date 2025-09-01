@@ -8,8 +8,8 @@ import re
 USERSPACE_DIR = os.getcwd()
 CRATE_DIR = os.path.join(USERSPACE_DIR, "crate")
 BUILD_DIR = os.path.join(USERSPACE_DIR, "build")
-PUBLISH_CARGO = os.path.join(USERSPACE_DIR, "publish", "build", "Cargo.toml")
-PUBLISH_BUILD_RS = os.path.join(USERSPACE_DIR, "publish", "build", "build.rs")
+PUBLISH_CARGO = os.path.join(USERSPACE_DIR, "scripts", "registry", "publish", "build", "Cargo.toml")
+PUBLISH_BUILD_RS = os.path.join(USERSPACE_DIR, "scripts", "registry", "publish", "build", "build.rs")
 
 def prepare_build_staging(version_build):
     # Limpa build dir
