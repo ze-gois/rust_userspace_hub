@@ -1,0 +1,42 @@
+[workspace]
+members = []
+
+[package]
+name = "validating"
+publish = false
+version = "0.1.0"
+edition = "2024"
+authors = ["José Gois <ze.gois.00@gmail.com>"]
+description = "Standard library for validating"
+documentation = "https://docs.rs/bitflags"
+repository = "https://github.com/ze-gois/rust_validating"
+readme = "README.md"
+homepage = "https://userspace.builders"
+license-file = "LICENSE"
+keywords = ["architecture", "operating_system"]
+categories = ["no-std", "os"]
+
+[lib]
+name = "validating"
+path = "src/library.rs"
+test = false
+
+[[bin]]
+name = "validating"
+path = "src/entry.rs"
+test = false
+
+[dependencies]
+userspace = { version = "*" }
+
+[workspace.dependencies]
+validating = { path = ".", version = "0.1.0" }
+
+[build-dependencies]
+cc = "1.0"
+
+[profile.dev]
+panic = "abort"
+
+[profile.release]
+panic = "abort"
