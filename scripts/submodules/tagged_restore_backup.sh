@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-submodules=(ample build crate hub kernel)
+submodules=(ample userspace_build userspace kernelspace)
 
 usage() {
     echo "Uso:"

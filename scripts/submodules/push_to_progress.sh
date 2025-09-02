@@ -2,7 +2,7 @@
 set -e
 
 # Array com os submódulos
-submodules=(ample build crate hub kernel)
+submodules=(ample userspace_build userspace kernelspace)
 
 echo "=== Atualizando e pushando todos os submódulos ==="
 

@@ -14,7 +14,7 @@ if [ "$2" == "--auto" ]; then
     auto_mode=true
 fi
 
-submodules=(ample build crate kernel)
+submodules=(ample userspace_build userspace kernelspace)
 
 prompt() {
     # Se auto_mode está ativado, retorna true
