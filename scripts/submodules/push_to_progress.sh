@@ -10,22 +10,22 @@ for sub in "${submodules[@]}"; do
     echo ">>> Submódulo: $sub"
     cd "$sub"
 
-    # Garante estar na branch main
-    git checkout dev
+    # Garante estar na branch progress
+    git checkout progress
 
-    # Puxa o último commit do main remoto
-    git fetch origin dev
-    git merge --ff-only origin/dev
+    # Puxa o último commit do progress remoto
+    git fetch origin progress
+    git merge --ff-only origin/progress
 
     # Push do submódulo
-    git push origin dev
+    git push origin progress
 
     cd ..
 done
 
 echo "=== Atualizando ponteiros no repositório pai ==="
 git add "${submodules[@]}"
-git commit -m "Atualiza submódulos para os últimos commits de dev e pushados"
-git push origin dev
+git commit -m "Atualiza submódulos para os últimos commits de progress e pushados"
+git push origin progress
 
 echo "=== Tudo pronto! Submódulos e repositório pai sincronizados ==="
