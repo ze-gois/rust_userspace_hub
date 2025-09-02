@@ -1,0 +1,12 @@
+[submodule "ample"]
+	path = ample
+	url = git@github.com:ze-gois/rust_ample
+[submodule "kernelspace"]
+	path = kernelspace
+	url = git@github.com:ze-gois/rust_kernelspace
+[submodule "userspace"]
+	path = userspace
+	url = git@github.com:ze-gois/rust_userspace
+[submodule "userspace_build"]
+	path = userspace_build
+	url = git@github.com:ze-gois/rust_userspace_build
