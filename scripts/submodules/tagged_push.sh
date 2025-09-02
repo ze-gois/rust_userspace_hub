@@ -7,6 +7,7 @@ if [ $# -lt 1 ]; then
     exit 1
 fi
 
+date_stamp=$(date +%Y%m%d%H%M%S)
 branch_name="$1"
 auto_mode=false
 if [ "$2" == "--auto" ]; then
@@ -33,7 +34,7 @@ for sub in "${submodules[@]}"; do
 
     git switch -C "$branch_name"
 
-    tag="${branch_name}-$(whoami)-backup-$(date +%Y%m%d%H%M%S)"
+    tag="${branch_name}-$(whoami)-backup-$date_stamp"
     if prompt "Criar tag de backup '$tag' e enviar para o remoto?"; then
         git tag "$tag"
         git push origin "$tag"
@@ -59,7 +60,7 @@ done
 echo "=== Atualizando repositório pai ==="
 git switch -C "$branch_name"
 
-tag="${branch_name}-$(whoami)-backup-$(date +%Y%m%d%H%M%S)"
+tag="${branch_name}-$(whoami)-backup-$date_stamp"
 if prompt "Criar tag de backup '$tag' no pai e enviar?"; then
     git tag "$tag"
     git push origin "$tag"
