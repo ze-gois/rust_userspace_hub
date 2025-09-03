@@ -27,7 +27,7 @@ path = "src/entry.rs"
 test = false
 
 [dependencies]
-userspace = { path = "../crate" }
+userspace = { path = "../../../userspace" }
 
 [workspace.dependencies]
 validating = { path = ".", version = "0.1.0" }
