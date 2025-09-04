@@ -59,19 +59,19 @@ dependencies = [
 ]
 
 [[package]]
-name = "userspace_"
-version = "0.1.0"
-dependencies = [
- "ample",
- "kernelspace",
- "userspace 0.1.0",
-]
-
-[[package]]
 name = "userspace_build"
 version = "0.1.123"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "d1b1bd859b8dbafbc93f166e94d93e4160165e0e4781e00e345973ce1b2f2907"
 dependencies = [
  "cc",
+]
+
+[[package]]
+name = "userspace_hub"
+version = "0.1.0"
+dependencies = [
+ "ample",
+ "kernelspace",
+ "userspace 0.1.0",
 ]

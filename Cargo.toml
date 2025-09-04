@@ -1,9 +1,9 @@
 [package]
-name = "userspace_"
+name = "userspace_hub"
 version = "0.1.0"
 edition = "2024"
 
 [dependencies]
 ample = { path = "ample" }
-userspace = { path = "userspace" }
+userspace = { path = "userspace", features = ["with_std"] }
 kernelspace = { path = "kernelspace" }
