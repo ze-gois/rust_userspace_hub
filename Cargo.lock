@@ -26,52 +26,14 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "e178e4fba8a2726903f6ba98a6d221e76f9c12c650d5dc0e6afdc50677b49650"
 
 [[package]]
-name = "kernelspace"
-version = "0.1.1"
-dependencies = [
- "cc",
- "userspace 0.1.123",
-]
-
-[[package]]
 name = "shlex"
 version = "1.3.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "0fda2ff0d084019ba4d7c6f371c95d8fd75ce3524c3cb8fb653a3023f6323e64"
 
 [[package]]
-name = "userspace"
-version = "0.1.0"
-dependencies = [
- "ample",
- "cc",
- "userspace_build",
-]
-
-[[package]]
-name = "userspace"
-version = "0.1.123"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "0e7257a0af361999375bc4f45bae08c2a7d58e12b6f21c2dff33557b3ee126e6"
-dependencies = [
- "cc",
- "userspace_build",
-]
-
-[[package]]
-name = "userspace_build"
-version = "0.1.123"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d1b1bd859b8dbafbc93f166e94d93e4160165e0e4781e00e345973ce1b2f2907"
-dependencies = [
- "cc",
-]
-
-[[package]]
 name = "userspace_hub"
 version = "0.1.0"
 dependencies = [
  "ample",
- "kernelspace",
- "userspace 0.1.0",
 ]

@@ -5,5 +5,5 @@ edition = "2024"
 
 [dependencies]
 ample = { path = "ample" }
-userspace = { path = "userspace", features = ["with_std"] }
-kernelspace = { path = "kernelspace" }
+# userspace = { path = "userspace", features = ["with_std"] }
+# kernelspace = { path = "kernelspace" }
