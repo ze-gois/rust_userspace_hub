@@ -1,0 +1,544 @@
+   Compiling ample v0.1.0 (/backup/rustics/userspace_hub/ample)
+error[E0438]: const `ITEM_SIZE` is not a member of trait `$crate::traits::Bytes`
+  --> ample/src/macros/traits/primitive/tuple.rs:6:13
+   |
+ 6 |             const ITEM_SIZE: usize = <Self as $crate::traits::Bytes<crate::Origin, crate::Origin>>::BYTES_SIZE;
+   |             ^^^^^^---------^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |             |     |
+   |             |     help: there is an associated constant with a similar name: `BYTES_SIZE`
+   |             not a member of trait `$crate::traits::Bytes`
+   |
+  ::: ample/src/library.rs:20:1
+   |
+20 | trait_implement_primitives!();
+   | ----------------------------- in this macro invocation
+   |
+   = note: this error originates in the macro `$crate::trait_implement_primitive_unit_bytes` which comes from the expansion of the macro `trait_implement_primitives` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+error[E0438]: const `ITEM_COUNT` is not a member of trait `$crate::traits::Bytes`
+  --> ample/src/macros/traits/primitive/tuple.rs:7:13
+   |
+ 7 |             const ITEM_COUNT: usize = 0;
+   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ not a member of trait `$crate::traits::Bytes`
+   |
+  ::: ample/src/library.rs:20:1
+   |
+20 | trait_implement_primitives!();
+   | ----------------------------- in this macro invocation
+   |
+   = note: this error originates in the macro `$crate::trait_implement_primitive_unit_bytes` which comes from the expansion of the macro `trait_implement_primitives` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+error[E0438]: const `ITEMS_SIZE` is not a member of trait `$crate::traits::Bytes`
+  --> ample/src/macros/traits/primitive/tuple.rs:8:13
+   |
+ 8 |               const ITEMS_SIZE: usize = <Self as $crate::traits::Bytes<crate::Origin,crate::Origin>>::ITEM_SIZE *
+   |               ^     ---------- help: there is an associated constant with a similar name: `BYTES_SIZE`
+   |  _____________|
+   | |
+ 9 | |                                       <Self as $crate::traits::Bytes<crate::Origin,crate::Origin>>::ITEM_COUNT;
+   | |_______________________________________________________________________________________________________________^ not a member of trait `$crate::traits::Bytes`
+   |
+  ::: ample/src/library.rs:20:1
+   |
+20 |   trait_implement_primitives!();
+   |   ----------------------------- in this macro invocation
+   |
+   = note: this error originates in the macro `$crate::trait_implement_primitive_unit_bytes` which comes from the expansion of the macro `trait_implement_primitives` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+error[E0437]: type `ItemType` is not a member of trait `$crate::traits::Bytes`
+  --> ample/src/macros/traits/primitive/tuple.rs:10:13
+   |
+10 |             type ItemType = ();
+   |             ^^^^^^^^^^^^^^^^^^^ not a member of trait `$crate::traits::Bytes`
+   |
+  ::: ample/src/library.rs:20:1
+   |
+20 | trait_implement_primitives!();
+   | ----------------------------- in this macro invocation
+   |
+   = note: this error originates in the macro `$crate::trait_implement_primitive_unit_bytes` which comes from the expansion of the macro `trait_implement_primitives` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+error[E0438]: const `ITEM_COUNT` is not a member of trait `$crate::traits::Bytes`
+  --> ample/src/macros/traits/primitive/bool.rs:6:13
+   |
+ 6 |             const ITEM_COUNT: usize = 0;
+   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ not a member of trait `$crate::traits::Bytes`
+   |
+  ::: ample/src/library.rs:20:1
+   |
+20 | trait_implement_primitives!();
+   | ----------------------------- in this macro invocation
+   |
+   = note: this error originates in the macro `$crate::trait_implement_primitive_bool_bytes` which comes from the expansion of the macro `trait_implement_primitives` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+error[E0438]: const `ITEM_SIZE` is not a member of trait `$crate::traits::Bytes`
+  --> ample/src/macros/traits/primitive/bool.rs:7:13
+   |
+ 7 |             const ITEM_SIZE: usize = <Self as $crate::traits::Bytes<crate::Origin, crate::Origin>>::BYTES_SIZE;
+   |             ^^^^^^---------^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |             |     |
+   |             |     help: there is an associated constant with a similar name: `BYTES_SIZE`
+   |             not a member of trait `$crate::traits::Bytes`
+   |
+  ::: ample/src/library.rs:20:1
+   |
+20 | trait_implement_primitives!();
+   | ----------------------------- in this macro invocation
+   |
+   = note: this error originates in the macro `$crate::trait_implement_primitive_bool_bytes` which comes from the expansion of the macro `trait_implement_primitives` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+error[E0438]: const `ITEMS_SIZE` is not a member of trait `$crate::traits::Bytes`
+  --> ample/src/macros/traits/primitive/bool.rs:8:13
+   |
+ 8 |               const ITEMS_SIZE: usize = <Self as $crate::traits::Bytes<crate::Origin,crate::Origin>>::ITEM_SIZE *
+   |               ^     ---------- help: there is an associated constant with a similar name: `BYTES_SIZE`
+   |  _____________|
+   | |
+ 9 | |                                       <Self as $crate::traits::Bytes<crate::Origin,crate::Origin>>::ITEM_COUNT;
+   | |_______________________________________________________________________________________________________________^ not a member of trait `$crate::traits::Bytes`
+   |
+  ::: ample/src/library.rs:20:1
+   |
+20 |   trait_implement_primitives!();
+   |   ----------------------------- in this macro invocation
+   |
+   = note: this error originates in the macro `$crate::trait_implement_primitive_bool_bytes` which comes from the expansion of the macro `trait_implement_primitives` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+error[E0437]: type `ItemType` is not a member of trait `$crate::traits::Bytes`
+  --> ample/src/macros/traits/primitive/bool.rs:10:13
+   |
+10 |             type ItemType = ();
+   |             ^^^^^^^^^^^^^^^^^^^ not a member of trait `$crate::traits::Bytes`
+   |
+  ::: ample/src/library.rs:20:1
+   |
+20 | trait_implement_primitives!();
+   | ----------------------------- in this macro invocation
+   |
+   = note: this error originates in the macro `$crate::trait_implement_primitive_bool_bytes` which comes from the expansion of the macro `trait_implement_primitives` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+error[E0438]: const `ITEM_COUNT` is not a member of trait `$crate::traits::Bytes`
+  --> ample/src/macros/traits/primitive/char.rs:6:13
+   |
+ 6 |             const ITEM_COUNT: usize = 0;
+   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ not a member of trait `$crate::traits::Bytes`
+   |
+  ::: ample/src/library.rs:20:1
+   |
+20 | trait_implement_primitives!();
+   | ----------------------------- in this macro invocation
+   |
+   = note: this error originates in the macro `$crate::trait_implement_primitive_char_bytes` which comes from the expansion of the macro `trait_implement_primitives` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+error[E0438]: const `ITEM_SIZE` is not a member of trait `$crate::traits::Bytes`
+  --> ample/src/macros/traits/primitive/char.rs:7:13
+   |
+ 7 |             const ITEM_SIZE: usize = <Self as $crate::traits::Bytes<crate::Origin, crate::Origin>>::BYTES_SIZE;
+   |             ^^^^^^---------^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |             |     |
+   |             |     help: there is an associated constant with a similar name: `BYTES_SIZE`
+   |             not a member of trait `$crate::traits::Bytes`
+   |
+  ::: ample/src/library.rs:20:1
+   |
+20 | trait_implement_primitives!();
+   | ----------------------------- in this macro invocation
+   |
+   = note: this error originates in the macro `$crate::trait_implement_primitive_char_bytes` which comes from the expansion of the macro `trait_implement_primitives` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+error[E0438]: const `ITEMS_SIZE` is not a member of trait `$crate::traits::Bytes`
+  --> ample/src/macros/traits/primitive/char.rs:8:13
+   |
+ 8 |               const ITEMS_SIZE: usize = <Self as $crate::traits::Bytes<crate::Origin,crate::Origin>>::ITEM_SIZE *
+   |               ^     ---------- help: there is an associated constant with a similar name: `BYTES_SIZE`
+   |  _____________|
+   | |
+ 9 | |                                       <Self as $crate::traits::Bytes<crate::Origin,crate::Origin>>::ITEM_COUNT;
+   | |_______________________________________________________________________________________________________________^ not a member of trait `$crate::traits::Bytes`
+   |
+  ::: ample/src/library.rs:20:1
+   |
+20 |   trait_implement_primitives!();
+   |   ----------------------------- in this macro invocation
+   |
+   = note: this error originates in the macro `$crate::trait_implement_primitive_char_bytes` which comes from the expansion of the macro `trait_implement_primitives` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+error[E0437]: type `ItemType` is not a member of trait `$crate::traits::Bytes`
+  --> ample/src/macros/traits/primitive/char.rs:10:13
+   |
+10 |             type ItemType = ();
+   |             ^^^^^^^^^^^^^^^^^^^ not a member of trait `$crate::traits::Bytes`
+   |
+  ::: ample/src/library.rs:20:1
+   |
+20 | trait_implement_primitives!();
+   | ----------------------------- in this macro invocation
+   |
+   = note: this error originates in the macro `$crate::trait_implement_primitive_char_bytes` which comes from the expansion of the macro `trait_implement_primitives` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+error[E0438]: const `ITEM_COUNT` is not a member of trait `$crate::traits::Bytes`
+  --> ample/src/macros/traits/primitive/numeric.rs:7:17
+   |
+ 7 |                 const ITEM_COUNT: usize = 0;
+   |                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ not a member of trait `$crate::traits::Bytes`
+   |
+  ::: ample/src/library.rs:20:1
+   |
+20 | trait_implement_primitives!();
+   | ----------------------------- in this macro invocation
+   |
+   = note: this error originates in the macro `$crate::trait_implement_primitive_numeric_bytes` which comes from the expansion of the macro `trait_implement_primitives` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+error[E0438]: const `ITEM_SIZE` is not a member of trait `$crate::traits::Bytes`
+  --> ample/src/macros/traits/primitive/numeric.rs:8:17
+   |
+ 8 |                 const ITEM_SIZE: usize = <Self as $crate::traits::Bytes<crate::Origin, crate::Origin>>::BYTES_SIZE;
+   |                 ^^^^^^---------^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |                 |     |
+   |                 |     help: there is an associated constant with a similar name: `BYTES_SIZE`
+   |                 not a member of trait `$crate::traits::Bytes`
+   |
+  ::: ample/src/library.rs:20:1
+   |
+20 | trait_implement_primitives!();
+   | ----------------------------- in this macro invocation
+   |
+   = note: this error originates in the macro `$crate::trait_implement_primitive_numeric_bytes` which comes from the expansion of the macro `trait_implement_primitives` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+error[E0438]: const `ITEMS_SIZE` is not a member of trait `$crate::traits::Bytes`
+  --> ample/src/macros/traits/primitive/numeric.rs:9:17
+   |
+ 9 |                   const ITEMS_SIZE: usize = <Self as $crate::traits::Bytes<crate::Origin,crate::Origin>>::ITEM_SIZE *
+   |                   ^     ---------- help: there is an associated constant with a similar name: `BYTES_SIZE`
+   |  _________________|
+   | |
+10 | |                                           <Self as $crate::traits::Bytes<crate::Origin,crate::Origin>>::ITEM_COUNT;
+   | |___________________________________________________________________________________________________________________^ not a member of trait `$crate::traits::Bytes`
+   |
+  ::: ample/src/library.rs:20:1
+   |
+20 |   trait_implement_primitives!();
+   |   ----------------------------- in this macro invocation
+   |
+   = note: this error originates in the macro `$crate::trait_implement_primitive_numeric_bytes` which comes from the expansion of the macro `trait_implement_primitives` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+error[E0437]: type `ItemType` is not a member of trait `$crate::traits::Bytes`
+  --> ample/src/macros/traits/primitive/numeric.rs:11:17
+   |
+11 |                 type ItemType = ();
+   |                 ^^^^^^^^^^^^^^^^^^^ not a member of trait `$crate::traits::Bytes`
+   |
+  ::: ample/src/library.rs:20:1
+   |
+20 | trait_implement_primitives!();
+   | ----------------------------- in this macro invocation
+   |
+   = note: this error originates in the macro `$crate::trait_implement_primitive_numeric_bytes` which comes from the expansion of the macro `trait_implement_primitives` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+error[E0438]: const `ITEM_SIZE` is not a member of trait `$crate::traits::Bytes`
+  --> ample/src/macros/traits/primitive/option.rs:7:17
+   |
+ 7 |                 const ITEM_SIZE: usize = <Self as $crate::traits::Bytes<crate::Origin, crate::Origin>>::BYTES_SIZE;
+   |                 ^^^^^^---------^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |                 |     |
+   |                 |     help: there is an associated constant with a similar name: `BYTES_SIZE`
+   |                 not a member of trait `$crate::traits::Bytes`
+   |
+  ::: ample/src/library.rs:20:1
+   |
+20 | trait_implement_primitives!();
+   | ----------------------------- in this macro invocation
+   |
+   = note: this error originates in the macro `$crate::trait_implement_primitive_option_bytes` which comes from the expansion of the macro `trait_implement_primitives` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+error[E0438]: const `ITEM_COUNT` is not a member of trait `$crate::traits::Bytes`
+  --> ample/src/macros/traits/primitive/option.rs:8:17
+   |
+ 8 |                 const ITEM_COUNT: usize = 0;
+   |                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ not a member of trait `$crate::traits::Bytes`
+   |
+  ::: ample/src/library.rs:20:1
+   |
+20 | trait_implement_primitives!();
+   | ----------------------------- in this macro invocation
+   |
+   = note: this error originates in the macro `$crate::trait_implement_primitive_option_bytes` which comes from the expansion of the macro `trait_implement_primitives` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+error[E0438]: const `ITEMS_SIZE` is not a member of trait `$crate::traits::Bytes`
+  --> ample/src/macros/traits/primitive/option.rs:9:17
+   |
+ 9 |                   const ITEMS_SIZE: usize = <Self as $crate::traits::Bytes<crate::Origin,crate::Origin>>::ITEM_SIZE *
+   |                   ^     ---------- help: there is an associated constant with a similar name: `BYTES_SIZE`
+   |  _________________|
+   | |
+10 | |                                           <Self as $crate::traits::Bytes<crate::Origin,crate::Origin>>::ITEM_COUNT;
+   | |___________________________________________________________________________________________________________________^ not a member of trait `$crate::traits::Bytes`
+   |
+  ::: ample/src/library.rs:20:1
+   |
+20 |   trait_implement_primitives!();
+   |   ----------------------------- in this macro invocation
+   |
+   = note: this error originates in the macro `$crate::trait_implement_primitive_option_bytes` which comes from the expansion of the macro `trait_implement_primitives` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+error[E0437]: type `ItemType` is not a member of trait `$crate::traits::Bytes`
+  --> ample/src/macros/traits/primitive/option.rs:11:17
+   |
+11 |                 type ItemType = ();
+   |                 ^^^^^^^^^^^^^^^^^^^ not a member of trait `$crate::traits::Bytes`
+   |
+  ::: ample/src/library.rs:20:1
+   |
+20 | trait_implement_primitives!();
+   | ----------------------------- in this macro invocation
+   |
+   = note: this error originates in the macro `$crate::trait_implement_primitive_option_bytes` which comes from the expansion of the macro `trait_implement_primitives` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+error[E0438]: const `ITEM_COUNT` is not a member of trait `$crate::traits::Bytes`
+  --> ample/src/macros/traits/primitive/pointer.rs:7:17
+   |
+ 7 |                 const ITEM_COUNT: usize = 0;
+   |                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ not a member of trait `$crate::traits::Bytes`
+   |
+  ::: ample/src/library.rs:20:1
+   |
+20 | trait_implement_primitives!();
+   | ----------------------------- in this macro invocation
+   |
+   = note: this error originates in the macro `$crate::trait_implement_primitive_pointer_bytes` which comes from the expansion of the macro `trait_implement_primitives` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+error[E0438]: const `ITEM_SIZE` is not a member of trait `$crate::traits::Bytes`
+  --> ample/src/macros/traits/primitive/pointer.rs:8:17
+   |
+ 8 |                 const ITEM_SIZE: usize = <Self as $crate::traits::Bytes<crate::Origin, crate::Origin>>::BYTES_SIZE;
+   |                 ^^^^^^---------^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |                 |     |
+   |                 |     help: there is an associated constant with a similar name: `BYTES_SIZE`
+   |                 not a member of trait `$crate::traits::Bytes`
+   |
+  ::: ample/src/library.rs:20:1
+   |
+20 | trait_implement_primitives!();
+   | ----------------------------- in this macro invocation
+   |
+   = note: this error originates in the macro `$crate::trait_implement_primitive_pointer_bytes` which comes from the expansion of the macro `trait_implement_primitives` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+error[E0438]: const `ITEMS_SIZE` is not a member of trait `$crate::traits::Bytes`
+  --> ample/src/macros/traits/primitive/pointer.rs:9:17
+   |
+ 9 |                   const ITEMS_SIZE: usize = <Self as $crate::traits::Bytes<crate::Origin,crate::Origin>>::ITEM_SIZE *
+   |                   ^     ---------- help: there is an associated constant with a similar name: `BYTES_SIZE`
+   |  _________________|
+   | |
+10 | |                                           <Self as $crate::traits::Bytes<crate::Origin,crate::Origin>>::ITEM_COUNT;
+   | |___________________________________________________________________________________________________________________^ not a member of trait `$crate::traits::Bytes`
+   |
+  ::: ample/src/library.rs:20:1
+   |
+20 |   trait_implement_primitives!();
+   |   ----------------------------- in this macro invocation
+   |
+   = note: this error originates in the macro `$crate::trait_implement_primitive_pointer_bytes` which comes from the expansion of the macro `trait_implement_primitives` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+error[E0437]: type `ItemType` is not a member of trait `$crate::traits::Bytes`
+  --> ample/src/macros/traits/primitive/pointer.rs:11:17
+   |
+11 |                 type ItemType = ();
+   |                 ^^^^^^^^^^^^^^^^^^^ not a member of trait `$crate::traits::Bytes`
+   |
+  ::: ample/src/library.rs:20:1
+   |
+20 | trait_implement_primitives!();
+   | ----------------------------- in this macro invocation
+   |
+   = note: this error originates in the macro `$crate::trait_implement_primitive_pointer_bytes` which comes from the expansion of the macro `trait_implement_primitives` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+error[E0576]: cannot find method or associated constant `ITEM_SIZE` in trait `$crate::traits::Bytes`
+   |
+  ::: ample/src/macros/traits/bytes/place.rs:5:13
+   |
+ 5 |             const BYTES_SIZE: usize;
+   |             ------------------------ similarly named associated constant `BYTES_SIZE` defined here
+  --> ample/src/macros/traits/primitive/tuple.rs:8:101
+   |
+ 8 |             const ITEMS_SIZE: usize = <Self as $crate::traits::Bytes<crate::Origin,crate::Origin>>::ITEM_SIZE *
+   |                                                                                                     ^^^^^^^^^ help: an associated constant with a similar name exists: `BYTES_SIZE`
+   |
+  ::: ample/src/library.rs:20:1
+   |
+20 | trait_implement_primitives!();
+   | ----------------------------- in this macro invocation
+   |
+   = note: this error originates in the macro `$crate::trait_implement_primitive_unit_bytes` which comes from the expansion of the macro `trait_implement_primitives` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+error[E0576]: cannot find method or associated constant `ITEM_COUNT` in trait `$crate::traits::Bytes`
+  --> ample/src/macros/traits/primitive/tuple.rs:9:101
+   |
+ 9 | ...                   <Self as $crate::traits::Bytes<crate::Origin,crate::Origin>>::ITEM_COUNT;
+   |                                                                                     ^^^^^^^^^^ not found in `$crate::traits::Bytes`
+   |
+  ::: ample/src/library.rs:20:1
+   |
+20 | trait_implement_primitives!();
+   | ----------------------------- in this macro invocation
+   |
+   = note: this error originates in the macro `$crate::trait_implement_primitive_unit_bytes` which comes from the expansion of the macro `trait_implement_primitives` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+error[E0576]: cannot find method or associated constant `ITEM_SIZE` in trait `$crate::traits::Bytes`
+   |
+  ::: ample/src/macros/traits/bytes/place.rs:5:13
+   |
+ 5 |             const BYTES_SIZE: usize;
+   |             ------------------------ similarly named associated constant `BYTES_SIZE` defined here
+  --> ample/src/macros/traits/primitive/bool.rs:8:101
+   |
+ 8 |             const ITEMS_SIZE: usize = <Self as $crate::traits::Bytes<crate::Origin,crate::Origin>>::ITEM_SIZE *
+   |                                                                                                     ^^^^^^^^^ help: an associated constant with a similar name exists: `BYTES_SIZE`
+   |
+  ::: ample/src/library.rs:20:1
+   |
+20 | trait_implement_primitives!();
+   | ----------------------------- in this macro invocation
+   |
+   = note: this error originates in the macro `$crate::trait_implement_primitive_bool_bytes` which comes from the expansion of the macro `trait_implement_primitives` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+error[E0576]: cannot find method or associated constant `ITEM_COUNT` in trait `$crate::traits::Bytes`
+  --> ample/src/macros/traits/primitive/bool.rs:9:101
+   |
+ 9 | ...                   <Self as $crate::traits::Bytes<crate::Origin,crate::Origin>>::ITEM_COUNT;
+   |                                                                                     ^^^^^^^^^^ not found in `$crate::traits::Bytes`
+   |
+  ::: ample/src/library.rs:20:1
+   |
+20 | trait_implement_primitives!();
+   | ----------------------------- in this macro invocation
+   |
+   = note: this error originates in the macro `$crate::trait_implement_primitive_bool_bytes` which comes from the expansion of the macro `trait_implement_primitives` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+error[E0576]: cannot find method or associated constant `ITEM_SIZE` in trait `$crate::traits::Bytes`
+   |
+  ::: ample/src/macros/traits/bytes/place.rs:5:13
+   |
+ 5 |             const BYTES_SIZE: usize;
+   |             ------------------------ similarly named associated constant `BYTES_SIZE` defined here
+  --> ample/src/macros/traits/primitive/char.rs:8:101
+   |
+ 8 |             const ITEMS_SIZE: usize = <Self as $crate::traits::Bytes<crate::Origin,crate::Origin>>::ITEM_SIZE *
+   |                                                                                                     ^^^^^^^^^ help: an associated constant with a similar name exists: `BYTES_SIZE`
+   |
+  ::: ample/src/library.rs:20:1
+   |
+20 | trait_implement_primitives!();
+   | ----------------------------- in this macro invocation
+   |
+   = note: this error originates in the macro `$crate::trait_implement_primitive_char_bytes` which comes from the expansion of the macro `trait_implement_primitives` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+error[E0576]: cannot find method or associated constant `ITEM_COUNT` in trait `$crate::traits::Bytes`
+  --> ample/src/macros/traits/primitive/char.rs:9:101
+   |
+ 9 | ...                   <Self as $crate::traits::Bytes<crate::Origin,crate::Origin>>::ITEM_COUNT;
+   |                                                                                     ^^^^^^^^^^ not found in `$crate::traits::Bytes`
+   |
+  ::: ample/src/library.rs:20:1
+   |
+20 | trait_implement_primitives!();
+   | ----------------------------- in this macro invocation
+   |
+   = note: this error originates in the macro `$crate::trait_implement_primitive_char_bytes` which comes from the expansion of the macro `trait_implement_primitives` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+error[E0576]: cannot find method or associated constant `ITEM_SIZE` in trait `$crate::traits::Bytes`
+   |
+  ::: ample/src/macros/traits/bytes/place.rs:5:13
+   |
+ 5 |             const BYTES_SIZE: usize;
+   |             ------------------------ similarly named associated constant `BYTES_SIZE` defined here
+  --> ample/src/macros/traits/primitive/numeric.rs:9:105
+   |
+ 9 |                 const ITEMS_SIZE: usize = <Self as $crate::traits::Bytes<crate::Origin,crate::Origin>>::ITEM_SIZE *
+   |                                                                                                         ^^^^^^^^^ help: an associated constant with a similar name exists: `BYTES_SIZE`
+   |
+  ::: ample/src/library.rs:20:1
+   |
+20 | trait_implement_primitives!();
+   | ----------------------------- in this macro invocation
+   |
+   = note: this error originates in the macro `$crate::trait_implement_primitive_numeric_bytes` which comes from the expansion of the macro `trait_implement_primitives` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+error[E0576]: cannot find method or associated constant `ITEM_COUNT` in trait `$crate::traits::Bytes`
+  --> ample/src/macros/traits/primitive/numeric.rs:10:105
+   |
+10 | ...                   <Self as $crate::traits::Bytes<crate::Origin,crate::Origin>>::ITEM_COUNT;
+   |                                                                                     ^^^^^^^^^^ not found in `$crate::traits::Bytes`
+   |
+  ::: ample/src/library.rs:20:1
+   |
+20 | trait_implement_primitives!();
+   | ----------------------------- in this macro invocation
+   |
+   = note: this error originates in the macro `$crate::trait_implement_primitive_numeric_bytes` which comes from the expansion of the macro `trait_implement_primitives` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+error[E0576]: cannot find method or associated constant `ITEM_SIZE` in trait `$crate::traits::Bytes`
+   |
+  ::: ample/src/macros/traits/bytes/place.rs:5:13
+   |
+ 5 |             const BYTES_SIZE: usize;
+   |             ------------------------ similarly named associated constant `BYTES_SIZE` defined here
+  --> ample/src/macros/traits/primitive/option.rs:9:105
+   |
+ 9 |                 const ITEMS_SIZE: usize = <Self as $crate::traits::Bytes<crate::Origin,crate::Origin>>::ITEM_SIZE *
+   |                                                                                                         ^^^^^^^^^ help: an associated constant with a similar name exists: `BYTES_SIZE`
+   |
+  ::: ample/src/library.rs:20:1
+   |
+20 | trait_implement_primitives!();
+   | ----------------------------- in this macro invocation
+   |
+   = note: this error originates in the macro `$crate::trait_implement_primitive_option_bytes` which comes from the expansion of the macro `trait_implement_primitives` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+error[E0576]: cannot find method or associated constant `ITEM_COUNT` in trait `$crate::traits::Bytes`
+  --> ample/src/macros/traits/primitive/option.rs:10:105
+   |
+10 | ...                   <Self as $crate::traits::Bytes<crate::Origin,crate::Origin>>::ITEM_COUNT;
+   |                                                                                     ^^^^^^^^^^ not found in `$crate::traits::Bytes`
+   |
+  ::: ample/src/library.rs:20:1
+   |
+20 | trait_implement_primitives!();
+   | ----------------------------- in this macro invocation
+   |
+   = note: this error originates in the macro `$crate::trait_implement_primitive_option_bytes` which comes from the expansion of the macro `trait_implement_primitives` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+error[E0576]: cannot find method or associated constant `ITEM_SIZE` in trait `$crate::traits::Bytes`
+   |
+  ::: ample/src/macros/traits/bytes/place.rs:5:13
+   |
+ 5 |             const BYTES_SIZE: usize;
+   |             ------------------------ similarly named associated constant `BYTES_SIZE` defined here
+  --> ample/src/macros/traits/primitive/pointer.rs:9:105
+   |
+ 9 |                 const ITEMS_SIZE: usize = <Self as $crate::traits::Bytes<crate::Origin,crate::Origin>>::ITEM_SIZE *
+   |                                                                                                         ^^^^^^^^^ help: an associated constant with a similar name exists: `BYTES_SIZE`
+   |
+  ::: ample/src/library.rs:20:1
+   |
+20 | trait_implement_primitives!();
+   | ----------------------------- in this macro invocation
+   |
+   = note: this error originates in the macro `$crate::trait_implement_primitive_pointer_bytes` which comes from the expansion of the macro `trait_implement_primitives` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+error[E0576]: cannot find method or associated constant `ITEM_COUNT` in trait `$crate::traits::Bytes`
+  --> ample/src/macros/traits/primitive/pointer.rs:10:105
+   |
+10 | ...                   <Self as $crate::traits::Bytes<crate::Origin,crate::Origin>>::ITEM_COUNT;
+   |                                                                                     ^^^^^^^^^^ not found in `$crate::traits::Bytes`
+   |
+  ::: ample/src/library.rs:20:1
+   |
+20 | trait_implement_primitives!();
+   | ----------------------------- in this macro invocation
+   |
+   = note: this error originates in the macro `$crate::trait_implement_primitive_pointer_bytes` which comes from the expansion of the macro `trait_implement_primitives` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+Some errors have detailed explanations: E0437, E0438, E0576.
+For more information about an error, try `rustc --explain E0437`.
+error: could not compile `ample` (lib) due to 36 previous errors
