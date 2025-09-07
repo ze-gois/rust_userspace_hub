@@ -10,10 +10,10 @@ ample::trait_implement_primitives!();
 fn main() {
     // info!("do");
     ample::macros::r#struct!(
-        pub Estrutura {
-            a : u32,
-            b : bool,
-            c : Option<u32>
+        pub struct Estrutura {
+            a: u32,
+            b: bool,
+            c: Option<u32>,
         }
     );
 }
