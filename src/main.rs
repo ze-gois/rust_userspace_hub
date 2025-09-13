@@ -9,7 +9,7 @@ ample::trait_implement_primitives!();
 
 fn main() {
     // info!("do");
-    ample::macros::r#struct!(
+    ample::r#struct!(
         pub struct Estrutura {
             a: u32,
             b: bool,
