@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e
+# set -e
 
 # Verifica argumentos
 if [ $# -lt 1 ]; then
