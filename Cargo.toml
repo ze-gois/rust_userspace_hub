@@ -1,3 +1,11 @@
+[workspace]
+members = [
+    "ample",
+    "userspace",
+    "kernelspace",
+    "userspace_build"
+]
+
 [package]
 name = "userspace_hub"
 version = "0.1.0"
