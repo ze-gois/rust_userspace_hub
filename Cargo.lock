@@ -91,5 +91,7 @@ name = "userspace_hub"
 version = "0.1.0"
 dependencies = [
  "ample 0.1.1",
+ "cc",
  "userspace 0.1.124",
+ "userspace_build 0.1.124",
 ]

@@ -1,10 +1,14 @@
 [workspace]
 members = [
-    "ample",
-    "userspace",
-    "kernelspace",
-    "userspace_build"
+    "crates/ample",
+    "crates/userspace",
+    "crates/kernelspace",
+    "crates/userspace_build"
 ]
+
+[[bin]]
+name = "userspace_hub"
+path = "src/entry.rs"
 
 [package]
 name = "userspace_hub"
@@ -12,6 +16,10 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
-ample = { path = "ample" }
-userspace = { path = "userspace", features = ["with_std"] }
-# kernelspace = { path = "kernelspace" }
+ample = { path = "crates/ample" }
+userspace = { path = "crates/userspace", features = ["no_std"] }
+# kernelspace = { path = "crates/kernelspace" }
+
+[build-dependencies]
+cc = "1.0"
+userspace_build = { path = "crates/userspace_build", features = ["with_std"] }
