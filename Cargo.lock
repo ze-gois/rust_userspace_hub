@@ -4,7 +4,16 @@ version = 4
 
 [[package]]
 name = "ample"
-version = "0.1.0"
+version = "0.1.1"
+dependencies = [
+ "cc",
+]
+
+[[package]]
+name = "ample"
+version = "0.1.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "859b766f1d9f755640caab578e7effa714c8e84af6f58042010afae7348a274f"
 dependencies = [
  "cc",
 ]
@@ -32,8 +41,28 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "0fda2ff0d084019ba4d7c6f371c95d8fd75ce3524c3cb8fb653a3023f6323e64"
 
 [[package]]
+name = "userspace"
+version = "0.1.124"
+dependencies = [
+ "ample 0.1.1",
+ "cc",
+ "userspace_build",
+]
+
+[[package]]
+name = "userspace_build"
+version = "0.1.124"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "c17fab11f15b90d4925b6e236d26507c442f05b146edaff19d906ce5ab0d85d8"
+dependencies = [
+ "ample 0.1.1 (registry+https://github.com/rust-lang/crates.io-index)",
+ "cc",
+]
+
+[[package]]
 name = "userspace_hub"
 version = "0.1.0"
 dependencies = [
- "ample",
+ "ample 0.1.1",
+ "userspace",
 ]
