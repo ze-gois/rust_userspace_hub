@@ -21,7 +21,7 @@ while [[ $# -gt 0 ]]; do
     shift
 done
 
-submodules=(ample userspace_build userspace kernelspace)
+submodules=(crates/ample crates/userspace_build crates/userspace crates/kernelspace)
 
 prompt() {
     # Se auto_mode ou force_mode estão ativados, retorna true
