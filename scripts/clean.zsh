@@ -5,5 +5,5 @@ if [[ -z "$DIR" ]]; then
 fi
 for toml in $(find "$DIR" -type f -name "Cargo.toml"); do
     echo cargo clean --manifest-path=$toml
-    cargo clean --manifest-path=$toml
+    cargo clean --manifest-path=$toml --verbose
 done
