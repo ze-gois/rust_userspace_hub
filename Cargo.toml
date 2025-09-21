@@ -1,3 +1,41 @@
+[package]
+name = "userspace_hub"
+version = "0.1.1"
+edition = "2024"
+authors = ["José Gois <ze.gois.00@gmail.com>"]
+description = "userspace_hub library"
+documentation = "https://docs.rs/bitflags"
+repository = "https://github.com/ze-gois/rust_userspace_hub"
+readme = "README.md"
+homepage = "https://userspace.builders"
+license-file = "LICENSE"
+keywords = ["architecture", "operating_system"]
+categories = ["no-std", "os"]
+publish = true
+exclude = []
+include = []
+rust-version = "1.85"
+autobins = true
+autotests = true
+autobenches = true
+resolver = "2"
+publish-field = true
+license = "BSD-3 Clause" # redundante com license-file
+# links = ""                    # se a crate linka C libs externas
+
+[package.metadata]
+mode = "unoticed"
+note = "esta é uma crate padrão"
+whatever = 42
+
+[package.metadata.debug]
+mode = "debug"
+
+[package.metadata.release]
+metadata = "required"
+# pre-release-hook = "./scripts/pre_release.sh"
+# pre-release-replacements = []
+
 [workspace]
 members = [
     "crates/ample",
@@ -6,14 +44,19 @@ members = [
     "crates/userspace_build"
 ]
 
+[lib]
+name = "userspace_hub"
+path = "src/library.rs"
+crate-type = ["lib"]
+test = false
+doctest = true
+bench = false
+required-features = []        # nenhuma feature obrigatória
+doc = true                     # gera docs
+
 [[bin]]
 name = "userspace_hub"
 path = "src/entry.rs"
-
-[package]
-name = "userspace_hub"
-version = "0.1.0"
-edition = "2024"
 
 [dependencies]
 ample = { path = "crates/ample" }
@@ -23,3 +66,36 @@ kernelspace = { path = "crates/kernelspace" }
 [build-dependencies]
 cc = "1.0"
 userspace_build = { path = "crates/userspace_build", features = ["with_std"] }
+
+[dev-dependencies]
+
+[features]
+default = []
+all = []
+
+[badges]
+github-actions = { repository = "ze-gois/rust_userspace_hub" }
+
+[profile.dev]
+opt-level = 0
+debug = true
+overflow-checks = true
+lto = false
+panic = "unwind"
+incremental = true
+codegen-units = 256
+debug-assertions = true
+split-debuginfo = "packed"
+
+[profile.release]
+opt-level = 3
+debug = false
+overflow-checks = true
+lto = true
+panic = "abort"
+codegen-units = 1
+incremental = false
+debug-assertions = false
+split-debuginfo = "unpacked"
+rpath = false
+strip = "debuginfo"

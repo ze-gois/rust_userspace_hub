@@ -1,0 +1,54 @@
+# release.toml — configuração completa e redundante do cargo-release
+
+# --- Branches ---
+allow-branch = ["main", "master"]   # branches onde o release é permitido
+
+# --- Commits/Assinaturas ---
+sign-commit = false           # default: false
+sign-tag = false              # default: false
+consolidate-commits = true    # consolida commits de release
+# consolidate-pushes = true     # consolida pushes de release
+
+# --- Git remoto ---
+push-remote = "origin"        # default: origin
+push = true                   # envia commits/tags
+push-options = []             # default: vazio
+
+# --- Registro/Crates.io ---
+registry = "crates-io"        # default
+release = true                # default: true → efetua release
+publish = false               # aqui explicitamente false p/ testar antes
+verify = true                 # roda `cargo package --verify`
+owners = []                   # default: nenhum
+rate-limit = { requests = 1, seconds = 0 } # default
+certs-source = "webpki"       # default: webpki (pode ser "native")
+
+# --- Versionamento ---
+shared-version = true         # todas as crates do workspace sobem juntas
+dependent-version = "upgrade" # default: upgrade
+metadata = "required"             # default: keep (pode ser "remove")
+
+# --- Mensagens ---
+pre-release-commit-message = "chore: release {{version}}"
+tag-message = "Release {{version}}"
+tag-prefix = "v"              # default: "v"
+tag-name = "v{{version}}"     # default: igual ao prefix + versão
+tag = true                    # default: true (cria tag)
+
+# --- Hooks e substituições ---
+pre-release-replacements = [] # default
+pre-release-hook = ""         # default
+
+# --- Features ---
+enable-features = []          # default
+enable-all-features = false   # default
+
+# --- Target (cross-compilation etc.) ---
+target = ""                   # default
+
+# --- Comportamento instável (rare flags) ---
+# [unstable]
+# workspace-publish = false     # default: false
+# multiversion = false          # default: false
+# features = false              # default: false
+# config = false                # default: false
