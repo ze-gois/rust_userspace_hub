@@ -19,8 +19,7 @@ autobins = true
 autotests = true
 autobenches = true
 resolver = "2"
-publish-field = true
-license = "BSD-3 Clause" # redundante com license-file
+# license = "BSD-3 Clause"
 # links = ""                    # se a crate linka C libs externas
 
 [package.metadata]
