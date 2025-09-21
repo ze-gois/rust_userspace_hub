@@ -114,7 +114,7 @@ for sub in "${submodules[@]}"; do
     echo ">>> Submódulo: $sub"
     echo "Branch: $(git symbolic-ref --short HEAD)"
     echo "Commit: $(git rev-parse --short HEAD) - $(git log -1 --pretty=%B)"
-    cd ..
+    cd ../..
 done
 
 echo ">>> Repositório pai"
