@@ -1,5 +1,9 @@
 # release.toml — configuração completa e redundante do cargo-release
 
+# --- Hooks e substituições ---
+pre-release-replacements = [] # default
+pre-release-hook = ""         # default
+
 # --- Branches ---
 allow-branch = ["main", "master"]   # branches onde o release é permitido
 
@@ -17,7 +21,7 @@ push-options = []             # default: vazio
 # --- Registro/Crates.io ---
 registry = "crates-io"        # default
 release = true                # default: true → efetua release
-publish = false               # aqui explicitamente false p/ testar antes
+publish = true               # aqui explicitamente false p/ testar antes
 verify = true                 # roda `cargo package --verify`
 owners = []                   # default: nenhum
 rate-limit = { requests = 1, seconds = 0 } # default
@@ -26,7 +30,7 @@ certs-source = "webpki"       # default: webpki (pode ser "native")
 # --- Versionamento ---
 shared-version = true         # todas as crates do workspace sobem juntas
 dependent-version = "upgrade" # default: upgrade
-metadata = "required"             # default: keep (pode ser "remove")
+metadata = "optional"             # default: keep (pode ser "remove")
 
 # --- Mensagens ---
 pre-release-commit-message = "chore: release {{version}}"
@@ -34,10 +38,6 @@ tag-message = "Release {{version}}"
 tag-prefix = "v"              # default: "v"
 tag-name = "v{{version}}"     # default: igual ao prefix + versão
 tag = true                    # default: true (cria tag)
-
-# --- Hooks e substituições ---
-pre-release-replacements = [] # default
-pre-release-hook = ""         # default
 
 # --- Features ---
 enable-features = []          # default

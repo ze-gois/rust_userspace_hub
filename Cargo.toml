@@ -31,9 +31,34 @@ whatever = 42
 mode = "debug"
 
 [package.metadata.release]
-metadata = "required"
-# pre-release-hook = "./scripts/pre_release.sh"
-# pre-release-replacements = []
+allow-branch = ["main", "release"]   # branches permitidas
+sign-commit = true                    # commits de release assinados
+sign-tag = true                       # tags assinadas
+push-remote = "origin"                # remoto padrão
+registry = "crates-io"                # publicando no crates.io
+release = true                        # ativa o release
+publish = true                        # publica no registry
+verify = true                          # roda cargo package --verify
+owners = ["José Gois <ze.gois.00@gmail.com>"]  # dono da crate
+push = true                             # envia commits/tags
+push-options = []                        # sem opções especiais
+shared-version = true                    # todas as crates sobem juntas
+consolidate-commits = true               # junta commits de release
+pre-release-commit-message = "chore(release): bump {{name}} to {{version}} ✨"
+pre-release-replacements = []            # vazio por enquanto
+pre-release-hook = "./pre_release.sh"  # hook customizado
+tag-message = "Release {{name}} v{{version}} – feito com amor ❤️"
+tag-prefix = "v"                         # prefixo de tag
+tag-name = "v{{version}}"                # nome final da tag
+tag = true                                # cria a tag
+enable-features = []                      # features habilitadas no release
+enable-all-features = false               # false para evitar builds gigantes
+dependent-version = "upgrade"             # depende das versões internas
+metadata = "optional"                     # metadata opcional
+target = ""                               # build padrão
+rate-limit = { requests = 1, seconds = 0 } # limite de requests
+certs-source = "webpki"                   # fonte de certificados
+# unstable = ""
 
 [workspace]
 members = [
