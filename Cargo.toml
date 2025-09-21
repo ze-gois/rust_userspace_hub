@@ -1,6 +1,6 @@
 [package]
 name = "userspace_hub"
-version = "0.1.1"
+version = "0.1.124"
 edition = "2024"
 authors = ["José Gois <ze.gois.00@gmail.com>"]
 description = "userspace_hub library"
