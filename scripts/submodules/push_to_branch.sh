@@ -70,7 +70,7 @@ for sub in "${submodules[@]}"; do
         echo "Branch pushada."
     fi
 
-    cd ..
+    cd ../..
 done
 
 echo "=== Atualizando repositório pai ==="
