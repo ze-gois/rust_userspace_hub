@@ -44,7 +44,7 @@ enable-features = []          # default
 enable-all-features = false   # default
 
 # --- Target (cross-compilation etc.) ---
-target = ""                   # default
+target = "x86_64-unknown-none"                   # default
 
 # --- Comportamento instável (rare flags) ---
 # [unstable]
