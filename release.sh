@@ -42,7 +42,6 @@ PYTHON
 )
 
 echo "Ordem topológica das crates: $TOPO_ORDER"
-
 # --- 2. Descobre todas as crates ---
 mapfile -t ALL_CRATES < <(
     cargo metadata --format-version=1 --no-deps --manifest-path "$WORKSPACE_ROOT/Cargo.toml" \
@@ -58,6 +57,8 @@ for line in "${ALL_CRATES[@]}"; do
     CRATE_TOML[$name]="$path"
     CRATE_VERSION[$name]="$version"
     CRATE_PUBLISHABLE[$name]=$([[ "$publish" != "[]" ]] && echo true || echo false)
+
+    echo "$name => $path => $publish => $version"
 done
 
 # --- 3. Incrementa versão linear ---
@@ -81,16 +82,22 @@ update_deps() {
     local crate="$1"
     local edge_type="$2" # normal, dev, build
 
-    local deps
-    deps=$(cargo tree --edges "$edge_type" --prefix none --manifest-path "${CRATE_TOML[$crate]}" \
-        | awk '{print $1}' \
-        | grep -E "^($(echo "$TOPO_ORDER" | tr ' ' '|'))\$" \
-        | grep -v "^$crate\$" \
-        | sort -u)
+    local cargo_tree
+    cargo_tree=$(cargo tree --depth 1 --edges "$edge_type" --prefix none --manifest-path "${CRATE_TOML[$crate]}" 2>/dev/null | awk '{print $1}' || true)
 
-    for dep in $deps; do
-        echo "  Atualizando $edge_type-dependency $dep"
-        cargo add "$dep@$MAX_VERSION" --"$edge_type" --manifest-path "${CRATE_TOML[$crate]}"
+    local edge_dependencies
+    if [ -n "$cargo_tree" ]; then
+        edge_dependencies=$(echo "$cargo_tree"  | tr ' ' '\n' | grep -E "($(echo "$TOPO_ORDER" | tr ' ' '|'))" 2>/dev/null || true)
+        edge_dependencies=$(echo $edge_dependencies | tr ' ' '\n' | grep -v -x "$crate" 2>/dev/null || true)
+        edge_dependencies=$(echo $edge_dependencies | tr ' ' '\n' | sort -u || echo "")
+    else
+        edge_dependencies=""
+    fi
+
+    for dependency in $edge_dependencies; do
+
+        echo "  Atualizando $edge_type-dependency $dependency"
+        # echo cargo add "$dep@$MAX_VERSION" --"$edge_type" --manifest-path "${CRATE_TOML[$crate]}"
     done
 }
 
@@ -109,16 +116,26 @@ for crate in $TOPO_ORDER; do
     update_deps "$crate" normal
     update_deps "$crate" dev
     update_deps "$crate" build
-
+    continue
     crate_dir=$(dirname "${CRATE_TOML[$crate]}")
-    if [[ -f "$crate_dir/scripts/pre_release.sh" ]]; then
+    if [[ -f "$crate_dir/pre_release.sh" ]]; then
         echo "Executando pre-release hook de $crate..."
-        bash "$crate_dir/scripts/pre_release.sh"
+        bash "$crate_dir/pre_release.sh"
     fi
 done
+exit 1
 
 # --- 7. Release final com cargo-release no workspace ---
 echo "Rodando cargo-release para todo o workspace..."
-(cd "$WORKSPACE_ROOT" && cargo release "$RELEASE_TYPE" --workspace --no-dev-version --execute)
+echo (cd "$WORKSPACE_ROOT" && cargo release "$RELEASE_TYPE" --workspace --no-dev-version --execute)
 
 echo "=== Todas as crates publicadas com sucesso ==="
+
+for crate in $TOPO_ORDER; do
+    crate_dir=$(dirname "${CRATE_TOML[$crate]}")
+    if [[ -f "$crate_dir/pos_release.sh" ]]; then
+        echo "Executando pos-release hook de $crate..."
+        bash "$crate_dir/pos_release.sh"
+    fi
+done
+exit 1

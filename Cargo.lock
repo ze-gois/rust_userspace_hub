@@ -65,5 +65,4 @@ dependencies = [
  "cc",
  "kernelspace",
  "userspace",
- "userspace_build",
 ]

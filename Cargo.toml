@@ -89,7 +89,7 @@ kernelspace = { path = "crates/kernelspace" }
 
 [build-dependencies]
 cc = "1.0"
-userspace_build = { path = "crates/userspace_build", features = ["with_std"] }
+userspace = { path = "crates/userspace", features = ["with_std"] }
 
 [dev-dependencies]
 
