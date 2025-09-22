@@ -15,3 +15,5 @@ mv ./crates/userspace_build/Cargo.toml.tmp ./crates/userspace_build/Cargo.toml
 mv ./crates/userspace_build/build.rs.tmp ./crates/userspace_build/build.rs
 mv ./crates/userspace_build/pos_release.sh.tmp ./crates/userspace_build/pos_release.sh
 mv ./crates/userspace_build/pre_release.sh.tmp ./crates/userspace_build/pre_release.sh
+
+./scripts/submodules/push_to_branch.sh release --auto
