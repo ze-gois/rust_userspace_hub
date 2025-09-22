@@ -4,7 +4,7 @@ version = 4
 
 [[package]]
 name = "ample"
-version = "0.1.127"
+version = "0.1.128"
 dependencies = [
  "cc",
 ]
@@ -27,7 +27,7 @@ checksum = "1ced73b1dacfc750a6db6c0a0c3a3853c8b41997e2e2c563dc90804ae6867959"
 
 [[package]]
 name = "kernelspace"
-version = "0.1.127"
+version = "0.1.128"
 dependencies = [
  "ample",
  "cc",
@@ -43,7 +43,7 @@ checksum = "0fda2ff0d084019ba4d7c6f371c95d8fd75ce3524c3cb8fb653a3023f6323e64"
 
 [[package]]
 name = "userspace"
-version = "0.1.127"
+version = "0.1.128"
 dependencies = [
  "ample",
  "cc",
@@ -52,7 +52,7 @@ dependencies = [
 
 [[package]]
 name = "userspace_build"
-version = "0.1.127"
+version = "0.1.128"
 dependencies = [
  "ample",
  "cc",
@@ -60,7 +60,7 @@ dependencies = [
 
 [[package]]
 name = "userspace_hub"
-version = "0.1.127"
+version = "0.1.128"
 dependencies = [
  "ample",
  "cc",
