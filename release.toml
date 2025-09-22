@@ -8,8 +8,8 @@ pre-release-hook = "./pre_release.sh"         # default
 allow-branch = ["release"]   # branches onde o release é permitido
 
 # --- Commits/Assinaturas ---
-sign-commit = false           # default: false
-sign-tag = false              # default: false
+sign-commit = true           # default: false
+sign-tag = true              # default: false
 consolidate-commits = true    # consolida commits de release
 # consolidate-pushes = true     # consolida pushes de release
 
