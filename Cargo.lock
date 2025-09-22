@@ -32,6 +32,7 @@ dependencies = [
  "ample",
  "cc",
  "userspace",
+ "userspace_build",
 ]
 
 [[package]]
@@ -65,4 +66,5 @@ dependencies = [
  "cc",
  "kernelspace",
  "userspace",
+ "userspace_build",
 ]

@@ -83,13 +83,13 @@ name = "userspace_hub"
 path = "src/entry.rs"
 
 [dependencies]
-ample = { version="0.1.124", path = "../ample" }
-userspace = { version="0.1.124", path = "../userspace" }
+ample = { version="0.1.124", path = "crates/ample" }
+userspace = { version="0.1.124", path = "crates/userspace" }
 kernelspace = { version="0.1.124", path = "crates/kernelspace" }
 
 [build-dependencies]
 cc = "1.0"
-userspace_build = { version="0.1.124", path = "../userspace_build", features = ["with_std"] }
+userspace_build = { version="0.1.124", path = "crates/userspace_build", features = ["with_std"] }
 
 [dev-dependencies]
 
