@@ -1,6 +1,6 @@
 [package]
 name = "userspace_hub"
-version = "0.1.128"
+version = "0.1.129"
 edition = "2024"
 authors = ["José Gois <ze.gois.00@gmail.com>"]
 description = "userspace_hub library"
@@ -83,13 +83,13 @@ name = "userspace_hub"
 path = "src/entry.rs"
 
 [dependencies]
-ample = { version= "0.1.128", path = "crates/ample" }
-userspace = { version= "0.1.128", path = "crates/userspace" }
-kernelspace = { version= "0.1.128", path = "crates/kernelspace" }
+ample = { version= "0.1.129", path = "crates/ample" }
+userspace = { version= "0.1.129", path = "crates/userspace" }
+kernelspace = { version= "0.1.129", path = "crates/kernelspace" }
 
 [build-dependencies]
 cc = "1.0"
-userspace_build = { version= "0.1.128", path = "crates/userspace_build", features = ["with_std"] }
+userspace_build = { version= "0.1.129", path = "crates/userspace_build", features = ["with_std"] }
 
 [dev-dependencies]
 
