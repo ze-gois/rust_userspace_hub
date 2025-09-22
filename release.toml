@@ -5,7 +5,7 @@ pre-release-replacements = [] # default
 pre-release-hook = ""         # default
 
 # --- Branches ---
-allow-branch = ["main", "master"]   # branches onde o release é permitido
+allow-branch = ["release"]   # branches onde o release é permitido
 
 # --- Commits/Assinaturas ---
 sign-commit = false           # default: false
