@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+
 WORKSPACE_ROOT="/backup/rustics/userspace_hub"
-RELEASE_TYPE=${1:-patch} # patch, minor, major
+RELEASE_TYPE=${1:-patch}
 
 # --- 1. Descobre ordem topológica das crates do workspace ---
 TOPO_ORDER=$(python3 <<'PYTHON'
@@ -48,12 +49,15 @@ mapfile -t ALL_CRATES < <(
         | jq -r '.packages[] | "\(.name) \(.manifest_path) \(.publish) \(.version)"'
 )
 
+declare -A CRATE_PATH
 declare -A CRATE_TOML
 declare -A CRATE_VERSION
 declare -A CRATE_PUBLISHABLE
 
 for line in "${ALL_CRATES[@]}"; do
     read -r name path publish version <<<"$line"
+
+    CRATE_PATH[$name]="$(dirname $path)"
     CRATE_TOML[$name]="$path"
     CRATE_VERSION[$name]="$version"
     CRATE_PUBLISHABLE[$name]=$([[ "$publish" != "[]" ]] && echo true || echo false)
@@ -77,7 +81,16 @@ increment_version() {
     echo "$major.$minor.$patch"
 }
 
-# --- 4. Função genérica para atualizar dependências internas ---
+# --- 4. Calcula nova versão máxima semanticamente correta ---
+declare -A CRATE_VERSION_NEW
+for crate in $TOPO_ORDER; do
+    CRATE_VERSION_NEW[$crate]=$(increment_version "$RELEASE_TYPE" "${CRATE_VERSION[$crate]}")
+done
+
+MAX_VERSION=$(printf "%s\n" "${CRATE_VERSION_NEW[@]}" | sort -V | tail -n1)
+echo "Nova versão máxima: $MAX_VERSION"
+
+# --- 5. Função genérica para atualizar dependências internas ---
 update_deps() {
     local crate="$1"
     local edge_type="$2" # normal, dev, build
@@ -95,20 +108,14 @@ update_deps() {
     fi
 
     for dependency in $edge_dependencies; do
-
         echo "  Atualizando $edge_type-dependency $dependency"
-        # echo cargo add "$dep@$MAX_VERSION" --"$edge_type" --manifest-path "${CRATE_TOML[$crate]}"
+        cargo add "$dep@$MAX_VERSION" --path="${CRATE_PATH[$dep]}" --"$edge_type" --manifest-path "${CRATE_TOML[$crate]}"
     done
 }
 
-# --- 5. Calcula nova versão máxima semanticamente correta ---
-declare -A CRATE_VERSION_NEW
-for crate in $TOPO_ORDER; do
-    CRATE_VERSION_NEW[$crate]=$(increment_version "$RELEASE_TYPE" "${CRATE_VERSION[$crate]}")
-done
+cargo build
 
-MAX_VERSION=$(printf "%s\n" "${CRATE_VERSION_NEW[@]}" | sort -V | tail -n1)
-echo "Nova versão máxima: $MAX_VERSION"
+bash $WORKSPACE_ROOT/pre_release.sh
 
 # --- 6. Atualiza dependências internas e executa pre-hooks ---
 for crate in $TOPO_ORDER; do
@@ -116,20 +123,32 @@ for crate in $TOPO_ORDER; do
     update_deps "$crate" normal
     update_deps "$crate" dev
     update_deps "$crate" build
-    continue
+
     crate_dir=$(dirname "${CRATE_TOML[$crate]}")
+
     if [[ -f "$crate_dir/pre_release.sh" ]]; then
         echo "Executando pre-release hook de $crate..."
         bash "$crate_dir/pre_release.sh"
     fi
+
+    cd ${CRATE_PATH[$crate]}
+
+    git add .
+    git commit -m "Release version $MAX_VERSION." || true
+
+    cargo release "$RELEASE_TYPE" --manifest-path="${CRATE_TOML[$crate]}" --target=x86_64-unknown-none --execute
+    # exit 1
+    # if [[ -f "$crate_dir/pos_release.sh" ]]; then
+    #     echo "Executando pos-release hook de $crate..."
+    #     bash "$crate_dir/pos_release.sh"
+    # fi
 done
-exit 1
 
 # --- 7. Release final com cargo-release no workspace ---
 echo "Rodando cargo-release para todo o workspace..."
-echo (cd "$WORKSPACE_ROOT" && cargo release "$RELEASE_TYPE" --workspace --no-dev-version --execute)
 
-echo "=== Todas as crates publicadas com sucesso ==="
+cd "$WORKSPACE_ROOT"
+cargo release "$RELEASE_TYPE" --unpublished --workspace --no-dev-version --execute --verbose
 
 for crate in $TOPO_ORDER; do
     crate_dir=$(dirname "${CRATE_TOML[$crate]}")
@@ -138,4 +157,9 @@ for crate in $TOPO_ORDER; do
         bash "$crate_dir/pos_release.sh"
     fi
 done
+
+bash $WORKSPACE_ROOT/pos_release.sh
+
+echo "=== Todas as crates publicadas com sucesso ==="
+
 exit 1
