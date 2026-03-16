@@ -1,5 +1,10 @@
 # rust_userspace
 
+```
+sudo pacman -S git
+```
+
+
 ``` need cc and ld by path ```
 
 i often:
