@@ -10,3 +10,6 @@
 [submodule "userspace_build"]
 	path = crates/userspace_build
 	url = git@github.com:ze-gois/rust_userspace_build
+[submodule "crates/webspace"]
+	path = crates/webspace
+	url = git@github.com:ze-gois/rust_webspace
