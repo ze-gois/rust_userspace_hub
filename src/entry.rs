@@ -57,8 +57,8 @@ pub extern "C" fn entry(stack_pointer: crate::target::arch::PointerType) -> ! {
                 info!("{:?}\n", e);
             }
 
-            let identifier = userspace::file::format::elf::header::Identifier::from_path(self_path);
-            userspace::info!("{:?}\n\n", identifier);
+            // let identifier = userspace::file::format::elf::header::Identifier::from_path(self_path);
+            // userspace::info!("{:?}\n\n", identifier);
         }
     }
 
