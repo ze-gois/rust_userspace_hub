@@ -65,7 +65,8 @@ members = [
     "crates/ample",
     "crates/userspace",
     "crates/kernelspace",
-    "crates/userspace_build"
+    "crates/userspace_build",
+    "crates/twins",
 ]
 
 [lib]
