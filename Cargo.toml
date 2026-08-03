@@ -63,10 +63,13 @@ certs-source = "webpki"                   # fonte de certificados
 [workspace]
 members = [
     "crates/ample",
-    "crates/userspace",
+    "crates/computers",
+    "crates/humans",
     "crates/kernelspace",
-    "crates/userspace_build",
     "crates/twins",
+    "crates/userspace",
+    "crates/userspace_build",
+    "crates/webspace"
 ]
 
 [lib]

@@ -29,10 +29,24 @@ dependencies = [
 ]
 
 [[package]]
+name = "computers"
+version = "0.0.1"
+dependencies = [
+ "cc",
+]
+
+[[package]]
 name = "find-msvc-tools"
 version = "0.1.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "1ced73b1dacfc750a6db6c0a0c3a3853c8b41997e2e2c563dc90804ae6867959"
+
+[[package]]
+name = "humans"
+version = "0.0.1"
+dependencies = [
+ "cc",
+]
 
 [[package]]
 name = "kernelspace"
@@ -107,4 +121,14 @@ dependencies = [
  "kernelspace",
  "userspace 0.1.129",
  "userspace_build 0.1.129",
+]
+
+[[package]]
+name = "webspace"
+version = "0.0.1"
+dependencies = [
+ "ample 0.1.128",
+ "cc",
+ "userspace 0.1.128",
+ "userspace_build 0.1.128",
 ]
