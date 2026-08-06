@@ -1,12 +1,31 @@
 [submodule "ample"]
 	path = crates/ample
 	url = git@github.com:ze-gois/rust_ample
+	branch = main
 [submodule "kernelspace"]
 	path = crates/kernelspace
 	url = git@github.com:ze-gois/rust_kernelspace
+	branch = main
 [submodule "userspace"]
 	path = crates/userspace
 	url = git@github.com:ze-gois/rust_userspace
+	branch = main
 [submodule "userspace_build"]
 	path = crates/userspace_build
 	url = git@github.com:ze-gois/rust_userspace_build
+	branch = main
+[submodule "crates/webspace"]
+	path = crates/webspace
+	url = git@github.com:ze-gois/rust_webspace
+	branch = main
+[submodule "crates/twins"]
+	path = crates/twins
+	url = git@github.com:ze-gois/rust_twins
+	branch = main
+[submodule "crates/humans"]
+	path = crates/humans
+	url = git@github.com:ze-gois/rust_humans
+	branch = main
+[submodule "crates/computers"]
+	path = crates/computers
+	url = git@github.com:ze-gois/rust_computers

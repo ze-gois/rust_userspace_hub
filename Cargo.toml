@@ -63,9 +63,13 @@ certs-source = "webpki"                   # fonte de certificados
 [workspace]
 members = [
     "crates/ample",
-    "crates/userspace",
+    "crates/computers",
+    "crates/humans",
     "crates/kernelspace",
-    "crates/userspace_build"
+    "crates/twins",
+    "crates/userspace",
+    "crates/userspace_build",
+    "crates/webspace"
 ]
 
 [lib]
@@ -86,6 +90,10 @@ path = "src/entry.rs"
 ample = { version= "0.1.129", path = "crates/ample" }
 userspace = { version= "0.1.129", path = "crates/userspace" }
 kernelspace = { version= "0.1.129", path = "crates/kernelspace" }
+twins = { version="0.0.1", path="crates/twins"}
+humans = { version="0.0.1", path="crates/humans"}
+webspace = { version="0.0.1", path="crates/webspace"}
+computers = { version="0.0.1", path="crates/computers"}
 
 [build-dependencies]
 cc = "1.0"

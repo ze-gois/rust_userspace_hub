@@ -4,6 +4,15 @@ version = 4
 
 [[package]]
 name = "ample"
+version = "0.1.128"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "caf7924b7f0bc5ddc5b8c05f95e35a463b1fdbc9c8549f4cb6328c05a3f2093a"
+dependencies = [
+ "cc",
+]
+
+[[package]]
+name = "ample"
 version = "0.1.129"
 dependencies = [
  "cc",
@@ -20,19 +29,33 @@ dependencies = [
 ]
 
 [[package]]
+name = "computers"
+version = "0.0.1"
+dependencies = [
+ "cc",
+]
+
+[[package]]
 name = "find-msvc-tools"
 version = "0.1.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "1ced73b1dacfc750a6db6c0a0c3a3853c8b41997e2e2c563dc90804ae6867959"
 
 [[package]]
+name = "humans"
+version = "0.0.1"
+dependencies = [
+ "cc",
+]
+
+[[package]]
 name = "kernelspace"
 version = "0.1.129"
 dependencies = [
- "ample",
+ "ample 0.1.129",
  "cc",
- "userspace",
- "userspace_build",
+ "userspace 0.1.129",
+ "userspace_build 0.1.129",
 ]
 
 [[package]]
@@ -42,19 +65,50 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "0fda2ff0d084019ba4d7c6f371c95d8fd75ce3524c3cb8fb653a3023f6323e64"
 
 [[package]]
+name = "twins"
+version = "0.0.2"
+dependencies = [
+ "ample 0.1.128",
+ "cc",
+ "userspace 0.1.128",
+ "userspace_build 0.1.128",
+]
+
+[[package]]
+name = "userspace"
+version = "0.1.128"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "3975be38c671d598936e3e7e1d274bb0a71946f3f5a6c3efe641ee35a3cace00"
+dependencies = [
+ "ample 0.1.128",
+ "cc",
+ "userspace_build 0.1.128",
+]
+
+[[package]]
 name = "userspace"
 version = "0.1.129"
 dependencies = [
- "ample",
+ "ample 0.1.129",
  "cc",
- "userspace_build",
+ "userspace_build 0.1.129",
+]
+
+[[package]]
+name = "userspace_build"
+version = "0.1.128"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "97c9feec6f7038d7eabec61cd8ce1f73db1ff98285af52b347d38da86895768a"
+dependencies = [
+ "ample 0.1.128",
+ "cc",
 ]
 
 [[package]]
 name = "userspace_build"
 version = "0.1.129"
 dependencies = [
- "ample",
+ "ample 0.1.129",
  "cc",
 ]
 
@@ -62,9 +116,19 @@ dependencies = [
 name = "userspace_hub"
 version = "0.1.129"
 dependencies = [
- "ample",
+ "ample 0.1.129",
  "cc",
  "kernelspace",
- "userspace",
- "userspace_build",
+ "userspace 0.1.129",
+ "userspace_build 0.1.129",
+]
+
+[[package]]
+name = "webspace"
+version = "0.0.1"
+dependencies = [
+ "ample 0.1.128",
+ "cc",
+ "userspace 0.1.128",
+ "userspace_build 0.1.128",
 ]
