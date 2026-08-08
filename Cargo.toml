@@ -90,7 +90,7 @@ path = "src/entry.rs"
 ample = { version= "0.1.129", path = "crates/ample" }
 userspace = { version= "0.1.129", path = "crates/userspace" }
 kernelspace = { version= "0.1.129", path = "crates/kernelspace" }
-twins = { version="0.0.1", path="crates/twins"}
+twins = { version="0.0.2", path="crates/twins"}
 humans = { version="0.0.1", path="crates/humans"}
 webspace = { version="0.0.1", path="crates/webspace"}
 computers = { version="0.0.1", path="crates/computers"}
