@@ -49,26 +49,35 @@ case "$SUBMODULE" in
 esac
 
 cd "$ROOT"
-[ -d "$ROOT/$SUBMODULE" ] || { printf 'Submodule inexistente: %s\n' "$SUBMODULE" >&2; exit 1; }
+SUBMODULE_DIR="$ROOT/$SUBMODULE"
+[ -d "$SUBMODULE_DIR" ] || { printf 'Submodule inexistente: %s\n' "$SUBMODULE" >&2; exit 1; }
 
-if [ -n "$(git status --short)" ]; then
-    printf '%s\n' 'O hub possui alterações locais; atualização interrompida.' >&2
-    exit 1
-fi
-if [ -n "$(git -C "$ROOT/$SUBMODULE" status --short)" ]; then
+if [ -n "$(git -C "$SUBMODULE_DIR" status --porcelain)" ]; then
     printf 'O submodule %s possui alterações locais; atualização interrompida.\n' "$SUBMODULE" >&2
     exit 1
 fi
 
-git -C "$ROOT/$SUBMODULE" cat-file -e "$COMMIT^{commit}"
-CURRENT="$(git -C "$ROOT/$SUBMODULE" rev-parse HEAD)"
-printf 'Submodule: %s\nAtual: %s\nNovo: %s\n' "$SUBMODULE" "$CURRENT" "$COMMIT"
+git -C "$SUBMODULE_DIR" cat-file -e "$COMMIT^{commit}"
+CURRENT="$(git -C "$SUBMODULE_DIR" rev-parse HEAD)"
+BRANCH="$(git -C "$SUBMODULE_DIR" branch --show-current)"
+printf 'Submodule: %s\nBranch: %s\nHEAD: %s\nSolicitado: %s\n'     "$SUBMODULE" "${BRANCH:-detached}" "$CURRENT" "$COMMIT"
+
+if [ "$CURRENT" != "$COMMIT" ]; then
+    printf '%s\n' 'O commit solicitado não é o HEAD atual do submodule.' >&2
+    printf '%s\n' 'Faça switch/merge normalmente dentro da crate e tente novamente; este script não usa detached HEAD.' >&2
+    exit 1
+fi
+
+if [ -z "$BRANCH" ]; then
+    printf '%s\n' 'O submodule está em detached HEAD. Execute scripts/submodules/attach.sh primeiro.' >&2
+    exit 1
+fi
 
 if [ "$APPLY" = false ]; then
-    printf '%s\n' 'Modo dry-run: nenhum gitlink foi alterado.'
+    printf '%s\n' 'Modo dry-run: o gitlink não foi adicionado ao índice.'
     exit 0
 fi
 
-git -C "$ROOT/$SUBMODULE" checkout --detach "$COMMIT"
 git add "$SUBMODULE"
-printf 'Gitlink preparado no índice. Revise com git diff --cached e faça o commit manualmente.\n'
+printf '%s\n' 'Gitlink preparado no índice sem alterar branch ou HEAD do submodule.'
+printf '%s\n' 'Revise com git diff --cached --submodule e faça o commit do hub.'
