@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="webspace — Web and WebAssembly utilities that keep the ecosystem no_std-first while using explicit wasm platform bindings.">
+  <meta name="description" content="webspace — the browser-facing surface of userspace.party.">
   <meta name="theme-color" content="#0b0d10">
   <title>webspace — userspace.party</title>
   <link rel="stylesheet" href="/assets/crate.css">
@@ -23,7 +23,8 @@
       <section>
         <p class="eyebrow">userspace.party / webspace</p>
         <h1>webspace</h1>
-        <p class="lede">The browser-facing edge of the family. Web and WebAssembly utilities that keep the ecosystem no_std-first while using explicit wasm platform bindings.</p>
+        <p class="statement">Userspace, in the browser.</p>
+        <p class="lede">The web presentation layer: HTML, DOM, Canvas and WebAssembly bindings around concepts defined elsewhere.</p>
         <div class="actions">
           <a class="button primary" href="https://docs.rs/webspace">API docs</a>
           <a class="button" href="https://crates.io/crates/webspace">crates.io</a>
@@ -33,41 +34,67 @@
           <span class="tag">wasm32</span>
           <span class="tag">web</span>
           <span class="tag">DOM</span>
-          <span class="tag">canvas</span>
-          <span class="tag">no_std-first</span>
+          <span class="tag">Canvas</span>
+          <span class="tag">presentation</span>
         </div>
       </section>
 
       <section>
-        <h2>Role in the ecosystem</h2>
+        <h2>Its place in the system</h2>
         <div class="ecosystem">
-          <p>webspace brings human-facing concepts into the browser. wasm-bindgen and web-sys are deliberate target-specific bindings rather than general runtime dependencies.</p>
-          <pre><code>humans + ample
+          <p>webspace translates ecosystem concepts into the browser environment. Platform bindings live here so lower-level crates do not need to know what a DOM, Canvas or browser is.</p>
+          <pre><code>ample + humans
       ↓
    webspace
+  ├── HTML
+  ├── DOM
+  └── Canvas
       ↓
-DOM / Canvas / WebAssembly</code></pre>
+    browser</code></pre>
         </div>
       </section>
 
       <section>
-        <h2>Current surface</h2>
+        <h2>The boundary</h2>
+        <div class="boundary">
+          <div class="card">
+            <p class="kicker">Belongs here</p>
+            <ul>
+              <li>Browser-facing bindings and presentation</li>
+              <li>DOM and Canvas interaction</li>
+              <li>WebAssembly target integration</li>
+            </ul>
+          </div>
+          <div class="card">
+            <p class="kicker">Does not belong here</p>
+            <ul>
+              <li>Generic perceptual semantics that work outside the web</li>
+              <li>System calls</li>
+              <li>Physical-world simulation</li>
+              <li>Virtualization</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2>Today</h2>
         <div class="grid">
           <div class="card">
-            <h3>What exists today</h3>
+            <p class="kicker">Current surface</p>
             <ul>
               <li>HTML abstractions</li>
               <li>DOM helpers</li>
               <li>Canvas support</li>
-              <li>Browser audio/canvas/element bindings on wasm32</li>
+              <li>wasm32-specific browser bindings</li>
               <li>Integration with humans</li>
             </ul>
           </div>
           <div class="card">
-            <h3>Start here</h3>
+            <p class="kicker">Start here</p>
             <pre><code>rustup target add wasm32-unknown-unknown
 cargo check --target wasm32-unknown-unknown</code></pre>
-            <p>Experimental browser surface evolving with humans and the rest of the dependency-light stack.</p>
+            <p>wasm-bindgen and web-sys are explicit platform bindings, not a general dependency philosophy.</p>
           </div>
           
         </div>
@@ -75,7 +102,7 @@ cargo check --target wasm32-unknown-unknown</code></pre>
 
       <section>
         <div class="ecosystem">
-          <p><strong>One family, independent repositories.</strong> Source lives on GitHub, releases live on crates.io, API documentation lives on docs.rs, and userspace.party is the public map connecting the pieces.</p>
+          <p><strong>From abstraction to reality.</strong> userspace.party keeps conceptual borders explicit: abstractions in <a href="/ample">ample</a>, process mechanisms in <a href="/userspace">userspace</a>, machines in <a href="/computers">computers</a>, human meaning in <a href="/humans">humans</a>, browser presentation in <a href="/webspace">webspace</a>, and physical-world simulation and control in <a href="/twins">twins</a>.</p>
         </div>
       </section>
     </main>
