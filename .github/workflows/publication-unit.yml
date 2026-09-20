@@ -22,6 +22,10 @@ jobs:
         run: |
           bash -n scripts/submodules/attach.sh
           bash -n ops/party/install.sh
+          bash -n ops/party/bootstrap-production-cd.sh
+          bash -n ops/party/bootstrap-deploy-host.sh
+          bash -n ops/party/deploy-command.sh
+          bash -n ops/party/deploy-root.sh
           python3 -m py_compile scripts/publish.py
 
       - name: Verify party site tree
