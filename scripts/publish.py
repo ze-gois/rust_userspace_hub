@@ -30,7 +30,7 @@ EXPECTED_NAMES = {
 EXPECTED_CHILDREN = EXPECTED_NAMES - {"userspace_hub"}
 DEP_SECTIONS = ("dependencies", "build-dependencies", "dev-dependencies")
 PUBLISH_DEP_SECTIONS = ("dependencies", "build-dependencies")
-SEMVER = re.compile(r"^(\\d+)\\.(\\d+)\\.(\\d+)$")
+SEMVER = re.compile(r"^(\d+)\.(\d+)\.(\d+)$")
 CRATES_IO = "https://crates.io"
 USER_AGENT = "rust-userspace-hub-publish/2 (+https://github.com/ze-gois/rust_userspace_hub)"
 
@@ -466,8 +466,8 @@ def ensure_pushed_and_pinned(model: Model) -> None:
             )
 
 
-SECTION_RE = re.compile(r"^\\s*\\[([^\\]]+)\\]\\s*(?:#.*)?$")
-PACKAGE_VERSION_RE = re.compile(r'^(\\s*version\\s*=\\s*")[^"]+(".*)$')
+SECTION_RE = re.compile(r"^\s*\[([^\]]+)\]\s*(?:#.*)?$")
+PACKAGE_VERSION_RE = re.compile(r'^(\s*version\s*=\s*")[^"]+(".*)$')
 
 
 def rewrite_manifest(pkg: Package, internal_names: set[str], version: str) -> str:
@@ -503,7 +503,7 @@ def rewrite_manifest(pkg: Package, internal_names: set[str], version: str) -> st
         if base in DEP_SECTIONS:
             replaced = False
             for key in keys:
-                dep_re = re.compile(rf'^(\\s*{re.escape(key)}\\s*=\\s*)(.*)$')
+                dep_re = re.compile(rf'^(\s*{re.escape(key)}\s*=\s*)(.*)$')
                 dep_match = dep_re.match(stripped)
                 if not dep_match:
                     continue
@@ -511,10 +511,10 @@ def rewrite_manifest(pkg: Package, internal_names: set[str], version: str) -> st
                 ending = "\n" if line.endswith("\n") else ""
 
                 if spec.lstrip().startswith("{"):
-                    if re.search(r'\\bversion\\s*=\\s*"[^"]+"', spec):
+                    if re.search(r'\bversion\s*=\s*"[^"]+"', spec):
                         spec = re.sub(
-                            r'(\\bversion\\s*=\\s*")[^"]+(")',
-                            rf'\\g<1>{version}\\2',
+                            r'(\bversion\s*=\s*")[^"]+(")',
+                            rf'\g<1>{version}\2',
                             spec,
                             count=1,
                         )
@@ -526,7 +526,7 @@ def rewrite_manifest(pkg: Package, internal_names: set[str], version: str) -> st
                             + spec[brace + 1 :]
                         )
                     output.append(prefix + spec + ending)
-                elif re.fullmatch(r'\\s*"[^"]+"\\s*(?:#.*)?', spec):
+                elif re.fullmatch(r'\s*"[^"]+"\s*(?:#.*)?', spec):
                     comment = ""
                     if "#" in spec:
                         _, comment_text = spec.split("#", 1)
