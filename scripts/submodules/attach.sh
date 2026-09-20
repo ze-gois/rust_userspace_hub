@@ -7,8 +7,8 @@ PULL=false
 
 usage() {
     printf 'Uso: %s [--pull]\n' "$0"
-    printf '%s\n' 'Sem --pull: anexa cada submodule à branch configurada preservando o SHA fixado pelo hub.'
-    printf '%s\n' 'Com --pull: depois de anexar, faz fast-forward até origin/<branch> quando possível.'
+    printf '%s\n' 'Sem --pull: anexa cada submodule à branch configurada no SHA fixado pelo hub, quando seguro.'
+    printf '%s\n' 'Com --pull: também avança por fast-forward até origin/<branch>.'
 }
 
 case "${1:-}" in
@@ -19,11 +19,8 @@ case "${1:-}" in
 esac
 
 cd "$ROOT"
-
 git submodule sync
-git submodule update --init
 
-# Torna o comportamento cotidiano do superproject mais informativo.
 git config submodule.recurse true
 git config status.submoduleSummary true
 git config diff.submodule log
@@ -39,19 +36,25 @@ while IFS=' ' read -r key path; do
 
     printf '\n== %s (%s) ==\n' "$path" "$branch"
 
+    if ! git -C "$repo" rev-parse --git-dir >/dev/null 2>&1; then
+        git submodule update --init --checkout -- "$path"
+    fi
+
     if [ -n "$(git -C "$repo" status --porcelain)" ]; then
-        printf 'Submodule possui alterações locais; não vou trocar branches: %s\n' "$path" >&2
+        printf 'Submodule possui alterações locais; nenhuma branch será movida: %s\n' "$path" >&2
         exit 1
     fi
 
-    pinned="$(git -C "$repo" rev-parse HEAD)"
+    entry="$(git ls-tree HEAD -- "$path")"
+    pinned="$(printf '%s\n' "$entry" | awk '$2 == "commit" {print $3}')"
+    if [ -z "$pinned" ]; then
+        printf 'Não encontrei gitlink para %s no HEAD do hub.\n' "$path" >&2
+        exit 1
+    fi
+
     git -C "$repo" fetch --quiet origin "$branch"
     remote_ref="origin/$branch"
-
-    if ! git -C "$repo" rev-parse --verify --quiet "$remote_ref^{commit}" >/dev/null; then
-        printf 'Branch remota inexistente: %s em %s\n' "$remote_ref" "$path" >&2
-        exit 1
-    fi
+    current_branch="$(git -C "$repo" branch --show-current)"
 
     if git -C "$repo" show-ref --verify --quiet "refs/heads/$branch"; then
         local_tip="$(git -C "$repo" rev-parse "$branch")"
@@ -59,11 +62,13 @@ while IFS=' ' read -r key path; do
         if [ "$local_tip" != "$pinned" ]; then
             if git -C "$repo" merge-base --is-ancestor "$local_tip" "$remote_ref" &&
                git -C "$repo" merge-base --is-ancestor "$pinned" "$remote_ref"; then
-                # A branch local não contém trabalho exclusivo; reposicioná-la no gitlink
-                # mantém o superproject limpo e ainda permite um pull normal depois.
+                if [ "$current_branch" = "$branch" ]; then
+                    git -C "$repo" switch --detach "$pinned" >/dev/null
+                    current_branch=""
+                fi
                 git -C "$repo" branch -f "$branch" "$pinned" >/dev/null
             else
-                printf '%s\n' "A branch local $branch contém história não representada pelo remoto; preservando-a."
+                printf '%s\n' "Preservando $branch: ela contém história que não pode ser reposicionada com segurança."
             fi
         fi
     else
@@ -84,10 +89,11 @@ while IFS=' ' read -r key path; do
         fi
     fi
 
+    printf 'Pinned: %s\n' "${pinned:0:12}"
     printf 'HEAD:   %s\n' "$(git -C "$repo" rev-parse --short HEAD)"
     printf 'Branch: %s\n' "$(git -C "$repo" branch --show-current)"
     printf 'Track:  %s\n' "$(git -C "$repo" rev-parse --abbrev-ref --symbolic-full-name '@{upstream}')"
 done < <(git config --file .gitmodules --get-regexp '^submodule\..*\.path$')
 
-printf '\n%s\n' 'Submodules anexados. Agora cada crates/* pode ser usado como um repositório Git normal.'
-printf '%s\n' 'O hub continua registrando o SHA exato de cada submodule no próximo commit do superproject.'
+printf '\n%s\n' 'Submodules anexados. Cada crates/* pode ser usado como repositório Git normal.'
+printf '%s\n' 'O hub continua registrando um SHA exato por gitlink.'
