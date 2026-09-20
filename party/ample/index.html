@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="ample — Shared no_std building blocks used near the bottom of the userspace.party dependency graph.">
+  <meta name="description" content="ample — domain-independent abstractions for the userspace.party ecosystem.">
   <meta name="theme-color" content="#0b0d10">
   <title>ample — userspace.party</title>
   <link rel="stylesheet" href="/assets/crate.css">
@@ -23,7 +23,8 @@
       <section>
         <p class="eyebrow">userspace.party / ample</p>
         <h1>ample</h1>
-        <p class="lede">Small primitives for a smaller dependency surface. Shared no_std building blocks used near the bottom of the userspace.party dependency graph.</p>
+        <p class="statement">Abstractions, nothing more.</p>
+        <p class="lede">A list before it is a list of people. A vector before it stores pixels. A structure before a domain gives it meaning.</p>
         <div class="actions">
           <a class="button primary" href="https://docs.rs/ample">API docs</a>
           <a class="button" href="https://crates.io/crates/ample">crates.io</a>
@@ -31,41 +32,69 @@
         </div>
         <div class="tags">
           <span class="tag">no_std</span>
-          <span class="tag">alloc</span>
-          <span class="tag">primitives</span>
-          <span class="tag">libm</span>
+          <span class="tag">abstractions</span>
+          <span class="tag">containers</span>
+          <span class="tag">traits</span>
+          <span class="tag">math</span>
         </div>
       </section>
 
       <section>
-        <h2>Role in the ecosystem</h2>
+        <h2>Its place in the system</h2>
         <div class="ecosystem">
-          <p>ample owns foundational pieces that higher layers can reuse without pulling in the Rust standard library or broad utility dependency trees.</p>
+          <p>ample contains forms that remain meaningful without knowing any application domain. It is where generic structures, relations and operations live before another crate assigns them concrete meaning.</p>
           <pre><code>ample
-└── foundational primitives
-    ├── userspace
-    ├── humans
-    └── higher layers</code></pre>
+  │
+  ├── List&lt;T&gt;
+  ├── Vec&lt;T&gt;
+  ├── String
+  ├── generic traits
+  └── abstract math
+       ↓
+domain crates give the forms meaning</code></pre>
         </div>
       </section>
 
       <section>
-        <h2>Current surface</h2>
-        <div class="grid">
+        <h2>The boundary</h2>
+        <div class="boundary">
           <div class="card">
-            <h3>What exists today</h3>
+            <p class="kicker">Belongs here</p>
             <ul>
-              <li>Vec and String implementations</li>
-              <li>Lists and node primitives</li>
-              <li>Traits and result/error types</li>
-              <li>Shared macros</li>
-              <li>no_std math support</li>
+              <li>Generic containers and structures</li>
+              <li>Relations and operations independent of OS, people, machines or physics</li>
+              <li>Reusable traits that make sense without domain vocabulary</li>
             </ul>
           </div>
           <div class="card">
-            <h3>Start here</h3>
+            <p class="kicker">Does not belong here</p>
+            <ul>
+              <li>System calls or operating-system ABI</li>
+              <li>People, colors, machines or virtual machines</li>
+              <li>DOM/browser concepts</li>
+              <li>Physical models, sensors or actuators</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2>Today</h2>
+        <div class="grid">
+          <div class="card">
+            <p class="kicker">Current surface</p>
+            <ul>
+              <li>Vec and String</li>
+              <li>Lists, nodes and queues</li>
+              <li>Generic traits and result types</li>
+              <li>Shared macros</li>
+              <li>Domain-independent math</li>
+            </ul>
+          </div>
+          <div class="card">
+            <p class="kicker">Start here</p>
             <pre><code>cargo add ample</code></pre>
-            <p>Experimental and actively being reduced toward a compact set of ecosystem-owned primitives.</p>
+            <p>The design rule is strict: if an abstraction needs to know what domain it belongs to, it probably does not belong in ample.</p>
           </div>
           
         </div>
@@ -73,7 +102,7 @@
 
       <section>
         <div class="ecosystem">
-          <p><strong>One family, independent repositories.</strong> Source lives on GitHub, releases live on crates.io, API documentation lives on docs.rs, and userspace.party is the public map connecting the pieces.</p>
+          <p><strong>From abstraction to reality.</strong> userspace.party keeps conceptual borders explicit: abstractions in <a href="/ample">ample</a>, process mechanisms in <a href="/userspace">userspace</a>, machines in <a href="/computers">computers</a>, human meaning in <a href="/humans">humans</a>, browser presentation in <a href="/webspace">webspace</a>, and physical-world simulation and control in <a href="/twins">twins</a>.</p>
         </div>
       </section>
     </main>
