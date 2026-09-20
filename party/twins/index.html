@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="twins — The digital-twin and simulation layer reserved for state, observation, simulation and eventual actuation.">
+  <meta name="description" content="twins — simulation and control of the physical world.">
   <meta name="theme-color" content="#0b0d10">
   <title>twins — userspace.party</title>
   <link rel="stylesheet" href="/assets/crate.css">
@@ -23,56 +23,90 @@
       <section>
         <p class="eyebrow">userspace.party / twins</p>
         <h1>twins</h1>
-        <p class="lede">Representations that stay connected to a world. The digital-twin and simulation layer reserved for state, observation, simulation and eventual actuation.</p>
+        <p class="statement">Model reality. Simulate it. Control it.</p>
+        <p class="lede">The part of userspace.party that connects computation back to the physical world.</p>
         <div class="actions">
           <a class="button primary" href="https://docs.rs/twins">API docs</a>
           <a class="button" href="https://crates.io/crates/twins">crates.io</a>
           <a class="button" href="https://github.com/ze-gois/rust_twins">GitHub</a>
         </div>
         <div class="tags">
-          <span class="tag">no_std</span>
           <span class="tag">simulation</span>
-          <span class="tag">digital twin</span>
+          <span class="tag">control</span>
+          <span class="tag">physical world</span>
+          <span class="tag">digital twins</span>
           <span class="tag">science</span>
         </div>
       </section>
 
       <section>
-        <h2>Role in the ecosystem</h2>
+        <h2>Its place in the system</h2>
         <div class="ecosystem">
-          <p>twins is intended to connect computational models to physical or simulated systems while staying inside the same freestanding systems family.</p>
-          <pre><code>ample + userspace
-       ↓
-      twins
-       ↓
-model ↔ observation ↔ world</code></pre>
+          <p>twins is for computational representations of physical systems and the loop that connects models to reality: observation, state, simulation, prediction, control and actuation.</p>
+          <pre><code>physical world
+      ↓ observation / sensing
+    twins
+      ↓ model + simulation
+ predicted state
+      ↓ control / actuation
+physical world</code></pre>
         </div>
       </section>
 
       <section>
-        <h2>Current surface</h2>
-        <div class="grid">
+        <h2>The boundary</h2>
+        <div class="boundary">
           <div class="card">
-            <h3>What exists today</h3>
+            <p class="kicker">Belongs here</p>
             <ul>
-              <li>Minimal no_std scaffold</li>
-              <li>Freestanding entry/startup support</li>
-              <li>Domain direction established</li>
-              <li>Research corpus retained in the repository README</li>
+              <li>Physical-system models and state</li>
+              <li>Simulation and prediction</li>
+              <li>Measurements, observations and state estimation</li>
+              <li>Control, actuation and closed-loop interaction</li>
             </ul>
           </div>
           <div class="card">
-            <h3>Start here</h3>
-            <pre><code>cargo add twins</code></pre>
-            <p>Early experimental scaffold. The domain is deliberate; the public modeling API is still to be designed.</p>
+            <p class="kicker">Does not belong here</p>
+            <ul>
+              <li>Generic data structures with no physical semantics</li>
+              <li>Operating-system syscalls</li>
+              <li>Virtual machines as computational infrastructure</li>
+              <li>Browser presentation concerns</li>
+            </ul>
           </div>
-          <div class="card"><h3>Research corpus</h3><p>The exploratory README retains 78 research URLs spanning materials modeling, computational chemistry, protein design, simulation and atomistic ML.</p><p><a href="https://github.com/ze-gois/rust_twins#research-references">Open references in the README →</a></p></div>
+        </div>
+      </section>
+
+      <section>
+        <h2>Today</h2>
+        <div class="grid">
+          <div class="card">
+            <p class="kicker">Current surface</p>
+            <ul>
+              <li>A minimal no_std scaffold</li>
+              <li>Freestanding entry/startup support</li>
+              <li>A defined domain: simulation and control of physical systems</li>
+              <li>A retained research corpus spanning scientific modeling and computational science</li>
+            </ul>
+          </div>
+          <div class="card">
+            <p class="kicker">Start here</p>
+            <pre><code>cargo add twins</code></pre>
+            <p>The domain is now explicit even though the public modeling API is still early.</p>
+          </div>
+          
+          <div class="card">
+            <p class="kicker">Research corpus</p>
+            <h3>Keep the science close.</h3>
+            <p>The repository README retains the original research references across materials modeling, computational chemistry, protein design, simulation and atomistic machine learning.</p>
+            <p><a href="https://github.com/ze-gois/rust_twins#research-references">Open the reference corpus →</a></p>
+          </div>
         </div>
       </section>
 
       <section>
         <div class="ecosystem">
-          <p><strong>One family, independent repositories.</strong> Source lives on GitHub, releases live on crates.io, API documentation lives on docs.rs, and userspace.party is the public map connecting the pieces.</p>
+          <p><strong>From abstraction to reality.</strong> userspace.party keeps conceptual borders explicit: abstractions in <a href="/ample">ample</a>, process mechanisms in <a href="/userspace">userspace</a>, machines in <a href="/computers">computers</a>, human meaning in <a href="/humans">humans</a>, browser presentation in <a href="/webspace">webspace</a>, and physical-world simulation and control in <a href="/twins">twins</a>.</p>
         </div>
       </section>
     </main>
