@@ -188,12 +188,13 @@
     }
 
     .crate {
-      min-height: 150px;
+      display: flex;
+      min-height: 170px;
       padding: 22px;
       border: 1px solid var(--line);
       border-radius: var(--radius);
       background: linear-gradient(145deg, var(--panel), var(--panel-2));
-      text-decoration: none;
+      flex-direction: column;
       transition: transform .15s ease, border-color .15s ease;
     }
 
@@ -208,9 +209,53 @@
       font-size: 1.06rem;
     }
 
-    .crate span {
+    .crate > span {
       color: var(--muted);
       font-size: .88rem;
+    }
+
+    .crate-links {
+      display: flex;
+      gap: 10px;
+      margin-top: auto;
+      padding-top: 20px;
+    }
+
+    .icon-link {
+      display: inline-flex;
+      width: 38px;
+      height: 38px;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, .02);
+      color: var(--muted);
+      text-decoration: none;
+      transition:
+        color .15s ease,
+        border-color .15s ease,
+        background .15s ease,
+        transform .15s ease;
+    }
+
+    .icon-link:hover,
+    .icon-link:focus-visible {
+      border-color: var(--accent);
+      background: rgba(247, 164, 29, .08);
+      color: var(--text);
+      transform: translateY(-1px);
+    }
+
+    .icon-link:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+
+    .icon-link svg {
+      width: 18px;
+      height: 18px;
+      fill: currentColor;
     }
 
     .manifesto {
@@ -303,42 +348,141 @@ $ cargo run
         </div>
 
         <div class="grid">
-          <a class="crate" href="https://crates.io/crates/userspace_hub">
+          <article class="crate">
             <strong>userspace_hub</strong>
             <span>The workspace and integration point.</span>
-          </a>
-          <a class="crate" href="https://crates.io/crates/userspace">
+            <div class="crate-links" aria-label="userspace_hub links">
+              <a class="icon-link" href="/hub" aria-label="userspace_hub homepage" title="Homepage">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.2 3.5 10v10.5h6v-6h5v6h6V10L12 3.2Zm6.5 15.3h-2v-6h-9v6h-2v-7.54L12 5.75l6.5 5.21v7.54Z"/></svg>
+              </a>
+              <a class="icon-link" href="https://github.com/ze-gois/rust_userspace_hub" aria-label="userspace_hub on GitHub" title="GitHub">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .7A11.3 11.3 0 0 0 8.43 22.72c.57.1.78-.25.78-.55v-2.16c-3.18.69-3.85-1.35-3.85-1.35-.52-1.32-1.27-1.67-1.27-1.67-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.02 1.75 2.68 1.25 3.33.95.1-.74.4-1.25.73-1.54-2.54-.29-5.21-1.27-5.21-5.65 0-1.25.45-2.27 1.18-3.07-.12-.29-.51-1.45.11-3.02 0 0 .96-.31 3.11 1.17A10.8 10.8 0 0 1 12 5.93c.96 0 1.91.13 2.82.38 2.15-1.48 3.1-1.17 3.1-1.17.63 1.57.24 2.73.12 3.02.74.8 1.18 1.82 1.18 3.07 0 4.39-2.68 5.35-5.22 5.63.41.35.77 1.04.77 2.1v3.21c0 .3.21.66.79.55A11.3 11.3 0 0 0 12 .7Z"/></svg>
+              </a>
+              <a class="icon-link" href="https://crates.io/crates/userspace_hub" aria-label="userspace_hub on crates.io" title="crates.io">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 2.4 8.5 4.9v9.8L12 22l-8.5-4.9V7.3L12 2.4Zm0 2.31L6.18 8.07 12 11.43l5.82-3.36L12 4.71Zm-6.5 5.09v6.14l5.5 3.18v-6.35L5.5 9.8Zm7.5 9.32 5.5-3.18V9.8L13 12.77v6.35Z"/></svg>
+              </a>
+            </div>
+          </article>
+          <article class="crate">
             <strong>userspace</strong>
             <span>The core userspace building blocks.</span>
-          </a>
-          <a class="crate" href="https://crates.io/crates/ample">
+            <div class="crate-links" aria-label="userspace links">
+              <a class="icon-link" href="/userspace" aria-label="userspace homepage" title="Homepage">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.2 3.5 10v10.5h6v-6h5v6h6V10L12 3.2Zm6.5 15.3h-2v-6h-9v6h-2v-7.54L12 5.75l6.5 5.21v7.54Z"/></svg>
+              </a>
+              <a class="icon-link" href="https://github.com/ze-gois/rust_userspace" aria-label="userspace on GitHub" title="GitHub">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .7A11.3 11.3 0 0 0 8.43 22.72c.57.1.78-.25.78-.55v-2.16c-3.18.69-3.85-1.35-3.85-1.35-.52-1.32-1.27-1.67-1.27-1.67-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.02 1.75 2.68 1.25 3.33.95.1-.74.4-1.25.73-1.54-2.54-.29-5.21-1.27-5.21-5.65 0-1.25.45-2.27 1.18-3.07-.12-.29-.51-1.45.11-3.02 0 0 .96-.31 3.11 1.17A10.8 10.8 0 0 1 12 5.93c.96 0 1.91.13 2.82.38 2.15-1.48 3.1-1.17 3.1-1.17.63 1.57.24 2.73.12 3.02.74.8 1.18 1.82 1.18 3.07 0 4.39-2.68 5.35-5.22 5.63.41.35.77 1.04.77 2.1v3.21c0 .3.21.66.79.55A11.3 11.3 0 0 0 12 .7Z"/></svg>
+              </a>
+              <a class="icon-link" href="https://crates.io/crates/userspace" aria-label="userspace on crates.io" title="crates.io">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 2.4 8.5 4.9v9.8L12 22l-8.5-4.9V7.3L12 2.4Zm0 2.31L6.18 8.07 12 11.43l5.82-3.36L12 4.71Zm-6.5 5.09v6.14l5.5 3.18v-6.35L5.5 9.8Zm7.5 9.32 5.5-3.18V9.8L13 12.77v6.35Z"/></svg>
+              </a>
+            </div>
+          </article>
+          <article class="crate">
             <strong>ample</strong>
             <span>Shared low-level support for the ecosystem.</span>
-          </a>
-          <a class="crate" href="https://crates.io/crates/kernelspace">
+            <div class="crate-links" aria-label="ample links">
+              <a class="icon-link" href="/ample" aria-label="ample homepage" title="Homepage">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.2 3.5 10v10.5h6v-6h5v6h6V10L12 3.2Zm6.5 15.3h-2v-6h-9v6h-2v-7.54L12 5.75l6.5 5.21v7.54Z"/></svg>
+              </a>
+              <a class="icon-link" href="https://github.com/ze-gois/rust_ample" aria-label="ample on GitHub" title="GitHub">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .7A11.3 11.3 0 0 0 8.43 22.72c.57.1.78-.25.78-.55v-2.16c-3.18.69-3.85-1.35-3.85-1.35-.52-1.32-1.27-1.67-1.27-1.67-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.02 1.75 2.68 1.25 3.33.95.1-.74.4-1.25.73-1.54-2.54-.29-5.21-1.27-5.21-5.65 0-1.25.45-2.27 1.18-3.07-.12-.29-.51-1.45.11-3.02 0 0 .96-.31 3.11 1.17A10.8 10.8 0 0 1 12 5.93c.96 0 1.91.13 2.82.38 2.15-1.48 3.1-1.17 3.1-1.17.63 1.57.24 2.73.12 3.02.74.8 1.18 1.82 1.18 3.07 0 4.39-2.68 5.35-5.22 5.63.41.35.77 1.04.77 2.1v3.21c0 .3.21.66.79.55A11.3 11.3 0 0 0 12 .7Z"/></svg>
+              </a>
+              <a class="icon-link" href="https://crates.io/crates/ample" aria-label="ample on crates.io" title="crates.io">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 2.4 8.5 4.9v9.8L12 22l-8.5-4.9V7.3L12 2.4Zm0 2.31L6.18 8.07 12 11.43l5.82-3.36L12 4.71Zm-6.5 5.09v6.14l5.5 3.18v-6.35L5.5 9.8Zm7.5 9.32 5.5-3.18V9.8L13 12.77v6.35Z"/></svg>
+              </a>
+            </div>
+          </article>
+          <article class="crate">
             <strong>kernelspace</strong>
             <span>The other side of the userspace boundary.</span>
-          </a>
-          <a class="crate" href="https://crates.io/crates/userspace_build">
+            <div class="crate-links" aria-label="kernelspace links">
+              <a class="icon-link" href="/kernelspace" aria-label="kernelspace homepage" title="Homepage">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.2 3.5 10v10.5h6v-6h5v6h6V10L12 3.2Zm6.5 15.3h-2v-6h-9v6h-2v-7.54L12 5.75l6.5 5.21v7.54Z"/></svg>
+              </a>
+              <a class="icon-link" href="https://github.com/ze-gois/rust_kernelspace" aria-label="kernelspace on GitHub" title="GitHub">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .7A11.3 11.3 0 0 0 8.43 22.72c.57.1.78-.25.78-.55v-2.16c-3.18.69-3.85-1.35-3.85-1.35-.52-1.32-1.27-1.67-1.27-1.67-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.02 1.75 2.68 1.25 3.33.95.1-.74.4-1.25.73-1.54-2.54-.29-5.21-1.27-5.21-5.65 0-1.25.45-2.27 1.18-3.07-.12-.29-.51-1.45.11-3.02 0 0 .96-.31 3.11 1.17A10.8 10.8 0 0 1 12 5.93c.96 0 1.91.13 2.82.38 2.15-1.48 3.1-1.17 3.1-1.17.63 1.57.24 2.73.12 3.02.74.8 1.18 1.82 1.18 3.07 0 4.39-2.68 5.35-5.22 5.63.41.35.77 1.04.77 2.1v3.21c0 .3.21.66.79.55A11.3 11.3 0 0 0 12 .7Z"/></svg>
+              </a>
+              <a class="icon-link" href="https://crates.io/crates/kernelspace" aria-label="kernelspace on crates.io" title="crates.io">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 2.4 8.5 4.9v9.8L12 22l-8.5-4.9V7.3L12 2.4Zm0 2.31L6.18 8.07 12 11.43l5.82-3.36L12 4.71Zm-6.5 5.09v6.14l5.5 3.18v-6.35L5.5 9.8Zm7.5 9.32 5.5-3.18V9.8L13 12.77v6.35Z"/></svg>
+              </a>
+            </div>
+          </article>
+          <article class="crate">
             <strong>userspace_build</strong>
             <span>Build-time machinery and integration.</span>
-          </a>
-          <a class="crate" href="https://crates.io/crates/webspace">
+            <div class="crate-links" aria-label="userspace_build links">
+              <a class="icon-link" href="/userspace_build" aria-label="userspace_build homepage" title="Homepage">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.2 3.5 10v10.5h6v-6h5v6h6V10L12 3.2Zm6.5 15.3h-2v-6h-9v6h-2v-7.54L12 5.75l6.5 5.21v7.54Z"/></svg>
+              </a>
+              <a class="icon-link" href="https://github.com/ze-gois/rust_userspace_build" aria-label="userspace_build on GitHub" title="GitHub">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .7A11.3 11.3 0 0 0 8.43 22.72c.57.1.78-.25.78-.55v-2.16c-3.18.69-3.85-1.35-3.85-1.35-.52-1.32-1.27-1.67-1.27-1.67-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.02 1.75 2.68 1.25 3.33.95.1-.74.4-1.25.73-1.54-2.54-.29-5.21-1.27-5.21-5.65 0-1.25.45-2.27 1.18-3.07-.12-.29-.51-1.45.11-3.02 0 0 .96-.31 3.11 1.17A10.8 10.8 0 0 1 12 5.93c.96 0 1.91.13 2.82.38 2.15-1.48 3.1-1.17 3.1-1.17.63 1.57.24 2.73.12 3.02.74.8 1.18 1.82 1.18 3.07 0 4.39-2.68 5.35-5.22 5.63.41.35.77 1.04.77 2.1v3.21c0 .3.21.66.79.55A11.3 11.3 0 0 0 12 .7Z"/></svg>
+              </a>
+              <a class="icon-link" href="https://crates.io/crates/userspace_build" aria-label="userspace_build on crates.io" title="crates.io">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 2.4 8.5 4.9v9.8L12 22l-8.5-4.9V7.3L12 2.4Zm0 2.31L6.18 8.07 12 11.43l5.82-3.36L12 4.71Zm-6.5 5.09v6.14l5.5 3.18v-6.35L5.5 9.8Zm7.5 9.32 5.5-3.18V9.8L13 12.77v6.35Z"/></svg>
+              </a>
+            </div>
+          </article>
+          <article class="crate">
             <strong>webspace</strong>
             <span>Web-facing experiments in the same family.</span>
-          </a>
-          <a class="crate" href="https://crates.io/crates/twins">
+            <div class="crate-links" aria-label="webspace links">
+              <a class="icon-link" href="/webspace" aria-label="webspace homepage" title="Homepage">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.2 3.5 10v10.5h6v-6h5v6h6V10L12 3.2Zm6.5 15.3h-2v-6h-9v6h-2v-7.54L12 5.75l6.5 5.21v7.54Z"/></svg>
+              </a>
+              <a class="icon-link" href="https://github.com/ze-gois/rust_webspace" aria-label="webspace on GitHub" title="GitHub">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .7A11.3 11.3 0 0 0 8.43 22.72c.57.1.78-.25.78-.55v-2.16c-3.18.69-3.85-1.35-3.85-1.35-.52-1.32-1.27-1.67-1.27-1.67-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.02 1.75 2.68 1.25 3.33.95.1-.74.4-1.25.73-1.54-2.54-.29-5.21-1.27-5.21-5.65 0-1.25.45-2.27 1.18-3.07-.12-.29-.51-1.45.11-3.02 0 0 .96-.31 3.11 1.17A10.8 10.8 0 0 1 12 5.93c.96 0 1.91.13 2.82.38 2.15-1.48 3.1-1.17 3.1-1.17.63 1.57.24 2.73.12 3.02.74.8 1.18 1.82 1.18 3.07 0 4.39-2.68 5.35-5.22 5.63.41.35.77 1.04.77 2.1v3.21c0 .3.21.66.79.55A11.3 11.3 0 0 0 12 .7Z"/></svg>
+              </a>
+              <a class="icon-link" href="https://crates.io/crates/webspace" aria-label="webspace on crates.io" title="crates.io">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 2.4 8.5 4.9v9.8L12 22l-8.5-4.9V7.3L12 2.4Zm0 2.31L6.18 8.07 12 11.43l5.82-3.36L12 4.71Zm-6.5 5.09v6.14l5.5 3.18v-6.35L5.5 9.8Zm7.5 9.32 5.5-3.18V9.8L13 12.77v6.35Z"/></svg>
+              </a>
+            </div>
+          </article>
+          <article class="crate">
             <strong>twins</strong>
             <span>Paired abstractions and experiments.</span>
-          </a>
-          <a class="crate" href="https://crates.io/crates/humans">
+            <div class="crate-links" aria-label="twins links">
+              <a class="icon-link" href="/twins" aria-label="twins homepage" title="Homepage">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.2 3.5 10v10.5h6v-6h5v6h6V10L12 3.2Zm6.5 15.3h-2v-6h-9v6h-2v-7.54L12 5.75l6.5 5.21v7.54Z"/></svg>
+              </a>
+              <a class="icon-link" href="https://github.com/ze-gois/rust_twins" aria-label="twins on GitHub" title="GitHub">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .7A11.3 11.3 0 0 0 8.43 22.72c.57.1.78-.25.78-.55v-2.16c-3.18.69-3.85-1.35-3.85-1.35-.52-1.32-1.27-1.67-1.27-1.67-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.02 1.75 2.68 1.25 3.33.95.1-.74.4-1.25.73-1.54-2.54-.29-5.21-1.27-5.21-5.65 0-1.25.45-2.27 1.18-3.07-.12-.29-.51-1.45.11-3.02 0 0 .96-.31 3.11 1.17A10.8 10.8 0 0 1 12 5.93c.96 0 1.91.13 2.82.38 2.15-1.48 3.1-1.17 3.1-1.17.63 1.57.24 2.73.12 3.02.74.8 1.18 1.82 1.18 3.07 0 4.39-2.68 5.35-5.22 5.63.41.35.77 1.04.77 2.1v3.21c0 .3.21.66.79.55A11.3 11.3 0 0 0 12 .7Z"/></svg>
+              </a>
+              <a class="icon-link" href="https://crates.io/crates/twins" aria-label="twins on crates.io" title="crates.io">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 2.4 8.5 4.9v9.8L12 22l-8.5-4.9V7.3L12 2.4Zm0 2.31L6.18 8.07 12 11.43l5.82-3.36L12 4.71Zm-6.5 5.09v6.14l5.5 3.18v-6.35L5.5 9.8Zm7.5 9.32 5.5-3.18V9.8L13 12.77v6.35Z"/></svg>
+              </a>
+            </div>
+          </article>
+          <article class="crate">
             <strong>humans</strong>
             <span>Human-facing pieces of the stack.</span>
-          </a>
-          <a class="crate" href="https://crates.io/crates/computers">
+            <div class="crate-links" aria-label="humans links">
+              <a class="icon-link" href="/humans" aria-label="humans homepage" title="Homepage">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.2 3.5 10v10.5h6v-6h5v6h6V10L12 3.2Zm6.5 15.3h-2v-6h-9v6h-2v-7.54L12 5.75l6.5 5.21v7.54Z"/></svg>
+              </a>
+              <a class="icon-link" href="https://github.com/ze-gois/rust_humans" aria-label="humans on GitHub" title="GitHub">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .7A11.3 11.3 0 0 0 8.43 22.72c.57.1.78-.25.78-.55v-2.16c-3.18.69-3.85-1.35-3.85-1.35-.52-1.32-1.27-1.67-1.27-1.67-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.02 1.75 2.68 1.25 3.33.95.1-.74.4-1.25.73-1.54-2.54-.29-5.21-1.27-5.21-5.65 0-1.25.45-2.27 1.18-3.07-.12-.29-.51-1.45.11-3.02 0 0 .96-.31 3.11 1.17A10.8 10.8 0 0 1 12 5.93c.96 0 1.91.13 2.82.38 2.15-1.48 3.1-1.17 3.1-1.17.63 1.57.24 2.73.12 3.02.74.8 1.18 1.82 1.18 3.07 0 4.39-2.68 5.35-5.22 5.63.41.35.77 1.04.77 2.1v3.21c0 .3.21.66.79.55A11.3 11.3 0 0 0 12 .7Z"/></svg>
+              </a>
+              <a class="icon-link" href="https://crates.io/crates/humans" aria-label="humans on crates.io" title="crates.io">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 2.4 8.5 4.9v9.8L12 22l-8.5-4.9V7.3L12 2.4Zm0 2.31L6.18 8.07 12 11.43l5.82-3.36L12 4.71Zm-6.5 5.09v6.14l5.5 3.18v-6.35L5.5 9.8Zm7.5 9.32 5.5-3.18V9.8L13 12.77v6.35Z"/></svg>
+              </a>
+            </div>
+          </article>
+          <article class="crate">
             <strong>computers</strong>
             <span>Computer-facing pieces of the stack.</span>
-          </a>
+            <div class="crate-links" aria-label="computers links">
+              <a class="icon-link" href="/computers" aria-label="computers homepage" title="Homepage">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.2 3.5 10v10.5h6v-6h5v6h6V10L12 3.2Zm6.5 15.3h-2v-6h-9v6h-2v-7.54L12 5.75l6.5 5.21v7.54Z"/></svg>
+              </a>
+              <a class="icon-link" href="https://github.com/ze-gois/rust_computers" aria-label="computers on GitHub" title="GitHub">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .7A11.3 11.3 0 0 0 8.43 22.72c.57.1.78-.25.78-.55v-2.16c-3.18.69-3.85-1.35-3.85-1.35-.52-1.32-1.27-1.67-1.27-1.67-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.02 1.75 2.68 1.25 3.33.95.1-.74.4-1.25.73-1.54-2.54-.29-5.21-1.27-5.21-5.65 0-1.25.45-2.27 1.18-3.07-.12-.29-.51-1.45.11-3.02 0 0 .96-.31 3.11 1.17A10.8 10.8 0 0 1 12 5.93c.96 0 1.91.13 2.82.38 2.15-1.48 3.1-1.17 3.1-1.17.63 1.57.24 2.73.12 3.02.74.8 1.18 1.82 1.18 3.07 0 4.39-2.68 5.35-5.22 5.63.41.35.77 1.04.77 2.1v3.21c0 .3.21.66.79.55A11.3 11.3 0 0 0 12 .7Z"/></svg>
+              </a>
+              <a class="icon-link" href="https://crates.io/crates/computers" aria-label="computers on crates.io" title="crates.io">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 2.4 8.5 4.9v9.8L12 22l-8.5-4.9V7.3L12 2.4Zm0 2.31L6.18 8.07 12 11.43l5.82-3.36L12 4.71Zm-6.5 5.09v6.14l5.5 3.18v-6.35L5.5 9.8Zm7.5 9.32 5.5-3.18V9.8L13 12.77v6.35Z"/></svg>
+              </a>
+            </div>
+          </article>
         </div>
       </section>
 

@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="ample — Shared no_std building blocks used near the bottom of the userspace.party dependency graph.">
+  <meta name="theme-color" content="#0b0d10">
+  <title>ample — userspace.party</title>
+  <link rel="stylesheet" href="/assets/crate.css">
+</head>
+<body>
+  <div class="shell">
+    <header>
+      <a class="brand" href="/">userspace<span>.party</span></a>
+      <nav aria-label="Primary navigation">
+        <a href="/#crates">crates</a>
+        <a href="https://docs.rs/ample">docs.rs</a>
+        <a href="https://github.com/ze-gois/rust_ample">github</a>
+      </nav>
+    </header>
+
+    <main>
+      <section>
+        <p class="eyebrow">userspace.party / ample</p>
+        <h1>ample</h1>
+        <p class="lede">Small primitives for a smaller dependency surface. Shared no_std building blocks used near the bottom of the userspace.party dependency graph.</p>
+        <div class="actions">
+          <a class="button primary" href="https://docs.rs/ample">API docs</a>
+          <a class="button" href="https://crates.io/crates/ample">crates.io</a>
+          <a class="button" href="https://github.com/ze-gois/rust_ample">GitHub</a>
+        </div>
+        <div class="tags">
+          <span class="tag">no_std</span>
+          <span class="tag">alloc</span>
+          <span class="tag">primitives</span>
+          <span class="tag">libm</span>
+        </div>
+      </section>
+
+      <section>
+        <h2>Role in the ecosystem</h2>
+        <div class="ecosystem">
+          <p>ample owns foundational pieces that higher layers can reuse without pulling in the Rust standard library or broad utility dependency trees.</p>
+          <pre><code>ample
+└── foundational primitives
+    ├── userspace
+    ├── humans
+    └── higher layers</code></pre>
+        </div>
+      </section>
+
+      <section>
+        <h2>Current surface</h2>
+        <div class="grid">
+          <div class="card">
+            <h3>What exists today</h3>
+            <ul>
+              <li>Vec and String implementations</li>
+              <li>Lists and node primitives</li>
+              <li>Traits and result/error types</li>
+              <li>Shared macros</li>
+              <li>no_std math support</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>Start here</h3>
+            <pre><code>cargo add ample</code></pre>
+            <p>Experimental and actively being reduced toward a compact set of ecosystem-owned primitives.</p>
+          </div>
+          
+        </div>
+      </section>
+
+      <section>
+        <div class="ecosystem">
+          <p><strong>One family, independent repositories.</strong> Source lives on GitHub, releases live on crates.io, API documentation lives on docs.rs, and userspace.party is the public map connecting the pieces.</p>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <span><a href="/">← userspace.party</a></span>
+      <span>ample</span>
+    </footer>
+  </div>
+</body>
+</html>

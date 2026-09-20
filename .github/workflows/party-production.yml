@@ -1,0 +1,207 @@
+name: Deploy userspace.party to Production
+run-name: Deploy userspace.party at ${{ github.event.workflow_run.head_sha || inputs.release_sha || 'main' }}
+
+on:
+  workflow_run:
+    workflows:
+      - Publication Unit
+    types:
+      - completed
+    branches:
+      - main
+  workflow_dispatch:
+    inputs:
+      release_sha:
+        description: Optional 40-character release SHA; defaults to main
+        required: false
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: userspace-party-production
+  cancel-in-progress: false
+
+env:
+  GH_TOKEN: ${{ github.token }}
+  GH_REPO: ${{ github.repository }}
+  PRODUCTION_ORIGIN: https://userspace.party
+
+jobs:
+  deploy:
+    name: Deploy and verify userspace.party
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.workflow_run.conclusion == 'success' &&
+       github.event.workflow_run.event == 'push' &&
+       github.event.workflow_run.head_branch == 'main' &&
+       github.event.workflow_run.head_repository.full_name == github.repository)
+    runs-on: ubuntu-latest
+    environment: userspace-party-production
+    timeout-minutes: 10
+
+    steps:
+      - name: Resolve immutable release SHA
+        id: release
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          WORKFLOW_RUN_SHA: ${{ github.event.workflow_run.head_sha }}
+          INPUT_SHA: ${{ inputs.release_sha }}
+        run: |
+          set -euo pipefail
+
+          if [[ "$EVENT_NAME" == "workflow_run" ]]; then
+            release_sha="$WORKFLOW_RUN_SHA"
+          elif [[ -n "$INPUT_SHA" ]]; then
+            release_sha="$INPUT_SHA"
+          else
+            release_sha="$(gh api "repos/$GH_REPO/commits/main" --jq '.sha')"
+          fi
+
+          [[ "$release_sha" =~ ^[0-9a-f]{40}$ ]] || {
+            echo "invalid release SHA: $release_sha" >&2
+            exit 1
+          }
+
+          echo "sha=$release_sha" >> "$GITHUB_OUTPUT"
+          echo "release SHA: $release_sha"
+
+      - name: Validate deployment configuration
+        env:
+          PARTY_SSH_HOST: ${{ vars.PARTY_SSH_HOST }}
+          PARTY_SSH_PORT: ${{ vars.PARTY_SSH_PORT }}
+          PARTY_SSH_USER: ${{ vars.PARTY_SSH_USER }}
+          PARTY_SSH_PRIVATE_KEY: ${{ secrets.PARTY_SSH_PRIVATE_KEY }}
+          PARTY_SSH_KNOWN_HOSTS: ${{ secrets.PARTY_SSH_KNOWN_HOSTS }}
+        run: |
+          set -euo pipefail
+          [[ -n "$PARTY_SSH_HOST" ]] || { echo "missing PARTY_SSH_HOST" >&2; exit 1; }
+          [[ "$PARTY_SSH_PORT" =~ ^[0-9]+$ ]] || { echo "invalid PARTY_SSH_PORT" >&2; exit 1; }
+          [[ "$PARTY_SSH_USER" == "userspace-party-deploy" ]] || {
+            echo "unexpected PARTY_SSH_USER" >&2
+            exit 1
+          }
+          [[ -n "$PARTY_SSH_PRIVATE_KEY" ]] || { echo "missing PARTY_SSH_PRIVATE_KEY" >&2; exit 1; }
+          [[ -n "$PARTY_SSH_KNOWN_HOSTS" ]] || { echo "missing PARTY_SSH_KNOWN_HOSTS" >&2; exit 1; }
+
+      - name: Prepare pinned SSH client
+        env:
+          PARTY_SSH_PRIVATE_KEY: ${{ secrets.PARTY_SSH_PRIVATE_KEY }}
+          PARTY_SSH_KNOWN_HOSTS: ${{ secrets.PARTY_SSH_KNOWN_HOSTS }}
+        run: |
+          set -euo pipefail
+          install -d -m 0700 "$RUNNER_TEMP/userspace-party-ssh"
+          printf '%s\n' "$PARTY_SSH_PRIVATE_KEY" > "$RUNNER_TEMP/userspace-party-ssh/id_ed25519"
+          printf '%s\n' "$PARTY_SSH_KNOWN_HOSTS" > "$RUNNER_TEMP/userspace-party-ssh/known_hosts"
+          chmod 0600 "$RUNNER_TEMP/userspace-party-ssh/id_ed25519"
+          chmod 0644 "$RUNNER_TEMP/userspace-party-ssh/known_hosts"
+
+      - name: Probe restricted production channel
+        env:
+          PARTY_SSH_HOST: ${{ vars.PARTY_SSH_HOST }}
+          PARTY_SSH_PORT: ${{ vars.PARTY_SSH_PORT }}
+          PARTY_SSH_USER: ${{ vars.PARTY_SSH_USER }}
+        run: |
+          set -euo pipefail
+          ssh \
+            -T \
+            -i "$RUNNER_TEMP/userspace-party-ssh/id_ed25519" \
+            -o BatchMode=yes \
+            -o IdentitiesOnly=yes \
+            -o StrictHostKeyChecking=yes \
+            -o UserKnownHostsFile="$RUNNER_TEMP/userspace-party-ssh/known_hosts" \
+            -o ConnectTimeout=10 \
+            -o ConnectionAttempts=3 \
+            -p "$PARTY_SSH_PORT" \
+            "$PARTY_SSH_USER@$PARTY_SSH_HOST" \
+            probe \
+            | grep -Fqx 'userspace.party deployment channel ready'
+
+      - name: Deploy immutable release
+        env:
+          RELEASE_SHA: ${{ steps.release.outputs.sha }}
+          PARTY_SSH_HOST: ${{ vars.PARTY_SSH_HOST }}
+          PARTY_SSH_PORT: ${{ vars.PARTY_SSH_PORT }}
+          PARTY_SSH_USER: ${{ vars.PARTY_SSH_USER }}
+        run: |
+          set -euo pipefail
+          ssh \
+            -T \
+            -i "$RUNNER_TEMP/userspace-party-ssh/id_ed25519" \
+            -o BatchMode=yes \
+            -o IdentitiesOnly=yes \
+            -o StrictHostKeyChecking=yes \
+            -o UserKnownHostsFile="$RUNNER_TEMP/userspace-party-ssh/known_hosts" \
+            -o ConnectTimeout=10 \
+            -o ConnectionAttempts=3 \
+            -p "$PARTY_SSH_PORT" \
+            "$PARTY_SSH_USER@$PARTY_SSH_HOST" \
+            "deploy $RELEASE_SHA"
+
+      - name: Verify live HTTPS routes and release identity
+        env:
+          RELEASE_SHA: ${{ steps.release.outputs.sha }}
+        run: |
+          set -euo pipefail
+
+          curl_common=(
+            --fail
+            --silent
+            --show-error
+            --location
+            --max-time 15
+            --retry 8
+            --retry-all-errors
+            --retry-delay 2
+          )
+
+          verify_page() {
+            local route="$1"
+            local title="$2"
+            local body
+
+            body="$(curl "${curl_common[@]}" "$PRODUCTION_ORIGIN$route")"
+            grep -Fq "<title>$title</title>" <<<"$body" || {
+              echo "unexpected content at $route" >&2
+              exit 1
+            }
+            echo "$route: HTTP 200, expected title"
+          }
+
+          verify_page "/" "userspace.party"
+          verify_page "/hub" "userspace_hub — userspace.party"
+          verify_page "/ample" "ample — userspace.party"
+          verify_page "/userspace" "userspace — userspace.party"
+          verify_page "/userspace_build" "userspace_build — userspace.party"
+          verify_page "/kernelspace" "kernelspace — userspace.party"
+          verify_page "/humans" "humans — userspace.party"
+          verify_page "/webspace" "webspace — userspace.party"
+          verify_page "/twins" "twins — userspace.party"
+          verify_page "/computers" "computers — userspace.party"
+
+          public_sha="$(curl "${curl_common[@]}" \
+            -H 'Cache-Control: no-cache' \
+            "$PRODUCTION_ORIGIN/.well-known/userspace-party-release?release=$RELEASE_SHA" \
+            | tr -d '\r\n')"
+
+          [[ "$public_sha" == "$RELEASE_SHA" ]] || {
+            echo "public release mismatch: expected $RELEASE_SHA, got $public_sha" >&2
+            exit 1
+          }
+
+          echo "TLS: valid"
+          echo "public release identity: $public_sha"
+
+      - name: Report deployment
+        env:
+          RELEASE_SHA: ${{ steps.release.outputs.sha }}
+        run: |
+          {
+            echo "### userspace.party production"
+            echo "- release: `$RELEASE_SHA`"
+            echo "- immutable path: `/srv/userspace-party/releases/$RELEASE_SHA`"
+            echo "- current: `/srv/userspace-party/current -> releases/$RELEASE_SHA`"
+            echo "- root + 9 crate routes: `verified over HTTPS`"
+            echo "- public release identity: `exact SHA match`"
+          } >> "$GITHUB_STEP_SUMMARY"

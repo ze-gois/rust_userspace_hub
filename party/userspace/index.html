@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="userspace — A no_std systems layer exploring what userspace needs below a conventional standard library.">
+  <meta name="theme-color" content="#0b0d10">
+  <title>userspace — userspace.party</title>
+  <link rel="stylesheet" href="/assets/crate.css">
+</head>
+<body>
+  <div class="shell">
+    <header>
+      <a class="brand" href="/">userspace<span>.party</span></a>
+      <nav aria-label="Primary navigation">
+        <a href="/#crates">crates</a>
+        <a href="https://docs.rs/userspace">docs.rs</a>
+        <a href="https://github.com/ze-gois/rust_userspace">github</a>
+      </nav>
+    </header>
+
+    <main>
+      <section>
+        <p class="eyebrow">userspace.party / userspace</p>
+        <h1>userspace</h1>
+        <p class="lede">A process, from the bottom up. A no_std systems layer exploring what userspace needs below a conventional standard library.</p>
+        <div class="actions">
+          <a class="button primary" href="https://docs.rs/userspace">API docs</a>
+          <a class="button" href="https://crates.io/crates/userspace">crates.io</a>
+          <a class="button" href="https://github.com/ze-gois/rust_userspace">GitHub</a>
+        </div>
+        <div class="tags">
+          <span class="tag">no_std</span>
+          <span class="tag">Linux</span>
+          <span class="tag">x86_64</span>
+          <span class="tag">ELF</span>
+          <span class="tag">memory</span>
+        </div>
+      </section>
+
+      <section>
+        <h2>Role in the ecosystem</h2>
+        <div class="ecosystem">
+          <p>userspace concentrates process-facing machinery: low-level I/O, executable loading, memory, target-specific behavior, startup and panic paths.</p>
+          <pre><code>ample
+  ↓
+userspace
+  ├── files + ELF
+  ├── memory
+  └── target / startup</code></pre>
+        </div>
+      </section>
+
+      <section>
+        <h2>Current surface</h2>
+        <div class="grid">
+          <div class="card">
+            <h3>What exists today</h3>
+            <ul>
+              <li>Open/read/seek and low-level file I/O</li>
+              <li>ELF parsing and PT_LOAD mapping</li>
+              <li>PIE / ET_DYN and PT_INTERP handling</li>
+              <li>Heap, pages and process stack work</li>
+              <li>Architecture and operating-system target modules</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>Start here</h3>
+            <pre><code>cargo add userspace</code></pre>
+            <p>Experimental systems software focused today on Linux/x86_64; interfaces remain intentionally unstable.</p>
+          </div>
+          
+        </div>
+      </section>
+
+      <section>
+        <div class="ecosystem">
+          <p><strong>One family, independent repositories.</strong> Source lives on GitHub, releases live on crates.io, API documentation lives on docs.rs, and userspace.party is the public map connecting the pieces.</p>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <span><a href="/">← userspace.party</a></span>
+      <span>userspace</span>
+    </footer>
+  </div>
+</body>
+</html>

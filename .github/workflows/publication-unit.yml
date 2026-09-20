@@ -22,7 +22,20 @@ jobs:
         run: |
           bash -n scripts/submodules/attach.sh
           bash -n ops/party/install.sh
+          bash -n ops/party/bootstrap-production-cd.sh
+          bash -n ops/party/bootstrap-deploy-host.sh
+          bash -n ops/party/deploy-command.sh
+          bash -n ops/party/deploy-root.sh
           python3 -m py_compile scripts/publish.py
+
+      - name: Verify party site tree
+        run: |
+          test -f party/index.html
+          test -f party/assets/crate.css
+          for route in hub ample userspace userspace_build kernelspace humans webspace twins computers; do
+            test -f "party/$route/index.html"
+            grep -Fq "<title>" "party/$route/index.html"
+          done
 
       - name: Unit tests
         run: python3 -m unittest discover -s scripts/tests -v
