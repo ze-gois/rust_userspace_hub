@@ -1,6 +1,13 @@
-# rust_userspace_hub
+# userspace_hub
 
-Workspace de integração para nove crates Rust independentes:
+[![crates.io](https://img.shields.io/crates/v/userspace_hub.svg)](https://crates.io/crates/userspace_hub)
+[![docs.rs](https://docs.rs/userspace_hub/badge.svg)](https://docs.rs/userspace_hub)
+
+Integration workspace and publication hub for the [userspace.party](https://userspace.party) Rust ecosystem.
+
+## Ecosystem
+
+`userspace_hub` brings nine independently published crates into one workspace:
 
 ```text
 userspace_hub
@@ -14,11 +21,11 @@ userspace_hub
 └── webspace
 ```
 
-Os oito crates filhos são submodules Git e continuam clonáveis isoladamente. Seus
-manifests usam dependências do crates.io; o hub substitui essas dependências pelas
-cópias locais através de `[patch.crates-io]`.
+The eight child repositories remain independent Git repositories and crates.io packages. In the hub they are pinned as Git submodules and overridden locally with `[patch.crates-io]`, so workspace development uses the checked-out source while published manifests continue to use registry dependencies.
 
-## Clone do workspace
+The family is intentionally `no_std`-first and keeps its external dependency surface small. Platform-specific exceptions are kept explicit, such as `libm` in `ample` and the WebAssembly bindings used by `webspace`.
+
+## Clone the workspace
 
 ```bash
 git clone https://github.com/ze-gois/rust_userspace_hub
@@ -27,7 +34,7 @@ git submodule update --init
 bash scripts/submodules/attach.sh
 ```
 
-Para avançar todos os submodules até suas `main` remotas quando houver fast-forward:
+To fast-forward attached submodules to their remote `main` branches:
 
 ```bash
 bash scripts/submodules/attach.sh --pull
@@ -35,31 +42,42 @@ bash scripts/submodules/attach.sh --pull
 
 ## Build
 
-O projeto usa o toolchain e target definidos no repositório:
+The repository carries its Rust toolchain and target configuration.
 
 ```bash
 cargo check --workspace
 cargo run
 ```
 
-Em Arch Linux, o ambiente também precisa de toolchain C/linker apropriado (por exemplo,
-GCC/LLVM) para as partes que compilam código nativo.
+Some members also compile native/assembly pieces and therefore require the corresponding C toolchain/linker on the host.
 
-## Publicação coordenada
+## Coordinated publication
 
-Existe uma única unidade de publicação para os nove crates:
+The nine crates form one coordinated publication unit. The hub computes the dependency graph and publishes in dependency order:
 
 ```bash
 python3 scripts/publish.py plan
 python3 scripts/publish.py next-patch
 python3 scripts/publish.py prepare X.Y.Z
 python3 scripts/publish.py check
-python3 scripts/publish.py publish          # dry-run
+python3 scripts/publish.py publish
 python3 scripts/publish.py publish --execute
 ```
 
-A ordem de publicação é calculada a partir do grafo real de dependências, e
-`userspace_hub` só é publicado depois dos oito crates que integra.
+See [scripts/README.md](scripts/README.md) for the full release contract, gates, lockstep rules, and partial-publication recovery.
 
-Veja [`scripts/README.md`](scripts/README.md) para o contrato completo, gates de Git,
-lockstep, crates.io e retomada de publicações parciais.
+## Links
+
+- Ecosystem: https://userspace.party
+- Hub: https://userspace.party/hub
+- API documentation: https://docs.rs/userspace_hub
+- crates.io: https://crates.io/crates/userspace_hub
+- Source: https://github.com/ze-gois/rust_userspace_hub
+
+## Status
+
+Experimental systems software. APIs and crate boundaries may evolve while the ecosystem converges on a small, dependency-light userspace stack.
+
+## License
+
+See [LICENSE](LICENSE).
