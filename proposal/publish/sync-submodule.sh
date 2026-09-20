@@ -55,6 +55,13 @@ SUBMODULE_DIR="$ROOT/$SUBMODULE"
     exit 1
 }
 
+UNRELATED="$(git status --porcelain --untracked-files=no | awk -v target="$SUBMODULE" 'substr($0, 4) != target')"
+if [ -n "$UNRELATED" ]; then
+    printf '%s\n' 'O hub possui alterações não relacionadas ao submodule alvo:' >&2
+    printf '%s\n' "$UNRELATED" >&2
+    exit 1
+fi
+
 if [ -n "$(git -C "$SUBMODULE_DIR" status --porcelain)" ]; then
     printf 'O submodule %s possui alterações locais; sincronização interrompida.\n' "$SUBMODULE" >&2
     git -C "$SUBMODULE_DIR" status --short
