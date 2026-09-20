@@ -18,6 +18,11 @@ jobs:
         with:
           submodules: true
 
+      - name: Static syntax
+        run: |
+          bash -n scripts/submodules/attach.sh
+          python3 -m py_compile scripts/publish.py
+
       - name: Unit tests
         run: python3 -m unittest discover -s scripts/tests -v
 
