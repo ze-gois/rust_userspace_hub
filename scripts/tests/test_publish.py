@@ -26,7 +26,7 @@ CHILDREN = [
 
 DEPS = {
     "ample": {},
-    "computers": {},
+    "computers": {"ample": "0.2.2", "userspace": "0.2.2", "userspace_build": "0.2.2"},
     "humans": {"ample": "0.2.2"},
     "userspace_build": {"ample": "0.2.2"},
     "userspace": {"ample": "0.2.2", "userspace_build": "0.2.2"},
@@ -119,10 +119,10 @@ class PublishUnitTests(unittest.TestCase):
             [pkg.name for pkg in publish_unit.topological_order(model)],
             [
                 "ample",
-                "computers",
                 "humans",
                 "userspace_build",
                 "userspace",
+                "computers",
                 "webspace",
                 "kernelspace",
                 "twins",
