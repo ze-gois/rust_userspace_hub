@@ -151,3 +151,28 @@ Antes do primeiro upload a unidade exige:
 
 A ordem não é codificada manualmente: é derivada das dependências normais e de build
 presentes nos manifests.
+
+
+## Bootstrap copy
+
+`userspace_build` is the bootstrap copy of `userspace`. It is not maintained
+independently.
+
+Every:
+
+```bash
+python3 scripts/publish.py prepare X.Y.Z
+```
+
+first projects `crates/userspace/src/**` and `crates/userspace/linker.ld` into
+`crates/userspace_build`. Rust paths referring to the canonical package are
+rewritten from `userspace::` to `userspace_build::`. Files that no longer
+exist in the canonical source are removed from the bootstrap copy.
+
+`python3 scripts/publish.py check` rejects bootstrap drift before compiling the
+workspace. This makes synchronization part of every coordinated version bump,
+rather than a manual one-off copy.
+
+`Cargo.toml` and `build.rs` are deliberately not mirrored: they are the
+bootstrap boundary that allows `userspace_build` to exist without depending on
+`userspace` as a build dependency.
