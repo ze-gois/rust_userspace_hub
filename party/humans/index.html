@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="humans — Human-facing primitives kept separate from browser and operating-system concerns.">
+  <meta name="description" content="humans — computation expressed in human-perceptible terms.">
   <meta name="theme-color" content="#0b0d10">
   <title>humans — userspace.party</title>
   <link rel="stylesheet" href="/assets/crate.css">
@@ -23,7 +23,8 @@
       <section>
         <p class="eyebrow">userspace.party / humans</p>
         <h1>humans</h1>
-        <p class="lede">Computation at the edge of perception. Human-facing primitives kept separate from browser and operating-system concerns.</p>
+        <p class="statement">Where computation meets perception.</p>
+        <p class="lede">Visual and audible meaning, kept independent of whichever device or browser eventually presents it.</p>
         <div class="actions">
           <a class="button primary" href="https://docs.rs/humans">API docs</a>
           <a class="button" href="https://crates.io/crates/humans">crates.io</a>
@@ -31,43 +32,67 @@
         </div>
         <div class="tags">
           <span class="tag">no_std</span>
-          <span class="tag">alloc</span>
+          <span class="tag">perception</span>
           <span class="tag">visual</span>
           <span class="tag">audible</span>
+          <span class="tag">human interface</span>
         </div>
       </section>
 
       <section>
-        <h2>Role in the ecosystem</h2>
+        <h2>Its place in the system</h2>
         <div class="ecosystem">
-          <p>humans collects reusable concepts that describe what people can see and hear, allowing presentation layers to share semantics without owning them.</p>
-          <pre><code>ample
-  ↓
-humans
-  ├── audible
-  └── visual
-       ↓
-    webspace</code></pre>
+          <p>humans gives computational structures human-facing semantics. A color is not merely a tuple of numbers here; music is not merely a sequence. These concepts belong to perception before they belong to a browser.</p>
+          <pre><code>ample abstractions
+      ↓
+    humans
+  ├── visual
+  └── audible
+      ↓
+presentation layers</code></pre>
         </div>
       </section>
 
       <section>
-        <h2>Current surface</h2>
-        <div class="grid">
+        <h2>The boundary</h2>
+        <div class="boundary">
           <div class="card">
-            <h3>What exists today</h3>
+            <p class="kicker">Belongs here</p>
             <ul>
-              <li>audible primitives</li>
-              <li>Music-related structures</li>
-              <li>visual primitives</li>
-              <li>Color-related structures</li>
-              <li>Reusable concepts consumed by webspace</li>
+              <li>Human-visible concepts</li>
+              <li>Human-audible concepts</li>
+              <li>Perceptual semantics independent of a particular UI technology</li>
             </ul>
           </div>
           <div class="card">
-            <h3>Start here</h3>
+            <p class="kicker">Does not belong here</p>
+            <ul>
+              <li>DOM or Canvas bindings</li>
+              <li>Generic containers</li>
+              <li>System calls</li>
+              <li>Machine virtualization</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2>Today</h2>
+        <div class="grid">
+          <div class="card">
+            <p class="kicker">Current surface</p>
+            <ul>
+              <li>Visual primitives</li>
+              <li>Color-related structures</li>
+              <li>Audible primitives</li>
+              <li>Music-related structures</li>
+              <li>Reusable semantics consumed by presentation layers</li>
+            </ul>
+          </div>
+          <div class="card">
+            <p class="kicker">Start here</p>
             <pre><code>cargo add humans</code></pre>
-            <p>Experimental; visual and audible primitives grow as concrete consumers require them.</p>
+            <p>The crate grows around concrete perceptual concepts while keeping presentation technology elsewhere.</p>
           </div>
           
         </div>
@@ -75,7 +100,7 @@ humans
 
       <section>
         <div class="ecosystem">
-          <p><strong>One family, independent repositories.</strong> Source lives on GitHub, releases live on crates.io, API documentation lives on docs.rs, and userspace.party is the public map connecting the pieces.</p>
+          <p><strong>From abstraction to reality.</strong> userspace.party keeps conceptual borders explicit: abstractions in <a href="/ample">ample</a>, process mechanisms in <a href="/userspace">userspace</a>, machines in <a href="/computers">computers</a>, human meaning in <a href="/humans">humans</a>, browser presentation in <a href="/webspace">webspace</a>, and physical-world simulation and control in <a href="/twins">twins</a>.</p>
         </div>
       </section>
     </main>
