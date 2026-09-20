@@ -208,3 +208,38 @@ footer {
   .grid { grid-template-columns: 1fr; }
   footer { flex-direction: column; }
 }
+
+
+.statement {
+  max-width: 900px;
+  margin: 18px 0 0;
+  color: var(--text);
+  font: 700 clamp(1.35rem, 3vw, 2.2rem)/1.25 system-ui, sans-serif;
+  letter-spacing: -.035em;
+}
+
+.boundary {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.boundary .card {
+  min-height: 100%;
+}
+
+.kicker {
+  color: var(--accent);
+  font-size: .78rem;
+  font-weight: 800;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+
+.card strong {
+  color: var(--text);
+}
+
+@media (max-width: 700px) {
+  .boundary { grid-template-columns: 1fr; }
+}
