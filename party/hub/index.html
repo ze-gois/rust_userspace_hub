@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="userspace_hub — Integration workspace and publication hub for the userspace.party Rust ecosystem.">
+  <meta name="theme-color" content="#0b0d10">
+  <title>userspace_hub — userspace.party</title>
+  <link rel="stylesheet" href="/assets/crate.css">
+</head>
+<body>
+  <div class="shell">
+    <header>
+      <a class="brand" href="/">userspace<span>.party</span></a>
+      <nav aria-label="Primary navigation">
+        <a href="/#crates">crates</a>
+        <a href="https://docs.rs/userspace_hub">docs.rs</a>
+        <a href="https://github.com/ze-gois/rust_userspace_hub">github</a>
+      </nav>
+    </header>
+
+    <main>
+      <section>
+        <p class="eyebrow">userspace.party / userspace_hub</p>
+        <h1>userspace_hub</h1>
+        <p class="lede">One workspace. Nine repositories. One release line. Integration workspace and publication hub for the userspace.party Rust ecosystem.</p>
+        <div class="actions">
+          <a class="button primary" href="https://docs.rs/userspace_hub">API docs</a>
+          <a class="button" href="https://crates.io/crates/userspace_hub">crates.io</a>
+          <a class="button" href="https://github.com/ze-gois/rust_userspace_hub">GitHub</a>
+        </div>
+        <div class="tags">
+          <span class="tag">integration</span>
+          <span class="tag">workspace</span>
+          <span class="tag">publication</span>
+          <span class="tag">no_std-first</span>
+        </div>
+      </section>
+
+      <section>
+        <h2>Role in the ecosystem</h2>
+        <div class="ecosystem">
+          <p>The hub pins the eight child repositories as Git submodules and patches their crates.io dependencies to those local sources. Standalone crates stay independent; integration happens here.</p>
+          <pre><code>userspace_hub
+├── ample
+├── computers
+├── humans
+├── kernelspace
+├── twins
+├── userspace
+├── userspace_build
+└── webspace</code></pre>
+        </div>
+      </section>
+
+      <section>
+        <h2>Current surface</h2>
+        <div class="grid">
+          <div class="card">
+            <h3>What exists today</h3>
+            <ul>
+              <li>Nine-crate workspace integration</li>
+              <li>Submodule attach/update tooling</li>
+              <li>Dependency-ordered coordinated publishing</li>
+              <li>Lockstep version planning and release recovery</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>Start here</h3>
+            <pre><code>git clone --recurse-submodules \
+  https://github.com/ze-gois/rust_userspace_hub
+cd rust_userspace_hub
+cargo check --workspace</code></pre>
+            <p>Experimental integration surface; the hub is the canonical place for whole-ecosystem development and publication.</p>
+          </div>
+          
+        </div>
+      </section>
+
+      <section>
+        <div class="ecosystem">
+          <p><strong>One family, independent repositories.</strong> Source lives on GitHub, releases live on crates.io, API documentation lives on docs.rs, and userspace.party is the public map connecting the pieces.</p>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <span><a href="/">← userspace.party</a></span>
+      <span>userspace_hub</span>
+    </footer>
+  </div>
+</body>
+</html>
