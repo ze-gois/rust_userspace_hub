@@ -1,0 +1,25 @@
+name: Publication Unit
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  publication-unit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout hub and submodules
+        uses: actions/checkout@v4
+        with:
+          submodules: true
+
+      - name: Unit tests
+        run: python3 -m unittest discover -s scripts/tests -v
+
+      - name: Inspect publication graph
+        run: python3 scripts/publish.py plan
