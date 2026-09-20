@@ -15,6 +15,8 @@ from lockstep import (
     dependency_violations,
     ensure_clean_and_attached,
     packages,
+    run_git,
+    submodules,
     version_key,
 )
 
@@ -67,6 +69,30 @@ def topological_order(pkgs) -> list:
 def run(*args: str, cwd: Path = ROOT, check: bool = True) -> subprocess.CompletedProcess:
     print("+", " ".join(args))
     return subprocess.run(args, cwd=cwd, check=check)
+
+
+def ensure_pushed_heads() -> None:
+    root_branch = run_git(ROOT, "branch", "--show-current")
+    if not root_branch:
+        raise SystemExit("hub está em detached HEAD")
+
+    run_git(ROOT, "fetch", "origin", root_branch)
+    root_head = run_git(ROOT, "rev-parse", "HEAD")
+    root_remote = run_git(ROOT, "rev-parse", f"origin/{root_branch}")
+    if root_head != root_remote:
+        raise SystemExit(
+            f"hub não coincide com origin/{root_branch}; commit/push antes de publicar"
+        )
+
+    for _, repo, branch in submodules():
+        run_git(repo, "fetch", "origin", branch)
+        head = run_git(repo, "rev-parse", "HEAD")
+        remote = run_git(repo, "rev-parse", f"origin/{branch}")
+        if head != remote:
+            raise SystemExit(
+                f"{repo.relative_to(ROOT)} não coincide com origin/{branch}; "
+                "commit/push ou pull --ff-only antes de publicar"
+            )
 
 
 def cargo_sees(crate: str, version: str) -> bool:
@@ -133,6 +159,7 @@ def main() -> int:
         return 1
 
     ensure_clean_and_attached()
+    ensure_pushed_heads()
     order = topological_order(pkgs)
 
     print(f"Release lockstep: {version}")
