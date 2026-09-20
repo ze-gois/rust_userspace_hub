@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="userspace_build — The build-side companion to userspace, versioned and released with the same ecosystem.">
+  <meta name="theme-color" content="#0b0d10">
+  <title>userspace_build — userspace.party</title>
+  <link rel="stylesheet" href="/assets/crate.css">
+</head>
+<body>
+  <div class="shell">
+    <header>
+      <a class="brand" href="/">userspace<span>.party</span></a>
+      <nav aria-label="Primary navigation">
+        <a href="/#crates">crates</a>
+        <a href="https://docs.rs/userspace_build">docs.rs</a>
+        <a href="https://github.com/ze-gois/rust_userspace_build">github</a>
+      </nav>
+    </header>
+
+    <main>
+      <section>
+        <p class="eyebrow">userspace.party / userspace_build</p>
+        <h1>userspace_build</h1>
+        <p class="lede">Build-time machinery for the freestanding stack. The build-side companion to userspace, versioned and released with the same ecosystem.</p>
+        <div class="actions">
+          <a class="button primary" href="https://docs.rs/userspace_build">API docs</a>
+          <a class="button" href="https://crates.io/crates/userspace_build">crates.io</a>
+          <a class="button" href="https://github.com/ze-gois/rust_userspace_build">GitHub</a>
+        </div>
+        <div class="tags">
+          <span class="tag">build-time</span>
+          <span class="tag">no_std</span>
+          <span class="tag">with_std</span>
+          <span class="tag">tooling</span>
+        </div>
+      </section>
+
+      <section>
+        <h2>Role in the ecosystem</h2>
+        <div class="ecosystem">
+          <p>userspace_build holds code needed while constructing freestanding userspace artifacts. Higher layers can consume it as a build dependency with with_std where host-side execution is intentional.</p>
+          <pre><code>userspace
+      ↕ shared boundary
+userspace_build
+      ↓
+build scripts / higher crates</code></pre>
+        </div>
+      </section>
+
+      <section>
+        <h2>Current surface</h2>
+        <div class="grid">
+          <div class="card">
+            <h3>What exists today</h3>
+            <ul>
+              <li>Build-side target/file/memory machinery</li>
+              <li>with_std and no_std feature modes</li>
+              <li>Build dependency for freestanding members</li>
+              <li>Shared release line with userspace</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>Start here</h3>
+            <pre><code>[build-dependencies]
+userspace_build = { version = "0.2", features = ["with_std"] }</code></pre>
+            <p>Experimental; the runtime/build-time split is still being refined.</p>
+          </div>
+          
+        </div>
+      </section>
+
+      <section>
+        <div class="ecosystem">
+          <p><strong>One family, independent repositories.</strong> Source lives on GitHub, releases live on crates.io, API documentation lives on docs.rs, and userspace.party is the public map connecting the pieces.</p>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <span><a href="/">← userspace.party</a></span>
+      <span>userspace_build</span>
+    </footer>
+  </div>
+</body>
+</html>
