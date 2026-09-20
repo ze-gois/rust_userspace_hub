@@ -135,6 +135,7 @@ Antes de uma publicação real:
 - dependências locais dos repositórios filhos resolvem para irmãos em `crates/*`;
 - nenhum dos oito submodules está em detached HEAD;
 - hub e submodules estão limpos;
+- cada HEAD de release já coincide com sua branch remota correspondente;
 - o hub registra os SHAs exatos que serão publicados;
 - o publish segue a ordem topológica do grafo.
 
