@@ -206,5 +206,13 @@ class PublishUnitTests(unittest.TestCase):
             publish_unit.validate_bootstrap_copy(model)
 
 
+    def test_registry_independent_packages_only_include_roots(self) -> None:
+        model = publish_unit.load_model(self.root)
+        self.assertEqual(
+            [pkg.name for pkg in publish_unit.registry_independent_packages(model)],
+            ["ample"],
+        )
+
+
 if __name__ == "__main__":
     unittest.main()
