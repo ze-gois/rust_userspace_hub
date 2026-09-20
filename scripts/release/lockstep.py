@@ -102,10 +102,9 @@ def dependency_violations(pkgs: list[Package], expected: str | None) -> list[str
                         violations.append(
                             f"{pkg.name}: {section}.{dep_name} usa {spec!r}, esperado {expected!r}"
                         )
-                    if pkg.repo != ROOT:
-                        violations.append(
-                            f"{pkg.name}: {section}.{dep_name} não possui path local para o workspace"
-                        )
+                    violations.append(
+                        f"{pkg.name}: {section}.{dep_name} não possui path local para o workspace"
+                    )
                     continue
 
                 if not isinstance(spec, dict):
@@ -119,18 +118,17 @@ def dependency_violations(pkgs: list[Package], expected: str | None) -> list[str
                     )
 
                 path_value = spec.get("path")
-                if pkg.repo != ROOT:
-                    if not path_value:
+                if not path_value:
+                    violations.append(
+                        f"{pkg.name}: {section}.{dep_name} não possui path local para o workspace"
+                    )
+                else:
+                    resolved = (pkg.manifest.parent / path_value).resolve()
+                    if resolved != canonical[dep_name]:
                         violations.append(
-                            f"{pkg.name}: {section}.{dep_name} não possui path local para o workspace"
+                            f"{pkg.name}: {section}.{dep_name}.path resolve para {resolved}, "
+                            f"esperado {canonical[dep_name]}"
                         )
-                    else:
-                        resolved = (pkg.manifest.parent / path_value).resolve()
-                        if resolved != canonical[dep_name]:
-                            violations.append(
-                                f"{pkg.name}: {section}.{dep_name}.path resolve para {resolved}, "
-                                f"esperado {canonical[dep_name]}"
-                            )
 
     return violations
 
