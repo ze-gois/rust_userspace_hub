@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="computers — Machine-level experiments around architecture, virtualization, emulation and execution environments.">
+  <meta name="description" content="computers — computers represented as explicit systems.">
   <meta name="theme-color" content="#0b0d10">
   <title>computers — userspace.party</title>
   <link rel="stylesheet" href="/assets/crate.css">
@@ -23,7 +23,8 @@
       <section>
         <p class="eyebrow">userspace.party / computers</p>
         <h1>computers</h1>
-        <p class="lede">Computers as systems, not black boxes. Machine-level experiments around architecture, virtualization, emulation and execution environments.</p>
+        <p class="statement">Machines made explicit.</p>
+        <p class="lede">Architecture, virtualization, emulation and execution environments treated as things we can describe rather than black boxes.</p>
         <div class="actions">
           <a class="button primary" href="https://docs.rs/computers">API docs</a>
           <a class="button" href="https://crates.io/crates/computers">crates.io</a>
@@ -31,6 +32,7 @@
         </div>
         <div class="tags">
           <span class="tag">no_std</span>
+          <span class="tag">machines</span>
           <span class="tag">virtualization</span>
           <span class="tag">emulation</span>
           <span class="tag">architecture</span>
@@ -38,33 +40,61 @@
       </section>
 
       <section>
-        <h2>Role in the ecosystem</h2>
+        <h2>Its place in the system</h2>
         <div class="ecosystem">
-          <p>computers is the family member for describing and experimenting with machines, hypervisor boundaries, guests/hosts and hardware resources exposed upward.</p>
-          <pre><code>ample + userspace
-       ↓
-    computers
-       ↓
-machine / VM / hypervisor</code></pre>
+          <p>computers is where computational machines themselves become domain objects: hardware organization, virtual machines, hypervisor boundaries, guests, hosts and resources exposed between them.</p>
+          <pre><code>physical hardware
+      ↓
+  computers
+  ├── machine
+  ├── VM / guest
+  ├── hypervisor boundary
+  └── resources
+      ↓
+execution environments</code></pre>
         </div>
       </section>
 
       <section>
-        <h2>Current surface</h2>
-        <div class="grid">
+        <h2>The boundary</h2>
+        <div class="boundary">
           <div class="card">
-            <h3>What exists today</h3>
+            <p class="kicker">Belongs here</p>
             <ul>
-              <li>Minimal no_std crate scaffold</li>
-              <li>Freestanding binary/startup path</li>
-              <li>Historical VFIO, QEMU/KVM and GPU-passthrough notes</li>
-              <li>Direction toward reusable machine abstractions</li>
+              <li>Machine and architecture descriptions</li>
+              <li>Virtualization and emulation</li>
+              <li>Guest/host relationships</li>
+              <li>Hypervisor-facing resources</li>
             </ul>
           </div>
           <div class="card">
-            <h3>Start here</h3>
+            <p class="kicker">Does not belong here</p>
+            <ul>
+              <li>Generic containers</li>
+              <li>Process syscalls</li>
+              <li>Human-perception semantics</li>
+              <li>Physical-world simulation as a scientific model</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2>Today</h2>
+        <div class="grid">
+          <div class="card">
+            <p class="kicker">Current surface</p>
+            <ul>
+              <li>Minimal no_std crate scaffold</li>
+              <li>Freestanding startup path</li>
+              <li>Virtualization/VFIO/QEMU/KVM research notes</li>
+              <li>Direction toward explicit reusable machine abstractions</li>
+            </ul>
+          </div>
+          <div class="card">
+            <p class="kicker">Start here</p>
             <pre><code>cargo add computers</code></pre>
-            <p>Early experimental systems crate; research context is richer than the reusable Rust API today.</p>
+            <p>The conceptual territory is established; the reusable Rust surface is still deliberately small.</p>
           </div>
           
         </div>
@@ -72,7 +102,7 @@ machine / VM / hypervisor</code></pre>
 
       <section>
         <div class="ecosystem">
-          <p><strong>One family, independent repositories.</strong> Source lives on GitHub, releases live on crates.io, API documentation lives on docs.rs, and userspace.party is the public map connecting the pieces.</p>
+          <p><strong>From abstraction to reality.</strong> userspace.party keeps conceptual borders explicit: abstractions in <a href="/ample">ample</a>, process mechanisms in <a href="/userspace">userspace</a>, machines in <a href="/computers">computers</a>, human meaning in <a href="/humans">humans</a>, browser presentation in <a href="/webspace">webspace</a>, and physical-world simulation and control in <a href="/twins">twins</a>.</p>
         </div>
       </section>
     </main>
