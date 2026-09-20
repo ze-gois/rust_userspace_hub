@@ -62,9 +62,9 @@ python3 scripts/release/lockstep.py status
 O comando lista as nove versões e verifica também se dependências entre crates do
 conjunto:
 
-1. usam a mesma versão da release;
-2. possuem `path` local quando declaradas dentro de um repositório filho;
-3. resolvem para o checkout canônico em `rust_userspace_hub/crates/*`.
+1. declaram uma versão de registry compatível com a versão lockstep;
+2. não embutem `path` para repositórios irmãos nos manifests dos filhos;
+3. são sobrescritas localmente pelo `[patch.crates-io]` canônico do hub.
 
 A próxima versão patch é calculada a partir da maior versão atual:
 
@@ -131,14 +131,21 @@ Antes de uma publicação real:
 
 - são exatamente nove crates na unidade de release;
 - os nove `package.version` são idênticos;
-- versões das dependências internas são idênticas à versão da release;
-- dependências locais dos repositórios filhos resolvem para irmãos em `crates/*`;
+- versões declaradas das dependências internas são idênticas à versão da release;
+- cada repositório filho continua compilável isoladamente usando crates.io;
+- os manifests dos filhos não dependem de caminhos para irmãos;
+- o `[patch.crates-io]` do hub resolve as oito crates para `crates/*`;
 - nenhum dos oito submodules está em detached HEAD;
 - hub e submodules estão limpos;
 - cada HEAD de release já coincide com sua branch remota correspondente;
 - o hub registra os SHAs exatos que serão publicados;
 - o publish segue a ordem topológica do grafo.
 
-O registry não é usado como substituto do workspace durante desenvolvimento. O padrão
-`path + version` permite trabalhar contra a cópia local e, no pacote publicado,
-declarar a versão correspondente do registry.
+Os manifests dos oito repositórios filhos são registry-first: um clone isolado resolve
+suas dependências internas pelo crates.io. Quando esses mesmos repositórios são membros
+do `rust_userspace_hub`, o `[patch.crates-io]` definido no manifest raiz substitui
+essas dependências pelas cópias locais em `crates/*`.
+
+Assim, portabilidade e desenvolvimento integrado não competem: o filho não precisa
+conhecer a posição do hub, enquanto o hub continua testando exatamente os commits
+registrados pelos seus gitlinks.
