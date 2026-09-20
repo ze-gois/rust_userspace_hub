@@ -12,7 +12,7 @@ fail() {
 release_sha="$1"
 [[ "$release_sha" =~ ^[0-9a-f]{40}$ ]] || fail "release SHA must be 40 lowercase hexadecimal characters"
 
-for command_name in awk caddy cmp cp curl grep install ln mktemp mv rm systemctl; do
+for command_name in awk caddy cat cmp cp curl grep install ln mktemp mv readlink rm systemctl; do
     command -v "$command_name" >/dev/null 2>&1 || fail "required command not found: $command_name"
 done
 
