@@ -77,6 +77,10 @@ cp -a "$site_dir/." "$release_dir/"
 find "$release_dir" -type d -exec chmod 0755 {} +
 find "$release_dir" -type f -exec chmod 0644 {} +
 
+install -d -m 0755 -o root -g root "$release_dir/.well-known"
+printf '%s\n' "$release_sha" > "$release_dir/.well-known/userspace-party-release"
+chmod 0644 "$release_dir/.well-known/userspace-party-release"
+
 cp -a "$caddyfile" "$previous_root"
 if [[ -f "$managed_site" ]]; then
     cp -a "$managed_site" "$previous_site"
