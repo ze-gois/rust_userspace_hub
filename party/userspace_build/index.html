@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="userspace_build — The build-side companion to userspace, versioned and released with the same ecosystem.">
+  <meta name="description" content="userspace_build — build-time machinery for the userspace.party stack.">
   <meta name="theme-color" content="#0b0d10">
   <title>userspace_build — userspace.party</title>
   <link rel="stylesheet" href="/assets/crate.css">
@@ -23,7 +23,8 @@
       <section>
         <p class="eyebrow">userspace.party / userspace_build</p>
         <h1>userspace_build</h1>
-        <p class="lede">Build-time machinery for the freestanding stack. The build-side companion to userspace, versioned and released with the same ecosystem.</p>
+        <p class="statement">Build the machinery.</p>
+        <p class="lede">Host/build-side support needed to construct the freestanding runtime without smuggling build concerns into runtime crates.</p>
         <div class="actions">
           <a class="button primary" href="https://docs.rs/userspace_build">API docs</a>
           <a class="button" href="https://crates.io/crates/userspace_build">crates.io</a>
@@ -31,41 +32,66 @@
         </div>
         <div class="tags">
           <span class="tag">build-time</span>
-          <span class="tag">no_std</span>
-          <span class="tag">with_std</span>
           <span class="tag">tooling</span>
+          <span class="tag">with_std</span>
+          <span class="tag">freestanding</span>
         </div>
       </section>
 
       <section>
-        <h2>Role in the ecosystem</h2>
+        <h2>Its place in the system</h2>
         <div class="ecosystem">
-          <p>userspace_build holds code needed while constructing freestanding userspace artifacts. Higher layers can consume it as a build dependency with with_std where host-side execution is intentional.</p>
-          <pre><code>userspace
-      ↕ shared boundary
+          <p>userspace_build exists to keep construction-time responsibilities separate from runtime responsibilities while remaining versioned with the same system.</p>
+          <pre><code>source crates
+     ↓
 userspace_build
-      ↓
-build scripts / higher crates</code></pre>
+     ↓
+link / construct / generate
+     ↓
+freestanding artifacts</code></pre>
         </div>
       </section>
 
       <section>
-        <h2>Current surface</h2>
-        <div class="grid">
+        <h2>The boundary</h2>
+        <div class="boundary">
           <div class="card">
-            <h3>What exists today</h3>
+            <p class="kicker">Belongs here</p>
             <ul>
-              <li>Build-side target/file/memory machinery</li>
-              <li>with_std and no_std feature modes</li>
-              <li>Build dependency for freestanding members</li>
-              <li>Shared release line with userspace</li>
+              <li>Build scripts and host-side construction support</li>
+              <li>Generation/link integration needed before runtime</li>
+              <li>Build-only use of std when intentional</li>
             </ul>
           </div>
           <div class="card">
-            <h3>Start here</h3>
+            <p class="kicker">Does not belong here</p>
+            <ul>
+              <li>Runtime syscall semantics</li>
+              <li>Generic domain-independent containers</li>
+              <li>Browser UI</li>
+              <li>Physical-system models</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2>Today</h2>
+        <div class="grid">
+          <div class="card">
+            <p class="kicker">Current surface</p>
+            <ul>
+              <li>Build-side target/file/memory machinery</li>
+              <li>with_std and no_std feature modes</li>
+              <li>Build-dependency integration for freestanding members</li>
+              <li>Shared release line with the ecosystem</li>
+            </ul>
+          </div>
+          <div class="card">
+            <p class="kicker">Start here</p>
             <pre><code>[build-dependencies]
 userspace_build = { version = "0.2", features = ["with_std"] }</code></pre>
-            <p>Experimental; the runtime/build-time split is still being refined.</p>
+            <p>The long-term rule is simple: construction-time concerns belong here; runtime concerns belong in the runtime crate.</p>
           </div>
           
         </div>
@@ -73,7 +99,7 @@ userspace_build = { version = "0.2", features = ["with_std"] }</code></pre>
 
       <section>
         <div class="ecosystem">
-          <p><strong>One family, independent repositories.</strong> Source lives on GitHub, releases live on crates.io, API documentation lives on docs.rs, and userspace.party is the public map connecting the pieces.</p>
+          <p><strong>From abstraction to reality.</strong> userspace.party keeps conceptual borders explicit: abstractions in <a href="/ample">ample</a>, process mechanisms in <a href="/userspace">userspace</a>, machines in <a href="/computers">computers</a>, human meaning in <a href="/humans">humans</a>, browser presentation in <a href="/webspace">webspace</a>, and physical-world simulation and control in <a href="/twins">twins</a>.</p>
         </div>
       </section>
     </main>
