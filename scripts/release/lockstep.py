@@ -83,9 +83,35 @@ def dependency_tables(doc: dict) -> list[tuple[str, dict]]:
     return tables
 
 
+def patch_violations(pkgs: list[Package]) -> list[str]:
+    canonical = {pkg.name: pkg.repo.resolve() for pkg in pkgs if pkg.repo != ROOT}
+    with (ROOT / "Cargo.toml").open("rb") as handle:
+        root_doc = tomllib.load(handle)
+
+    patch = root_doc.get("patch", {}).get("crates-io", {})
+    violations: list[str] = []
+
+    for name, expected_path in sorted(canonical.items()):
+        spec = patch.get(name)
+        if not isinstance(spec, dict):
+            violations.append(f"[patch.crates-io] não cobre {name}")
+            continue
+        path_value = spec.get("path")
+        if not path_value:
+            violations.append(f"[patch.crates-io].{name} não possui path")
+            continue
+        resolved = (ROOT / path_value).resolve()
+        if resolved != expected_path:
+            violations.append(
+                f"[patch.crates-io].{name}.path resolve para {resolved}, "
+                f"esperado {expected_path}"
+            )
+
+    return violations
+
+
 def dependency_violations(pkgs: list[Package], expected: str | None) -> list[str]:
     by_name = {pkg.name: pkg for pkg in pkgs}
-    canonical = {pkg.name: pkg.repo.resolve() for pkg in pkgs}
     violations: list[str] = []
 
     for pkg in pkgs:
@@ -98,40 +124,33 @@ def dependency_violations(pkgs: list[Package], expected: str | None) -> list[str
                     continue
 
                 if isinstance(spec, str):
-                    if expected is not None and spec != expected:
-                        violations.append(
-                            f"{pkg.name}: {section}.{dep_name} usa {spec!r}, esperado {expected!r}"
-                        )
-                    violations.append(
-                        f"{pkg.name}: {section}.{dep_name} não possui path local para o workspace"
-                    )
-                    continue
-
-                if not isinstance(spec, dict):
+                    version = spec
+                    path_value = None
+                elif isinstance(spec, dict):
+                    version = spec.get("version")
+                    path_value = spec.get("path")
+                else:
                     violations.append(f"{pkg.name}: formato não suportado em {section}.{dep_name}")
                     continue
 
-                version = spec.get("version")
-                if expected is not None and version != expected:
+                if not version:
                     violations.append(
-                        f"{pkg.name}: {section}.{dep_name}.version={version!r}, esperado {expected!r}"
+                        f"{pkg.name}: {section}.{dep_name} não declara version de registry"
+                    )
+                elif expected is not None and version not in {expected, f"={expected}"}:
+                    violations.append(
+                        f"{pkg.name}: {section}.{dep_name}.version={version!r}, "
+                        f"esperado {expected!r}"
                     )
 
-                path_value = spec.get("path")
-                if not path_value:
+                if path_value:
                     violations.append(
-                        f"{pkg.name}: {section}.{dep_name} não possui path local para o workspace"
+                        f"{pkg.name}: {section}.{dep_name} declara path interno; "
+                        "use o [patch.crates-io] do hub"
                     )
-                else:
-                    resolved = (pkg.manifest.parent / path_value).resolve()
-                    if resolved != canonical[dep_name]:
-                        violations.append(
-                            f"{pkg.name}: {section}.{dep_name}.path resolve para {resolved}, "
-                            f"esperado {canonical[dep_name]}"
-                        )
 
+    violations.extend(patch_violations(pkgs))
     return violations
-
 
 def version_key(version: str) -> tuple[int, int, int]:
     match = SEMVER.fullmatch(version)
