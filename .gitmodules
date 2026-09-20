@@ -1,31 +1,32 @@
-[submodule "ample"]
+[submodule "crates/ample"]
 	path = crates/ample
-	url = git@github.com:ze-gois/rust_ample
+	url = git@github.com:ze-gois/rust_ample.git
 	branch = main
-[submodule "kernelspace"]
+[submodule "crates/kernelspace"]
 	path = crates/kernelspace
-	url = git@github.com:ze-gois/rust_kernelspace
+	url = git@github.com:ze-gois/rust_kernelspace.git
 	branch = main
-[submodule "userspace"]
+[submodule "crates/userspace"]
 	path = crates/userspace
-	url = git@github.com:ze-gois/rust_userspace
+	url = git@github.com:ze-gois/rust_userspace.git
 	branch = main
-[submodule "userspace_build"]
+[submodule "crates/userspace_build"]
 	path = crates/userspace_build
-	url = git@github.com:ze-gois/rust_userspace_build
+	url = git@github.com:ze-gois/rust_userspace_build.git
 	branch = main
 [submodule "crates/webspace"]
 	path = crates/webspace
-	url = git@github.com:ze-gois/rust_webspace
+	url = git@github.com:ze-gois/rust_webspace.git
 	branch = main
 [submodule "crates/twins"]
 	path = crates/twins
-	url = git@github.com:ze-gois/rust_twins
+	url = git@github.com:ze-gois/rust_twins.git
 	branch = main
 [submodule "crates/humans"]
 	path = crates/humans
-	url = git@github.com:ze-gois/rust_humans
+	url = git@github.com:ze-gois/rust_humans.git
 	branch = main
 [submodule "crates/computers"]
 	path = crates/computers
-	url = git@github.com:ze-gois/rust_computers
+	url = git@github.com:ze-gois/rust_computers.git
+	branch = main
