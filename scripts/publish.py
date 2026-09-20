@@ -710,6 +710,30 @@ def prepare(model: Model, version: str) -> None:
         raise
 
 
+def package_preflight(model: Model, pkg: Package, allow_dirty: bool) -> None:
+    args = [
+        "cargo",
+        "package",
+        "--manifest-path",
+        str(pkg.manifest),
+        "--registry",
+        "crates-io",
+        "--no-verify",
+    ]
+    if allow_dirty:
+        args.append("--allow-dirty")
+    run(*args, cwd=model.root)
+
+
+def registry_independent_packages(model: Model) -> list[Package]:
+    deps = graph(model)
+    return [
+        pkg
+        for pkg in topological_order(model)
+        if not deps[pkg.name]
+    ]
+
+
 def run_checks(model: Model, allow_dirty: bool) -> None:
     version = validate_lockstep(model)
     order = topological_order(model)
@@ -720,19 +744,16 @@ def run_checks(model: Model, allow_dirty: bool) -> None:
     run("cargo", "fmt", "--all", "--", "--check", cwd=model.root)
     run("cargo", "check", "--workspace", cwd=model.root)
 
-    for pkg in order:
-        args = [
-            "cargo",
-            "package",
-            "--manifest-path",
-            str(pkg.manifest),
-            "--registry",
-            "crates-io",
-            "--no-verify",
-        ]
-        if allow_dirty:
-            args.append("--allow-dirty")
-        run(*args, cwd=model.root)
+    roots = registry_independent_packages(model)
+    for pkg in roots:
+        package_preflight(model, pkg, allow_dirty)
+
+    deferred = [pkg.name for pkg in order if pkg not in roots]
+    if deferred:
+        print(
+            "Package preflight adiado até as dependências internas estarem "
+            "visíveis no crates.io: " + ", ".join(deferred)
+        )
 
 
 def api_version_exists(crate: str, version: str) -> bool:
@@ -854,6 +875,7 @@ def publish(model: Model, execute: bool, resume: bool, timeout: int) -> None:
         return
 
     for pkg in order[start:]:
+        package_preflight(model, pkg, allow_dirty=False)
         run(
             "cargo",
             "publish",
