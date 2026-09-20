@@ -2,7 +2,7 @@ userspace.party {
     encode zstd gzip
 
     root * /srv/userspace-party/current
-    try_files {path} {path}/ /index.html
+    try_files {path}/index.html {path} /index.html
 
     header {
         X-Content-Type-Options nosniff
