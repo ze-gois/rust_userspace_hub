@@ -72,6 +72,16 @@ members = [
     "crates/webspace"
 ]
 
+[patch.crates-io]
+ample = { path = "crates/ample" }
+computers = { path = "crates/computers" }
+humans = { path = "crates/humans" }
+kernelspace = { path = "crates/kernelspace" }
+twins = { path = "crates/twins" }
+userspace = { path = "crates/userspace" }
+userspace_build = { path = "crates/userspace_build" }
+webspace = { path = "crates/webspace" }
+
 [lib]
 name = "userspace_hub"
 path = "src/library.rs"
@@ -87,17 +97,17 @@ name = "userspace_hub"
 path = "src/entry.rs"
 
 [dependencies]
-ample = { version= "0.1.129", path = "crates/ample" }
-userspace = { version= "0.1.129", path = "crates/userspace" }
-kernelspace = { version= "0.1.129", path = "crates/kernelspace" }
-twins = { version="0.0.2", path="crates/twins"}
-humans = { version="0.0.1", path="crates/humans"}
-webspace = { version="0.0.1", path="crates/webspace"}
-computers = { version="0.0.1", path="crates/computers"}
+ample = "0.1.129"
+userspace = "0.1.129"
+kernelspace = "0.1.129"
+twins = "0.0.2"
+humans = "0.0.1"
+webspace = "0.0.1"
+computers = "0.0.1"
 
 [build-dependencies]
 cc = "1.0"
-userspace_build = { version= "0.1.129", path = "crates/userspace_build", features = ["with_std"] }
+userspace_build = { version = "0.1.129", features = ["with_std"] }
 
 [dev-dependencies]
 
