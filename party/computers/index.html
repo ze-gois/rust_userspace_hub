@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="computers — Machine-level experiments around architecture, virtualization, emulation and execution environments.">
+  <meta name="theme-color" content="#0b0d10">
+  <title>computers — userspace.party</title>
+  <link rel="stylesheet" href="/assets/crate.css">
+</head>
+<body>
+  <div class="shell">
+    <header>
+      <a class="brand" href="/">userspace<span>.party</span></a>
+      <nav aria-label="Primary navigation">
+        <a href="/#crates">crates</a>
+        <a href="https://docs.rs/computers">docs.rs</a>
+        <a href="https://github.com/ze-gois/rust_computers">github</a>
+      </nav>
+    </header>
+
+    <main>
+      <section>
+        <p class="eyebrow">userspace.party / computers</p>
+        <h1>computers</h1>
+        <p class="lede">Computers as systems, not black boxes. Machine-level experiments around architecture, virtualization, emulation and execution environments.</p>
+        <div class="actions">
+          <a class="button primary" href="https://docs.rs/computers">API docs</a>
+          <a class="button" href="https://crates.io/crates/computers">crates.io</a>
+          <a class="button" href="https://github.com/ze-gois/rust_computers">GitHub</a>
+        </div>
+        <div class="tags">
+          <span class="tag">no_std</span>
+          <span class="tag">virtualization</span>
+          <span class="tag">emulation</span>
+          <span class="tag">architecture</span>
+        </div>
+      </section>
+
+      <section>
+        <h2>Role in the ecosystem</h2>
+        <div class="ecosystem">
+          <p>computers is the family member for describing and experimenting with machines, hypervisor boundaries, guests/hosts and hardware resources exposed upward.</p>
+          <pre><code>ample + userspace
+       ↓
+    computers
+       ↓
+machine / VM / hypervisor</code></pre>
+        </div>
+      </section>
+
+      <section>
+        <h2>Current surface</h2>
+        <div class="grid">
+          <div class="card">
+            <h3>What exists today</h3>
+            <ul>
+              <li>Minimal no_std crate scaffold</li>
+              <li>Freestanding binary/startup path</li>
+              <li>Historical VFIO, QEMU/KVM and GPU-passthrough notes</li>
+              <li>Direction toward reusable machine abstractions</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>Start here</h3>
+            <pre><code>cargo add computers</code></pre>
+            <p>Early experimental systems crate; research context is richer than the reusable Rust API today.</p>
+          </div>
+          
+        </div>
+      </section>
+
+      <section>
+        <div class="ecosystem">
+          <p><strong>One family, independent repositories.</strong> Source lives on GitHub, releases live on crates.io, API documentation lives on docs.rs, and userspace.party is the public map connecting the pieces.</p>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <span><a href="/">← userspace.party</a></span>
+      <span>computers</span>
+    </footer>
+  </div>
+</body>
+</html>
