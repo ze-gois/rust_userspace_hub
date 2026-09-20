@@ -1,0 +1,14 @@
+userspace.party {
+    encode zstd gzip
+
+    root * /srv/userspace-party/current
+    try_files {path} {path}/ /index.html
+
+    header {
+        X-Content-Type-Options nosniff
+        X-Frame-Options DENY
+        Referrer-Policy "strict-origin-when-cross-origin"
+    }
+
+    file_server
+}
