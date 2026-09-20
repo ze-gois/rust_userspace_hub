@@ -4,6 +4,7 @@ from __future__ import annotations
 import argparse
 import configparser
 import re
+import shutil
 import subprocess
 import sys
 import time
@@ -33,6 +34,10 @@ PUBLISH_DEP_SECTIONS = ("dependencies", "build-dependencies")
 SEMVER = re.compile(r"^(\d+)\.(\d+)\.(\d+)$")
 CRATES_IO = "https://crates.io"
 USER_AGENT = "rust-userspace-hub-publish/2 (+https://github.com/ze-gois/rust_userspace_hub)"
+BOOTSTRAP_SOURCE = "userspace"
+BOOTSTRAP_TARGET = "userspace_build"
+BOOTSTRAP_DIRS = ("src",)
+BOOTSTRAP_FILES = ("linker.ld",)
 
 
 class ReleaseError(RuntimeError):
@@ -466,6 +471,111 @@ def ensure_pushed_and_pinned(model: Model) -> None:
             )
 
 
+
+def transform_bootstrap_bytes(data: bytes) -> bytes:
+    try:
+        text = data.decode("utf-8")
+    except UnicodeDecodeError:
+        return data
+    return (
+        text.replace("userspace::", "userspace_build::")
+        .replace("use userspace;", "use userspace_build;")
+    ).encode("utf-8")
+
+
+def bootstrap_projection(model: Model) -> dict[Path, bytes]:
+    source = model.by_name[BOOTSTRAP_SOURCE].repo
+    projected: dict[Path, bytes] = {}
+
+    for dirname in BOOTSTRAP_DIRS:
+        root = source / dirname
+        if not root.is_dir():
+            raise ReleaseError(f"bootstrap source ausente: {root}")
+        for path in sorted(item for item in root.rglob("*") if item.is_file()):
+            rel = path.relative_to(source)
+            projected[rel] = transform_bootstrap_bytes(path.read_bytes())
+
+    for filename in BOOTSTRAP_FILES:
+        path = source / filename
+        if not path.is_file():
+            raise ReleaseError(f"bootstrap source ausente: {path}")
+        projected[Path(filename)] = transform_bootstrap_bytes(path.read_bytes())
+
+    return projected
+
+
+def bootstrap_actual(model: Model) -> dict[Path, bytes]:
+    target = model.by_name[BOOTSTRAP_TARGET].repo
+    actual: dict[Path, bytes] = {}
+
+    for dirname in BOOTSTRAP_DIRS:
+        root = target / dirname
+        if root.is_dir():
+            for path in sorted(item for item in root.rglob("*") if item.is_file()):
+                actual[path.relative_to(target)] = path.read_bytes()
+
+    for filename in BOOTSTRAP_FILES:
+        path = target / filename
+        if path.is_file():
+            actual[Path(filename)] = path.read_bytes()
+
+    return actual
+
+
+def bootstrap_drift(model: Model) -> tuple[list[str], list[str], list[str]]:
+    expected = bootstrap_projection(model)
+    actual = bootstrap_actual(model)
+    expected_paths = set(expected)
+    actual_paths = set(actual)
+
+    missing = sorted(str(path) for path in expected_paths - actual_paths)
+    extra = sorted(str(path) for path in actual_paths - expected_paths)
+    changed = sorted(
+        str(path)
+        for path in expected_paths & actual_paths
+        if expected[path] != actual[path]
+    )
+    return missing, extra, changed
+
+
+def validate_bootstrap_copy(model: Model) -> None:
+    missing, extra, changed = bootstrap_drift(model)
+    if not (missing or extra or changed):
+        return
+
+    details: list[str] = []
+    if missing:
+        details.append(f"ausentes={missing}")
+    if extra:
+        details.append(f"extras={extra}")
+    if changed:
+        details.append(f"divergentes={changed}")
+    raise ReleaseError(
+        "userspace_build divergiu da projeção de userspace; "
+        + " ".join(details)
+        + "; execute 'python3 scripts/publish.py prepare <versão>'"
+    )
+
+
+def sync_bootstrap_copy(model: Model) -> None:
+    target = model.by_name[BOOTSTRAP_TARGET].repo
+    projection = bootstrap_projection(model)
+
+    for dirname in BOOTSTRAP_DIRS:
+        root = target / dirname
+        if root.exists():
+            shutil.rmtree(root)
+
+    for filename in BOOTSTRAP_FILES:
+        path = target / filename
+        if path.exists():
+            path.unlink()
+
+    for rel, data in projection.items():
+        path = target / rel
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_bytes(data)
+
 SECTION_RE = re.compile(r"^\s*\[([^\]]+)\]\s*(?:#.*)?$")
 PACKAGE_VERSION_RE = re.compile(r'^(\s*version\s*=\s*")[^"]+(".*)$')
 
@@ -552,6 +662,7 @@ def prepare(model: Model, version: str) -> None:
     parse_version(version)
     ensure_clean_attached(model)
 
+    bootstrap_original = bootstrap_actual(model)
     originals = {
         pkg.manifest: pkg.manifest.read_bytes()
         for pkg in model.packages
@@ -561,6 +672,9 @@ def prepare(model: Model, version: str) -> None:
     lock_original = lock.read_bytes() if lock_existed else b""
 
     try:
+        sync_bootstrap_copy(model)
+        validate_bootstrap_copy(model)
+
         for pkg in model.packages:
             updated = rewrite_manifest(pkg, EXPECTED_NAMES, version)
             pkg.manifest.write_text(updated)
@@ -569,9 +683,24 @@ def prepare(model: Model, version: str) -> None:
         validate_lockstep(refreshed, version)
 
         run("cargo", "generate-lockfile", cwd=model.root)
-        print(f"\nVersão {version} preparada nos nove manifests e no Cargo.lock.")
+        print(f"\nBootstrap userspace -> userspace_build sincronizado.")
+        print(f"Versão {version} preparada nos nove manifests e no Cargo.lock.")
         print("Nenhum commit, tag, push ou publish foi executado.")
     except Exception:
+        target = model.by_name[BOOTSTRAP_TARGET].repo
+        for dirname in BOOTSTRAP_DIRS:
+            root = target / dirname
+            if root.exists():
+                shutil.rmtree(root)
+        for filename in BOOTSTRAP_FILES:
+            path = target / filename
+            if path.exists():
+                path.unlink()
+        for rel, original in bootstrap_original.items():
+            path = target / rel
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_bytes(original)
+
         for path, original in originals.items():
             path.write_bytes(original)
         if lock_existed:
@@ -585,6 +714,8 @@ def run_checks(model: Model, allow_dirty: bool) -> None:
     version = validate_lockstep(model)
     order = topological_order(model)
     print(f"Lockstep: {version}")
+    validate_bootstrap_copy(model)
+    print("Bootstrap: userspace_build sincronizado com userspace")
 
     run("cargo", "fmt", "--all", "--", "--check", cwd=model.root)
     run("cargo", "check", "--workspace", cwd=model.root)

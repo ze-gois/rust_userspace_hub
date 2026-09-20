@@ -26,7 +26,7 @@ CHILDREN = [
 
 DEPS = {
     "ample": {},
-    "computers": {},
+    "computers": {"ample": "0.2.2", "userspace": "0.2.2", "userspace_build": "0.2.2"},
     "humans": {"ample": "0.2.2"},
     "userspace_build": {"ample": "0.2.2"},
     "userspace": {"ample": "0.2.2", "userspace_build": "0.2.2"},
@@ -71,6 +71,10 @@ def make_fixture(root: Path) -> None:
         repo = root / "crates" / name
         repo.mkdir(parents=True)
         (repo / "Cargo.toml").write_text(child_manifest(name))
+        if name in {"userspace", "userspace_build"}:
+            (repo / "src").mkdir()
+            (repo / "src" / "library.rs").write_text("pub fn shared() {}\n")
+            (repo / "linker.ld").write_text("SECTIONS {}\n")
 
     (root / ".gitmodules").write_text("\n".join(sections))
 
@@ -115,11 +119,11 @@ class PublishUnitTests(unittest.TestCase):
             [pkg.name for pkg in publish_unit.topological_order(model)],
             [
                 "ample",
-                "computers",
                 "humans",
                 "userspace_build",
                 "userspace",
                 "webspace",
+                "computers",
                 "kernelspace",
                 "twins",
                 "userspace_hub",
@@ -165,6 +169,41 @@ class PublishUnitTests(unittest.TestCase):
         manifest.write_text(text)
         with self.assertRaises(publish_unit.ReleaseError):
             publish_unit.load_model(self.root)
+
+
+    def test_bootstrap_sync_copies_userspace_and_removes_stale_files(self) -> None:
+        source = self.root / "crates" / "userspace"
+        target = self.root / "crates" / "userspace_build"
+        (source / "src" / "entry.rs").write_text(
+            "use userspace::info;\nfn f() { userspace::info!(\"x\"); }\n"
+        )
+        (target / "src" / "stale.rs").write_text("stale\n")
+        (target / "src" / "library.rs").write_text("old\n")
+        (target / "linker.ld").write_text("old\n")
+
+        model = publish_unit.load_model(self.root)
+        publish_unit.sync_bootstrap_copy(model)
+
+        self.assertFalse((target / "src" / "stale.rs").exists())
+        self.assertEqual(
+            (target / "src" / "library.rs").read_text(),
+            (source / "src" / "library.rs").read_text(),
+        )
+        self.assertEqual(
+            (target / "src" / "entry.rs").read_text(),
+            "use userspace_build::info;\n"
+            "fn f() { userspace_build::info!(\"x\"); }\n",
+        )
+        self.assertEqual((target / "linker.ld").read_text(), "SECTIONS {}\n")
+        publish_unit.validate_bootstrap_copy(model)
+
+    def test_bootstrap_check_rejects_drift(self) -> None:
+        target = self.root / "crates" / "userspace_build"
+        (target / "src" / "library.rs").write_text("drift\n")
+
+        model = publish_unit.load_model(self.root)
+        with self.assertRaises(publish_unit.ReleaseError):
+            publish_unit.validate_bootstrap_copy(model)
 
 
 if __name__ == "__main__":
