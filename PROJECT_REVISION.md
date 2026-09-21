@@ -34,7 +34,8 @@ The hub pins exact submodule commits while its workspace-level
 - `memory::stack` remains an educational, operating-system-neutral model of
   stack memory.
 - Linux process startup is target-specific and must not define generic memory.
-- ELF remains a file format under `file::format::elf`.
+- ELF is a file format and will return under `file::format::elf` only after
+  earlier boundaries are sound.
 - Legacy functionality may be removed when preserving it would retain
   semantically incorrect architecture.
 
@@ -63,12 +64,21 @@ Sprint I.2 is complete:
 
 - `BYTES_SIZE` became `REPRESENTATION_SIZE`;
 - `BYTES_ALIGN` was removed from representation;
-- the integrated hub gate passed after the change.
+- the integrated hub gate passed.
 
-Sprint I.3 is in progress:
+Sprint I.3 is complete:
 
 - `Allocating` is the single allocation abstraction exposed by ample;
 - allocation layout is expressed by `core::alloc::Layout`;
 - userspace heap allocation no longer depends on `Bytes`;
-- the userspace global allocator no longer loses the mmap base address;
-- dormant allocation scaffolding has been removed.
+- the userspace global allocator preserves the `mmap` base address;
+- `Allocatable` / `AllocatableResult` and dormant allocation scaffolding were
+  removed;
+- the integrated hub gate passed.
+
+Sprint I.4 is in progress:
+
+- generic `memory::stack` has been separated from process startup ABI;
+- the legacy ELF tree was removed early so it cannot constrain the revised
+  memory model;
+- the next boundary to revise is target/process semantics.
