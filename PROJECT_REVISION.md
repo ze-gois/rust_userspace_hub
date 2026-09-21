@@ -11,8 +11,6 @@ revision of the userspace.party Rust ecosystem.
 
 The hub pins exact submodule commits while its workspace-level
 `[patch.crates-io]` entries make the local crates compile against each other.
-This allows `ample` and `userspace` to evolve together without publishing
-intermediate crate versions.
 
 ## Revision sequence
 
@@ -28,11 +26,11 @@ intermediate crate versions.
 ## Semantic invariants
 
 - Representation and Rust memory layout are distinct.
-- Serialization and deserialization are operations over representation; they do
-  not define a separate representation domain.
+- Serialization and deserialization are operations over representation.
 - `Bytes<Origin, Destination>` describes representation, not allocation.
-- `Allocating<T>` remains a first-class abstraction but must use memory-layout
-  semantics rather than representation size.
+- `REPRESENTATION_SIZE` describes representation extent.
+- `Allocating` is the canonical allocation capability and consumes
+  `core::alloc::Layout`.
 - `memory::stack` remains an educational, operating-system-neutral model of
   stack memory.
 - Linux process startup is target-specific and must not define generic memory.
@@ -45,33 +43,32 @@ intermediate crate versions.
 Names are part of the architecture and are reviewed for semantic correctness.
 
 - Every identifier must say what it means.
-- Prefer the established lexicon of the Rust, systems, ABI, file-format, and
-  standards communities over project-local vocabulary.
-- When a specification names a thing, the implementation must preserve that
-  semantic correspondence. A different Rust spelling may improve hierarchy,
-  but must not silently change the concept named by the standard.
-- Acronyms and abbreviations are aliases, not the canonical vocabulary, unless
-  an external normative identifier must be reproduced verbatim at a standards
-  boundary.
+- Prefer established Rust, systems, ABI, file-format, and standards vocabulary
+  over project-local vocabulary.
+- When a specification names a thing, the implementation preserves that
+  semantic correspondence.
+- Acronyms and abbreviations are aliases unless an external normative
+  identifier must be reproduced verbatim.
 - An underscore in an internal module name is evidence of an unexpressed module
-  boundary. Hierarchy belongs in modules rather than underscore-composed names.
-- Within a hierarchy, concrete nouns come before qualifications. For example,
-  `stack::initial`, not `initial_stack`.
-- Concrete things receive concrete names. Generic abstractions must earn their
-  generality from semantics rather than from vague naming.
-- Aliases may provide conventional short spellings without replacing the
-  canonical descriptive identifier.
-- Constants and identifiers copied from an external ABI or specification may
-  retain their normative spelling, with the source standard documented.
+  boundary.
+- Within a hierarchy, concrete nouns precede qualifications.
 - Renaming is not cosmetic in this revision: a misleading identifier is a
   semantic defect.
 
-## Sprint I.1 — Hub Revision Ground
+## Status
 
-Exit criteria:
+Sprint I.1 is complete.
 
-- all three repositories have a `project-revision` branch;
-- hub pins exact revision commits for `ample` and `userspace`;
-- hub remains the workspace used to test their interaction;
-- subsequent cross-crate changes are coordinated through the hub revision PR;
-- the shared semantic and naming laws are recorded before structural changes.
+Sprint I.2 is complete:
+
+- `BYTES_SIZE` became `REPRESENTATION_SIZE`;
+- `BYTES_ALIGN` was removed from representation;
+- the integrated hub gate passed after the change.
+
+Sprint I.3 is in progress:
+
+- `Allocating` is the single allocation abstraction exposed by ample;
+- allocation layout is expressed by `core::alloc::Layout`;
+- userspace heap allocation no longer depends on `Bytes`;
+- the userspace global allocator no longer loses the mmap base address;
+- dormant allocation scaffolding has been removed.
