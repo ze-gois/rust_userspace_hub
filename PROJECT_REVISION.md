@@ -27,10 +27,12 @@ intermediate crate versions.
 
 ## Semantic invariants
 
-- Serialization representation and Rust memory layout are distinct.
+- Representation and Rust memory layout are distinct.
+- Serialization and deserialization are operations over representation; they do
+  not define a separate representation domain.
 - `Bytes<Origin, Destination>` describes representation, not allocation.
 - `Allocating<T>` remains a first-class abstraction but must use memory-layout
-  semantics rather than serialized byte size.
+  semantics rather than representation size.
 - `memory::stack` remains an educational, operating-system-neutral model of
   stack memory.
 - Linux process startup is target-specific and must not define generic memory.
