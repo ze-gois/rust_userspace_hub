@@ -1,7 +1,7 @@
 [submodule "crates/ample"]
 	path = crates/ample
 	url = git@github.com:ze-gois/rust_ample.git
-	branch = main
+	branch = project-revision
 [submodule "crates/kernelspace"]
 	path = crates/kernelspace
 	url = git@github.com:ze-gois/rust_kernelspace.git
@@ -9,7 +9,7 @@
 [submodule "crates/userspace"]
 	path = crates/userspace
 	url = git@github.com:ze-gois/rust_userspace.git
-	branch = main
+	branch = project-revision
 [submodule "crates/userspace_build"]
 	path = crates/userspace_build
 	url = git@github.com:ze-gois/rust_userspace_build.git
