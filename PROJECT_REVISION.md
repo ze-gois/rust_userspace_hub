@@ -83,9 +83,9 @@ The hub pins exact submodule commits while its workspace-level
 - Sprint I.5 — Target & Process Boundary: **under review**
 - Sprint I.6 — File Substrate: **complete**
 - Sprint I.7 — ELF Zero: **complete**
-- Sprint I.8 — ELF Graph: **in progress**
+- Sprint I.8 — ELF Graph: **complete**
 
-The integrated Publication Unit is green through the completed ELF Zero
+The integrated Publication Unit is green through the completed ELF Graph
 checkpoint. The userspace projection into `userspace_build` matches, the
 workspace compiles with warnings denied, and the ELF host conformance gate is
 green.
@@ -100,6 +100,12 @@ relationships, relative relocations, symbol visibility, link-order metadata,
 and compressed-section rules without crossing into relocation execution or
 linker policy.
 
-I.8 begins from the graph formed by the ELF relationships already represented
-by I.7. It should connect existing semantic objects without duplicating their
-representations or moving linker and loader policy into the file-format layer.
+I.8 connects the graph formed by ELF relationships already represented by I.7
+without introducing a generic graph framework. The completed navigation covers
+normative `sh_link` relationships, relocation target sections, section-group
+members and signature symbols, symbol-to-section relationships, and the
+relationships already carried directly by relocation and dynamic table views.
+Undefined and special section indices remain semantic values rather than false
+section edges. Runtime relocation application, inter-object symbol resolution,
+dependency loading, GNU-specific ABI extensions, and linker or loader policy
+remain outside ELF Graph.
