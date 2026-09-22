@@ -36,6 +36,9 @@ The hub pins exact submodule commits while its workspace-level
 - ELF is a file format and belongs under `file::format::elf`.
 - Legacy functionality may be removed when preserving it would retain
   semantically incorrect architecture.
+- Existing macro tables and small declarative macros are part of the project's
+  semantic language when they make relationships more explicit and reviewable;
+  they must not be replaced merely to make the implementation more conventional.
 
 ## Lexicon and onomastics
 
@@ -45,8 +48,31 @@ The hub pins exact submodule commits while its workspace-level
 - Normative names remain traceable to their standards.
 - Acronyms and abbreviations are aliases unless a normative identifier must be
   reproduced verbatim.
-- Internal underscore-composed module names indicate hidden hierarchy.
-- Concrete nouns precede qualifications.
+- Hierarchy should be expressed through modules when the words name genuinely
+  distinct semantic objects or domains.
+- Underscores are allowed when the words form one stable compound concept and
+  splitting them into modules would create an artificial hierarchy. Thus a name
+  such as `operating_system` may be preferable to `system::operating`, while
+  names such as `elf_header`, `elf_segment`, `elf_program`, and
+  `elf_section` should become `elf::header`, `elf::segment`,
+  `elf::program`, and `elf::section`.
+- Concrete nouns precede qualifications when that ordering reflects the actual
+  semantic relation rather than a mechanical naming rule.
+- Onomastic revision is conservative: an existing identifier or macro form is
+  changed only when the replacement communicates meaning more faithfully.
+
+## Target-specific preservation rules
+
+- The syscall declaration table is an intentional, review-friendly semantic
+  index and should remain table-shaped through `syscall_modules!(...)`.
+- Per-syscall modules may continue to bind themselves to that declaration with
+  `hooking!(IDENTIFIER)`.
+- Syscall numbers, names, arity/signature, and labels should remain visibly
+  co-located in the table unless a standards requirement makes that impossible.
+- Architecture-level syscall invocation and operating-system syscall identity
+  remain distinct concepts even when they are connected by these macros.
+- The review must prefer restoring these declarative relationships over
+  scattering the same facts across constants and hand-written matching code.
 
 ## Status
 
@@ -54,13 +80,16 @@ The hub pins exact submodule commits while its workspace-level
 - Sprint I.2 — Representation Semantics: **complete**
 - Sprint I.3 — Allocation Semantics: **complete**
 - Sprint I.4 — Memory Reformation: **complete**
-- Sprint I.5 — Target & Process Boundary: **complete**
+- Sprint I.5 — Target & Process Boundary: **under review**
 - Sprint I.6 — File Substrate: **complete**
 - Sprint I.7 — ELF Zero: **in progress**
 - Sprint I.8 — ELF Graph: **pending**
 
 The integrated Publication Unit is green through the completed file-substrate
 checkpoint.
+
+I.5 is reopened narrowly to restore the project's declarative syscall language
+and to relax the earlier underscore rule before further target reshaping.
 
 I.7 begins from the normative GABI. The prior ELF implementation was deleted
 early and is not a compatibility source.
