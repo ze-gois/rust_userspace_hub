@@ -88,7 +88,7 @@ The hub pins exact submodule commits while its workspace-level
 The integrated Publication Unit is green through the completed ELF Graph
 checkpoint. The userspace projection into `userspace_build` matches, the
 workspace compiles with warnings denied, and the ELF host conformance gate is
-green.
+green with 42 passing tests.
 
 I.5 is reopened narrowly to restore the project's declarative syscall language
 and to relax the earlier underscore rule before further target reshaping.
