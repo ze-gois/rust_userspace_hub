@@ -82,14 +82,24 @@ The hub pins exact submodule commits while its workspace-level
 - Sprint I.4 — Memory Reformation: **complete**
 - Sprint I.5 — Target & Process Boundary: **under review**
 - Sprint I.6 — File Substrate: **complete**
-- Sprint I.7 — ELF Zero: **in progress**
-- Sprint I.8 — ELF Graph: **pending**
+- Sprint I.7 — ELF Zero: **complete**
+- Sprint I.8 — ELF Graph: **in progress**
 
-The integrated Publication Unit is green through the completed file-substrate
-checkpoint.
+The integrated Publication Unit is green through the completed ELF Zero
+checkpoint. The userspace projection into `userspace_build` matches, the
+workspace compiles with warnings denied, and the ELF host conformance gate is
+green.
 
 I.5 is reopened narrowly to restore the project's declarative syscall language
 and to relax the earlier underscore rule before further target reshaping.
 
-I.7 begins from the normative GABI. The prior ELF implementation was deleted
-early and is not a compatibility source.
+I.7 was rebuilt from the normative GABI. The prior ELF implementation was
+deleted early and was not used as a compatibility source. Its completion gate
+covers representation across ELF classes and byte orders, dynamic and section
+relationships, relative relocations, symbol visibility, link-order metadata,
+and compressed-section rules without crossing into relocation execution or
+linker policy.
+
+I.8 begins from the graph formed by the ELF relationships already represented
+by I.7. It should connect existing semantic objects without duplicating their
+representations or moving linker and loader policy into the file-format layer.
