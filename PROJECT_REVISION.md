@@ -26,6 +26,7 @@ The hub pins exact submodule commits while its workspace-level
 10. Relative Relocation Semantics
 11. Program Image
 12. Shared Object Dependencies
+13. Processor-Specific ELF
 
 ## Semantic invariants
 
@@ -92,11 +93,16 @@ The hub pins exact submodule commits while its workspace-level
 - Sprint I.10 — Relative Relocation Semantics: **complete**
 - Sprint I.11 — Program Image: **complete**
 - Sprint I.12 — Shared Object Dependencies: **complete**
+- Sprint I.13 — Processor-Specific ELF: **in progress**
 
-Project Revision I is **complete**.
+Project Revision I remains **in progress**.
 
-All twelve revision sprints are closed at the integrated Publication Unit.
-The final pins are:
+I.1–I.12 form a green integrated foundation, but they do not yet execute an ELF
+object file. The revision's operational completion criterion is now explicit:
+`userspace` must construct the required runtime image and observably transfer
+control to the loaded object's entry point.
+
+The last fully integrated foundation pins are:
 
 - `rust_userspace/project-revision`:
   `3099d8ebcc1ff1c13e661acbf13e23ff2a2abc7c`
@@ -109,12 +115,16 @@ At those pins, the canonical `userspace_build` projection matches `userspace`,
 the workspace compiles with warnings denied under the freestanding target
 configuration, the ELF host gate passes all 295 tests, and the hub working tree
 is clean. A real C++ COMDAT fixture was also inspected successfully through the
-host ELF inspector, exercising the section-group, signature-symbol,
-member-section, symbol-table, and relocation relationships together.
+host ELF inspector.
 
-Project Revision I closes the coordinated semantic reformation described by
-I.1–I.12. Further work should begin as a new revision or independently named
-development unit rather than silently extending this revision's scope.
+I.13 opens the processor-specific layer beneath the generic gABI model. ELF
+processor-specific representation belongs under
+`file::format::elf::processor_specific::{x86_64,aarch64}`; both architectures
+remain inspectable independent of the host, while a `target` alias may be
+selected with `cfg(target_arch)` for native execution. Real mapping and
+execution remain outside the file-format representation and may, for this
+revision, use Linux system calls such as `mmap`, `mprotect`, and `munmap`
+as the sole execution substrate.
 
 I.5 — Target & Process Boundary separates compilation architecture from the
 operating-system ABI used by the userspace runtime. The Rust compilation target
