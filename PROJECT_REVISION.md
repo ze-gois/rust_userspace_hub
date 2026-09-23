@@ -22,6 +22,7 @@ The hub pins exact submodule commits while its workspace-level
 6. File Substrate
 7. ELF Zero
 8. ELF Graph
+9. ELF Conformance
 
 ## Semantic invariants
 
@@ -84,6 +85,7 @@ The hub pins exact submodule commits while its workspace-level
 - Sprint I.6 — File Substrate: **complete**
 - Sprint I.7 — ELF Zero: **complete**
 - Sprint I.8 — ELF Graph: **complete**
+- Sprint I.9 — ELF Conformance: **in progress**
 
 The integrated Publication Unit is green through the completed ELF Graph
 checkpoint. The userspace projection into `userspace_build` matches, the
@@ -109,3 +111,22 @@ Undefined and special section indices remain semantic values rather than false
 section edges. Runtime relocation application, inter-object symbol resolution,
 dependency loading, GNU-specific ABI extensions, and linker or loader policy
 remain outside ELF Graph.
+
+
+I.9 validates generic gABI object conformance without crossing into psABI,
+link-editor, dynamic-linker, or relocation-execution semantics. The current
+checkpoint closes the intrinsic generic conformance work for ELF header,
+sections, string tables, symbol tables, and relocation tables (gABI Chapters
+2–6). It includes extended section numbering, section groups, compressed
+sections, section relationship fields, symbol-table ordering and special
+indices, REL/RELA structure, and RELR sequence shape.
+
+The current `rust_userspace/project-revision` host ELF gate is green with 139
+passing tests at the Chapter 6 checkpoint. This is a userspace-source
+checkpoint; the canonical `userspace_build` projection and hub gitlink remain
+to be advanced together at the next integration checkpoint.
+
+Relocation application is deliberately not part of I.9. Generic relocation
+composition, RELR address expansion, relocation-factor application, and any
+processor-specific `R_*` semantics form the next operational boundary rather
+than additional object-file conformance.
