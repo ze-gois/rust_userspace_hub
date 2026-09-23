@@ -84,7 +84,7 @@ The hub pins exact submodule commits while its workspace-level
 - Sprint I.2 — Representation Semantics: **complete**
 - Sprint I.3 — Allocation Semantics: **complete**
 - Sprint I.4 — Memory Reformation: **complete**
-- Sprint I.5 — Target & Process Boundary: **under review**
+- Sprint I.5 — Target & Process Boundary: **complete**
 - Sprint I.6 — File Substrate: **complete**
 - Sprint I.7 — ELF Zero: **complete**
 - Sprint I.8 — ELF Graph: **complete**
@@ -100,8 +100,28 @@ integrated pins. A real C++ COMDAT fixture was also inspected successfully
 through the host ELF inspector, exercising the section-group, signature-symbol,
 member-section, symbol-table, and relocation relationships together.
 
-I.5 is reopened narrowly to restore the project's declarative syscall language
-and to relax the earlier underscore rule before further target reshaping.
+I.5 — Target & Process Boundary separates compilation architecture from the
+operating-system ABI used by the userspace runtime. The Rust compilation target
+may be `x86_64-unknown-none` while the concrete userspace ABI remains Linux;
+`cfg(target_os)` therefore does not select the runtime operating-system layer.
+The canonical domains are `Architecture` and `OperatingSystem`, with short
+forms retained only as aliases. The architecture identifier is the normative
+`x86_64`; the duplicate `x86::bit64` hierarchy has been removed.
+
+The syscall declaration table remains the reviewable source for Linux syscall
+number, module, signature arity, and label through `syscall_modules!(...)`,
+and each syscall continues to bind itself to that declaration through
+`hooking!(IDENTIFIER)`. Architecture-level invocation remains distinct from
+Linux syscall identity. The review also restored `openat` to its four-argument
+x86-64 Linux syscall ABI, consistent with the table's `Syscall4` declaration.
+
+The I.5 completion gate is `rust_userspace/project-revision`
+`3099d8ebcc1ff1c13e661acbf13e23ff2a2abc7c`. The workspace compiles with
+warnings denied under the freestanding target configuration and the unchanged
+ELF host gate remains green. Its canonical projection is
+`rust_userspace_build/main`
+`ae33f1a91b68142b3a404ca9d255c4dd5f096e8e`. This checkpoint is integrated
+by the hub commit that records these pins.
 
 I.7 was rebuilt from the normative GABI. The prior ELF implementation was
 deleted early and was not used as a compatibility source. Its completion gate
