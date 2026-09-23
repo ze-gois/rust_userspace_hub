@@ -89,11 +89,11 @@ The hub pins exact submodule commits while its workspace-level
 - Sprint I.8 — ELF Graph: **complete**
 - Sprint I.9 — ELF Conformance: **complete**
 - Sprint I.10 — Relative Relocation Semantics: **complete**
-- Sprint I.11 — Program Image: **in progress**
+- Sprint I.11 — Program Image: **complete**
 
-The integrated Publication Unit is green through I.9 — ELF Conformance.
+The integrated Publication Unit is green through I.11 — Program Image.
 The canonical `userspace_build` projection matches `userspace`, the workspace
-compiles with warnings denied, and the ELF host gate passes all 207 tests at the
+compiles with warnings denied, and the ELF host gate passes all 283 tests at the
 integrated pins. A real C++ COMDAT fixture was also inspected successfully
 through the host ELF inspector, exercising the section-group, signature-symbol,
 member-section, symbol-table, and relocation relationships together.
@@ -159,10 +159,25 @@ tests. Its canonical projection is `rust_userspace_build/main`
 `userspace_build` matches `userspace`, the workspace compiles with warnings
 denied, and the ELF host gate remains 260/260 green.
 
-I.11 — Program Image is in progress. Its first slice constructs an explicit
-program-image description from `PT_LOAD` entries: the file-image bytes occupy
-the beginning of each segment, zero-fill immediately follows when
-`p_memsz > p_filesz`, and `p_flags` remain ELF segment flags rather than
-operating-system mapping permissions. The description preserves the program
-header index, link-time virtual-address range, and `p_align`. Actual mapping,
-page allocation, and OS protection calls remain outside this slice.
+I.11 — Program Image constructs the loadable program image described by
+`PT_LOAD` entries without introducing operating-system mapping policy. Each
+segment preserves its program-header index, link-time virtual-address range,
+file-image bytes, explicit zero-fill when `p_memsz > p_filesz`, `p_flags`,
+and `p_align`. The program image calculates the gABI base address from the
+lowest load-segment virtual address and materializes owned memory-image regions
+at load-time virtual addresses. The materialized image exposes separate
+read-only and writing views, allowing RELR planning and mutation to operate on
+the same owned segment storage while keeping representation, value, planning,
+and mutation distinct. RELR derives its relocation factor from the same
+`BaseAddress` used to materialize the program image. System calls, `mmap`,
+page allocation, and translation of ELF segment flags into operating-system
+protection policy remain outside I.11.
+
+The I.11 completion gate is `rust_userspace/project-revision`
+`5073fede4d5a0e178323a8a56ab887a9e8720c6a`, with 283 passing ELF host
+tests. Its canonical projection is `rust_userspace_build/main`
+`9685c867495a894e2f724e6efcd714c543448d7d`, integrated by
+`rust_userspace_hub/project-revision`
+`78ff619fd31d2d2870df9484dadc836b48f1ffd8`. At those integrated pins,
+`userspace_build` matches `userspace`, the workspace compiles with warnings
+denied, and the ELF host gate remains 283/283 green.
