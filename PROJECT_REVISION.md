@@ -89,7 +89,7 @@ The hub pins exact submodule commits while its workspace-level
 - Sprint I.8 — ELF Graph: **complete**
 - Sprint I.9 — ELF Conformance: **complete**
 - Sprint I.10 — Relative Relocation Semantics: **complete**
-- Sprint I.11 — Program Image: **next**
+- Sprint I.11 — Program Image: **in progress**
 
 The integrated Publication Unit is green through I.9 — ELF Conformance.
 The canonical `userspace_build` projection matches `userspace`, the workspace
@@ -159,7 +159,10 @@ tests. Its canonical projection is `rust_userspace_build/main`
 `userspace_build` matches `userspace`, the workspace compiles with warnings
 denied, and the ELF host gate remains 260/260 green.
 
-The next planned boundary is I.11 — Program Image. It begins with construction
-of the loadable memory image from `PT_LOAD` program headers, including the
-file-image contribution, zero-fill where `p_memsz > p_filesz`, and the
-separation of ELF segment permissions from operating-system mapping policy.
+I.11 — Program Image is in progress. Its first slice constructs an explicit
+program-image description from `PT_LOAD` entries: the file-image bytes occupy
+the beginning of each segment, zero-fill immediately follows when
+`p_memsz > p_filesz`, and `p_flags` remain ELF segment flags rather than
+operating-system mapping permissions. The description preserves the program
+header index, link-time virtual-address range, and `p_align`. Actual mapping,
+page allocation, and OS protection calls remain outside this slice.
