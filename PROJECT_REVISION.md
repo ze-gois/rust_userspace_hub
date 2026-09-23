@@ -87,11 +87,12 @@ The hub pins exact submodule commits while its workspace-level
 - Sprint I.8 — ELF Graph: **complete**
 - Sprint I.9 — ELF Conformance: **complete**
 
-The integrated Publication Unit remains green through the completed ELF Graph
-checkpoint. I.9 is complete at the userspace-source level with 207 passing ELF
-host tests. Its canonical projection has been advanced to `userspace_build`;
-the workspace-wide warnings-denied gate must now be rerun at the new pins to
-confirm the integration checkpoint.
+The integrated Publication Unit is green through I.9 — ELF Conformance.
+The canonical `userspace_build` projection matches `userspace`, the workspace
+compiles with warnings denied, and the ELF host gate passes all 207 tests at the
+integrated pins. A real C++ COMDAT fixture was also inspected successfully
+through the host ELF inspector, exercising the section-group, signature-symbol,
+member-section, symbol-table, and relocation relationships together.
 
 I.5 is reopened narrowly to restore the project's declarative syscall language
 and to relax the earlier underscore rule before further target reshaping.
@@ -125,7 +126,9 @@ relationships among dynamic relocation metadata.
 The completion gate is `rust_userspace/project-revision`
 `93bc668c48c4d69e2b076bec183a6ee1841257cf`, with 207 passing ELF host tests.
 Its canonical projection is `rust_userspace_build/main`
-`b7f8457aab25faab121485575dfc94be131facb4`.
+`b7f8457aab25faab121485575dfc94be131facb4`, integrated by
+`rust_userspace_hub/project-revision`
+`759b128f5a14e457453f486bbc64ed884885681f`.
 
 The remaining gABI work is operational rather than intrinsic object
 conformance. Relocation composition and application, RELR address expansion,
