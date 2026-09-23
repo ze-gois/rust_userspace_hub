@@ -93,38 +93,44 @@ The hub pins exact submodule commits while its workspace-level
 - Sprint I.10 — Relative Relocation Semantics: **complete**
 - Sprint I.11 — Program Image: **complete**
 - Sprint I.12 — Shared Object Dependencies: **complete**
-- Sprint I.13 — Processor-Specific ELF: **in progress**
+- Sprint I.13 — Processor-Specific ELF: **complete; awaiting integrated gate**
 
-Project Revision I remains **in progress**.
+Project Revision I has reached its **implementation endpoint** and is
+awaiting the final integrated Publication Unit gate.
 
-I.1–I.12 form a green integrated foundation, but they do not yet execute an ELF
-object file. The revision's operational completion criterion is now explicit:
-`userspace` must construct the required runtime image and observably transfer
-control to the loaded object's entry point.
-
-The last fully integrated foundation pins are:
-
-- `rust_userspace/project-revision`:
-  `3099d8ebcc1ff1c13e661acbf13e23ff2a2abc7c`
-- `rust_userspace_build/main`:
-  `ae33f1a91b68142b3a404ca9d255c4dd5f096e8e`
-- `rust_userspace_hub/project-revision`:
-  `aa751bcb35a1dc4a4872773d653930ac465f94dc`
-
-At those pins, the canonical `userspace_build` projection matches `userspace`,
-the workspace compiles with warnings denied under the freestanding target
-configuration, the ELF host gate passes all 295 tests, and the hub working tree
-is clean. A real C++ COMDAT fixture was also inspected successfully through the
-host ELF inspector.
-
-I.13 opens the processor-specific layer beneath the generic gABI model. ELF
-processor-specific representation belongs under
+I.13 closes the processor-specific execution gap beneath the generic gABI
+model. ELF processor-specific semantics live under
 `file::format::elf::processor_specific::{x86_64,aarch64}`; both architectures
-remain inspectable independent of the host, while a `target` alias may be
-selected with `cfg(target_arch)` for native execution. Real mapping and
-execution remain outside the file-format representation and may, for this
-revision, use Linux system calls such as `mmap`, `mprotect`, and `munmap`
-as the sole execution substrate.
+remain representable independent of the host, while native execution is gated
+by the compilation architecture.
+
+For x86-64, the implemented execution path now covers:
+
+- `R_X86_64_RELATIVE` according to the AMD64 psABI;
+- real Linux `PT_LOAD` materialization through `mmap`, zero-fill, relocation,
+  and final `mprotect`;
+- executable-entry validation against `PF_X` load segments;
+- the x86-64 initial process stack layout, including 16-byte `%rsp`
+  alignment, `argc`, `argv`, `envp`, and the auxiliary vector;
+- explicit process-entry register state, including `%rdx` and the outermost
+  zero `%rbp` frame marker; and
+- a `noreturn` transfer of control to `e_entry`.
+
+The source gate at
+`rust_userspace/project-revision`
+`ec1d8529644f660293f3cdc8aeca53ee4a35504c` executes a mapped ELF in an
+isolated subprocess. The loaded entry code validates its process-entry state and
+terminates through the Linux x86-64 syscall ABI with observable status 42. The
+full ELF host gate is 315/315 green, the workspace compiles with warnings
+denied, and the source working tree is clean.
+
+The canonical build projection for this endpoint is
+`rust_userspace_build/main`
+`a39d77811ed9738dc50dcccb0a599a2e391bb886`.
+
+The hub pins these two commits for the final integrated gate. Project Revision I
+is not declared complete until that gate verifies projection equality,
+workspace compilation, the full ELF gate, and a clean hub working tree.
 
 I.5 — Target & Process Boundary separates compilation architecture from the
 operating-system ABI used by the userspace runtime. The Rust compilation target
