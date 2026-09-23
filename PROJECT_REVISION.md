@@ -150,12 +150,14 @@ writes distinguish link-time from load-time virtual addresses. Batch
 application validates every destination before mutation, so a failed batch does
 not leave a partially relocated memory image.
 
-The I.10 source completion gate is `rust_userspace/project-revision`
+The I.10 completion gate is `rust_userspace/project-revision`
 `5ae705988a337252d8893b0f8f3c7ec0fff82ca1`, with 260 passing ELF host
 tests. Its canonical projection is `rust_userspace_build/main`
-`3e73c65e6bcecd67216515e98ce40cfa6ecc6d35`. The hub gitlinks are advanced
-to these commits below; the workspace-wide warnings-denied gate must be rerun
-at the new pins to confirm the integrated I.10 checkpoint.
+`3e73c65e6bcecd67216515e98ce40cfa6ecc6d35`, integrated by
+`rust_userspace_hub/project-revision`
+`75d0570cc8b1583cb7b93a4ae6b568b0e047b4e4`. At those integrated pins,
+`userspace_build` matches `userspace`, the workspace compiles with warnings
+denied, and the ELF host gate remains 260/260 green.
 
 The next planned boundary is I.11 — Program Image. It begins with construction
 of the loadable memory image from `PT_LOAD` program headers, including the
