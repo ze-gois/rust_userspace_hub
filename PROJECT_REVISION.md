@@ -25,6 +25,7 @@ The hub pins exact submodule commits while its workspace-level
 9. ELF Conformance
 10. Relative Relocation Semantics
 11. Program Image
+12. Shared Object Dependencies
 
 ## Semantic invariants
 
@@ -90,6 +91,7 @@ The hub pins exact submodule commits while its workspace-level
 - Sprint I.9 — ELF Conformance: **complete**
 - Sprint I.10 — Relative Relocation Semantics: **complete**
 - Sprint I.11 — Program Image: **complete**
+- Sprint I.12 — Shared Object Dependencies: **in progress**
 
 The integrated Publication Unit is green through I.11 — Program Image.
 The canonical `userspace_build` projection matches `userspace`, the workspace
@@ -181,3 +183,13 @@ tests. Its canonical projection is `rust_userspace_build/main`
 `78ff619fd31d2d2870df9484dadc836b48f1ffd8`. At those integrated pins,
 `userspace_build` matches `userspace`, the workspace compiles with warnings
 denied, and the ELF host gate remains 283/283 green.
+
+
+I.12 — Shared Object Dependencies begins at the normative `DT_NEEDED`
+relationship. Each needed shared object is represented as a concrete dependency
+with its dynamic-array entry index and name from `DT_STRTAB`. The relative
+order of `DT_NEEDED` entries is preserved, as are repeated dependency names.
+`DT_SONAME`, `DT_RPATH`, and `DT_RUNPATH` remain distinct object metadata.
+Filesystem search, dynamic string-token expansion, opening or mapping dependent
+objects, dependency-graph traversal, and inter-object symbol resolution remain
+outside this first slice.
