@@ -85,12 +85,13 @@ The hub pins exact submodule commits while its workspace-level
 - Sprint I.6 — File Substrate: **complete**
 - Sprint I.7 — ELF Zero: **complete**
 - Sprint I.8 — ELF Graph: **complete**
-- Sprint I.9 — ELF Conformance: **in progress**
+- Sprint I.9 — ELF Conformance: **complete**
 
-The integrated Publication Unit is green through the completed ELF Graph
-checkpoint. The userspace projection into `userspace_build` matches, the
-workspace compiles with warnings denied, and the ELF host conformance gate is
-green with 42 passing tests.
+The integrated Publication Unit remains green through the completed ELF Graph
+checkpoint. I.9 is complete at the userspace-source level with 207 passing ELF
+host tests. Its canonical projection has been advanced to `userspace_build`;
+the workspace-wide warnings-denied gate must now be rerun at the new pins to
+confirm the integration checkpoint.
 
 I.5 is reopened narrowly to restore the project's declarative syscall language
 and to relax the earlier underscore rule before further target reshaping.
@@ -114,19 +115,21 @@ remain outside ELF Graph.
 
 
 I.9 validates generic gABI object conformance without crossing into psABI,
-link-editor, dynamic-linker, or relocation-execution semantics. The current
-checkpoint closes the intrinsic generic conformance work for ELF header,
-sections, string tables, symbol tables, and relocation tables (gABI Chapters
-2–6). It includes extended section numbering, section groups, compressed
-sections, section relationship fields, symbol-table ordering and special
-indices, REL/RELA structure, and RELR sequence shape.
+link-editor, dynamic-linker, or relocation-execution semantics. The completed
+scope covers the intrinsic generic conformance described by gABI Chapters 2–8:
+ELF headers, section tables and relationships, string tables, symbol tables,
+REL/RELA/RELR structure, program-loading structures, notes, dynamic arrays,
+dynamic string and symbol tables, System V hash tables, and the structural
+relationships among dynamic relocation metadata.
 
-The current `rust_userspace/project-revision` host ELF gate is green with 139
-passing tests at the Chapter 6 checkpoint. This is a userspace-source
-checkpoint; the canonical `userspace_build` projection and hub gitlink remain
-to be advanced together at the next integration checkpoint.
+The completion gate is `rust_userspace/project-revision`
+`93bc668c48c4d69e2b076bec183a6ee1841257cf`, with 207 passing ELF host tests.
+Its canonical projection is `rust_userspace_build/main`
+`b7f8457aab25faab121485575dfc94be131facb4`.
 
-Relocation application is deliberately not part of I.9. Generic relocation
-composition, RELR address expansion, relocation-factor application, and any
-processor-specific `R_*` semantics form the next operational boundary rather
-than additional object-file conformance.
+The remaining gABI work is operational rather than intrinsic object
+conformance. Relocation composition and application, RELR address expansion,
+program-image construction, dependency loading and search, `$ORIGIN`
+processing, inter-object symbol lookup and resolution, initialization and
+termination ordering, and processor-specific `R_*` semantics remain outside
+I.9. The next planned boundary is I.10 — Relative Relocation Semantics.
