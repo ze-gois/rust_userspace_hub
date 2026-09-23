@@ -91,11 +91,11 @@ The hub pins exact submodule commits while its workspace-level
 - Sprint I.9 — ELF Conformance: **complete**
 - Sprint I.10 — Relative Relocation Semantics: **complete**
 - Sprint I.11 — Program Image: **complete**
-- Sprint I.12 — Shared Object Dependencies: **in progress**
+- Sprint I.12 — Shared Object Dependencies: **complete**
 
-The integrated Publication Unit is green through I.11 — Program Image.
+The integrated Publication Unit is green through I.12 — Shared Object Dependencies.
 The canonical `userspace_build` projection matches `userspace`, the workspace
-compiles with warnings denied, and the ELF host gate passes all 283 tests at the
+compiles with warnings denied, and the ELF host gate passes all 295 tests at the
 integrated pins. A real C++ COMDAT fixture was also inspected successfully
 through the host ELF inspector, exercising the section-group, signature-symbol,
 member-section, symbol-table, and relocation relationships together.
@@ -185,11 +185,39 @@ tests. Its canonical projection is `rust_userspace_build/main`
 denied, and the ELF host gate remains 283/283 green.
 
 
-I.12 — Shared Object Dependencies begins at the normative `DT_NEEDED`
-relationship. Each needed shared object is represented as a concrete dependency
-with its dynamic-array entry index and name from `DT_STRTAB`. The relative
-order of `DT_NEEDED` entries is preserved, as are repeated dependency names.
+I.12 — Shared Object Dependencies implements the generic gABI semantics that
+are intrinsic to dependency names and search-path metadata without becoming a
+dynamic linker. Each `DT_NEEDED` entry is represented as a concrete dependency
+with its dynamic-array entry index and name from `DT_STRTAB`; relative order
+and repeated names are preserved. Names containing a slash are interpreted as
+direct pathnames after the applicable substitution sequences have been
+processed.
+
 `DT_SONAME`, `DT_RPATH`, and `DT_RUNPATH` remain distinct object metadata.
-Filesystem search, dynamic string-token expansion, opening or mapping dependent
-objects, dependency-graph traversal, and inter-object symbol resolution remain
-outside this first slice.
+The gABI applicability rules are preserved: `DT_SONAME` is ignored for
+executables, `DT_RPATH` is ignored for shared objects, and `DT_RUNPATH`
+supersedes `DT_RPATH` when both are present. Search-path strings are resolved
+into their colon-separated directory components while preserving the current
+directory represented by an empty component.
+
+The gABI `$ORIGIN` substitution is implemented for `DT_NEEDED` and
+`DT_RUNPATH` strings. The containing object's origin directory is supplied by
+the caller; ELF code does not discover it through filesystem policy.
+Substitution precedes the decision whether a needed name is a direct pathname.
+Unspecified substitution sequences are reported explicitly rather than assigned
+project-local semantics.
+
+A `DT_RUNPATH` remains structurally attached to the object whose dynamic array
+contains it, matching the gABI rule that it applies only to that object's
+immediate `DT_NEEDED` dependencies. Environment search through
+`LD_LIBRARY_PATH`, default library directories, object opening or mapping,
+recursive process-image construction, duplicate-object connection policy,
+inter-object symbol lookup, and initialization ordering remain dynamic-linker or
+process-image work outside `file::format::elf`.
+
+The I.12 completion gate is `rust_userspace/project-revision`
+`de19a41124ac0b99adda37aad11b4d158cad83f5`, with 295 passing ELF host
+tests across 30 test binaries. Its canonical projection is
+`rust_userspace_build/main`
+`e746e0371ceab9315d6a65b9839f8ffded9b4997`. This checkpoint is integrated
+by the hub commit that records these pins.
