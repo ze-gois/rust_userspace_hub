@@ -219,5 +219,9 @@ The I.12 completion gate is `rust_userspace/project-revision`
 `de19a41124ac0b99adda37aad11b4d158cad83f5`, with 295 passing ELF host
 tests across 30 test binaries. Its canonical projection is
 `rust_userspace_build/main`
-`e746e0371ceab9315d6a65b9839f8ffded9b4997`. This checkpoint is integrated
-by the hub commit that records these pins.
+`e746e0371ceab9315d6a65b9839f8ffded9b4997`, integrated by
+`rust_userspace_hub/project-revision`
+`d737dfbdc8aa1a6b96383acefe7d0f8201ab3ceb`. At those integrated pins,
+`userspace_build` matches `userspace`, the workspace compiles with warnings
+denied, the full ELF host gate remains 295/295 green, and the hub working tree
+is clean.
