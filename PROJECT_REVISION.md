@@ -23,6 +23,8 @@ The hub pins exact submodule commits while its workspace-level
 7. ELF Zero
 8. ELF Graph
 9. ELF Conformance
+10. Relative Relocation Semantics
+11. Program Image
 
 ## Semantic invariants
 
@@ -86,6 +88,8 @@ The hub pins exact submodule commits while its workspace-level
 - Sprint I.7 — ELF Zero: **complete**
 - Sprint I.8 — ELF Graph: **complete**
 - Sprint I.9 — ELF Conformance: **complete**
+- Sprint I.10 — Relative Relocation Semantics: **complete**
+- Sprint I.11 — Program Image: **next**
 
 The integrated Publication Unit is green through I.9 — ELF Conformance.
 The canonical `userspace_build` projection matches `userspace`, the workspace
@@ -130,9 +134,30 @@ Its canonical projection is `rust_userspace_build/main`
 `rust_userspace_hub/project-revision`
 `759b128f5a14e457453f486bbc64ed884885681f`.
 
-The remaining gABI work is operational rather than intrinsic object
-conformance. Relocation composition and application, RELR address expansion,
-program-image construction, dependency loading and search, `$ORIGIN`
-processing, inter-object symbol lookup and resolution, initialization and
-termination ordering, and processor-specific `R_*` semantics remain outside
-I.9. The next planned boundary is I.10 — Relative Relocation Semantics.
+The remaining gABI work after I.9 is operational rather than intrinsic object
+conformance. Program-image construction, dependency loading and search,
+`$ORIGIN` processing, inter-object symbol lookup and resolution,
+initialization and termination ordering, and processor-specific `R_*`
+semantics remain outside I.9.
+
+I.10 implements the generic RELR execution semantics without introducing
+processor-specific relocation types. It preserves the layers between
+representation, RELR virtual-address expansion, relocation-factor calculation,
+storage-unit decoding, relocated-value calculation, checked ELF32/ELF64
+representation, byte order, write planning, load-time address resolution,
+read-only memory-image access, and explicit mutation. Planned storage-unit
+writes distinguish link-time from load-time virtual addresses. Batch
+application validates every destination before mutation, so a failed batch does
+not leave a partially relocated memory image.
+
+The I.10 source completion gate is `rust_userspace/project-revision`
+`5ae705988a337252d8893b0f8f3c7ec0fff82ca1`, with 260 passing ELF host
+tests. Its canonical projection is `rust_userspace_build/main`
+`3e73c65e6bcecd67216515e98ce40cfa6ecc6d35`. The hub gitlinks are advanced
+to these commits below; the workspace-wide warnings-denied gate must be rerun
+at the new pins to confirm the integrated I.10 checkpoint.
+
+The next planned boundary is I.11 — Program Image. It begins with construction
+of the loadable memory image from `PT_LOAD` program headers, including the
+file-image contribution, zero-fill where `p_memsz > p_filesz`, and the
+separation of ELF segment permissions from operating-system mapping policy.
