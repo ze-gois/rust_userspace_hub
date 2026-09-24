@@ -7,7 +7,7 @@ build-std = ["core", "alloc"]
 [target.x86_64-unknown-none]
 rustflags = [
     "-Z", "macro-backtrace",           # Debug de macros
-    "-C", "relocation-model=static",  # Necessário pra bare-metal
+    "-C", "relocation-model=pic",     # Position-independent code for the static PIE userspace image
     "-C", "code-model=small",          # Code model pequeno, adequado pra kernels simples
     "-C", "prefer-dynamic=no",         # Force linking estático
     "-C", "force-frame-pointers=yes",  # Mantém frame pointers para debug
