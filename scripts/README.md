@@ -176,3 +176,25 @@ rather than a manual one-off copy.
 `Cargo.toml` and `build.rs` are deliberately not mirrored: they are the
 bootstrap boundary that allows `userspace_build` to exist without depending on
 `userspace` as a build dependency.
+
+
+## Sincronização userspace -> userspace_build
+
+A cópia de bootstrap pode ser atualizada durante o desenvolvimento sem preparar ou publicar uma versão:
+
+```bash
+python3 scripts/userspace_build.py sync
+```
+
+Para apenas verificar se há drift:
+
+```bash
+python3 scripts/userspace_build.py check
+```
+
+O comando projeta `crates/userspace/src/**` e `crates/userspace/linker.ld` em
+`crates/userspace_build`, reescrevendo caminhos Rust de `userspace::` para
+`userspace_build::`. Arquivos projetados obsoletos são removidos.
+
+`Cargo.toml` e `build.rs` de `userspace_build` não são tocados. O script não
+altera versões, não cria commits ou tags, não faz push e não acessa o crates.io.
