@@ -93,10 +93,9 @@ The hub pins exact submodule commits while its workspace-level
 - Sprint I.10 — Relative Relocation Semantics: **complete**
 - Sprint I.11 — Program Image: **complete**
 - Sprint I.12 — Shared Object Dependencies: **complete**
-- Sprint I.13 — Processor-Specific ELF: **complete; awaiting integrated gate**
+- Sprint I.13 — Processor-Specific ELF: **complete**
 
-Project Revision I has reached its **implementation endpoint** and is
-awaiting the final integrated Publication Unit gate.
+Project Revision I is **complete**.
 
 I.13 closes the processor-specific execution gap beneath the generic gABI
 model. ELF processor-specific semantics live under
@@ -104,7 +103,7 @@ model. ELF processor-specific semantics live under
 remain representable independent of the host, while native execution is gated
 by the compilation architecture.
 
-For x86-64, the implemented execution path now covers:
+For x86-64, the completed execution path covers:
 
 - `R_X86_64_RELATIVE` according to the AMD64 psABI;
 - real Linux `PT_LOAD` materialization through `mmap`, zero-fill, relocation,
@@ -116,21 +115,25 @@ For x86-64, the implemented execution path now covers:
   zero `%rbp` frame marker; and
 - a `noreturn` transfer of control to `e_entry`.
 
-The source gate at
-`rust_userspace/project-revision`
-`ec1d8529644f660293f3cdc8aeca53ee4a35504c` executes a mapped ELF in an
-isolated subprocess. The loaded entry code validates its process-entry state and
-terminates through the Linux x86-64 syscall ABI with observable status 42. The
-full ELF host gate is 315/315 green, the workspace compiles with warnings
-denied, and the source working tree is clean.
+The final validated Publication Unit pins are:
 
-The canonical build projection for this endpoint is
-`rust_userspace_build/main`
-`a39d77811ed9738dc50dcccb0a599a2e391bb886`.
+- `rust_userspace/project-revision`:
+  `ec1d8529644f660293f3cdc8aeca53ee4a35504c`
+- `rust_userspace_build/main`:
+  `a39d77811ed9738dc50dcccb0a599a2e391bb886`
+- `rust_userspace_hub/project-revision` integration checkpoint:
+  `4715ef3c6051777101b7b24dc6a91b67b040b35e`
 
-The hub pins these two commits for the final integrated gate. Project Revision I
-is not declared complete until that gate verifies projection equality,
-workspace compilation, the full ELF gate, and a clean hub working tree.
+At these pins, the canonical build projection matches the source, the workspace
+compiles with warnings denied, the full ELF host gate is green, the isolated
+x86-64 process-entry test transfers control to the mapped `e_entry` and
+terminates observably through the Linux syscall ABI with status 42, and the hub
+working tree is clean.
+
+Project Revision I therefore closes at actual ELF execution rather than at
+representation, program-image construction, or callable-entry proof. Further
+work should begin as a separately named development unit rather than silently
+extending this revision's scope.
 
 I.5 — Target & Process Boundary separates compilation architecture from the
 operating-system ABI used by the userspace runtime. The Rust compilation target
