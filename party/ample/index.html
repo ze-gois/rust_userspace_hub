@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="ample — domain-independent abstractions for the userspace.party ecosystem.">
+  <meta name="description" content="ample — domain-independent forms, taxonomy and byte representation for the userspace.party ecosystem.">
   <meta name="theme-color" content="#0b0d10">
   <title>ample — userspace.party</title>
   <link rel="stylesheet" href="/assets/crate.css">
@@ -23,8 +23,13 @@
       <section>
         <p class="eyebrow">userspace.party / ample</p>
         <h1>ample</h1>
-        <p class="statement">Abstractions, nothing more.</p>
-        <p class="lede">A list before it is a list of people. A vector before it stores pixels. A structure before a domain gives it meaning.</p>
+        <p class="statement">Define the form once. Let its representation follow.</p>
+        <p class="lede">
+          ample is the domain-independent grammar underneath userspace.party.
+          It gives names, taxonomies and structures a reusable representation before
+          any operating system, machine, person, browser or physical model gives them
+          domain meaning.
+        </p>
         <div class="actions">
           <a class="button primary" href="https://docs.rs/ample">API docs</a>
           <a class="button" href="https://crates.io/crates/ample">crates.io</a>
@@ -32,26 +37,127 @@
         </div>
         <div class="tags">
           <span class="tag">no_std</span>
-          <span class="tag">abstractions</span>
+          <span class="tag">macros</span>
+          <span class="tag">taxonomy</span>
+          <span class="tag">Bytes</span>
+          <span class="tag">Origin</span>
           <span class="tag">containers</span>
-          <span class="tag">traits</span>
-          <span class="tag">math</span>
         </div>
       </section>
 
       <section>
-        <h2>Its place in the system</h2>
+        <h2>The declaration is the source</h2>
         <div class="ecosystem">
-          <p>ample contains forms that remain meaningful without knowing any application domain. It is where generic structures, relations and operations live before another crate assigns them concrete meaning.</p>
-          <pre><code>ample
+          <p>
+            ample's macros are not merely shorthand. They keep the definition of a
+            concept close to the mechanics that make it usable: discriminants,
+            constants, labels, layout information and byte conversion. A declaration
+            becomes the source from which repeated representation code is generated.
+          </p>
+          <pre><code>ample::enum_labeled!(
+    pub enum Kind,
+    u16,
+    "kind",
+    [
+        [1; Header; HEADER; "HDR"; "header"],
+        [2; Program; PROGRAM; "PRG"; "program"]
+    ]
+);
+
+// one taxonomy
+// → enum variants
+// → numeric discriminants
+// → named constants
+// → acronyms + descriptions
+// → Bytes representation</code></pre>
+        </div>
+      </section>
+
+      <section>
+        <h2>A grammar of forms</h2>
+        <div class="grid">
+          <div class="card">
+            <p class="kicker">Taxonomy</p>
+            <p>
+              <code>enum</code>, <code>enum_typed</code>,
+              <code>enum_labeled</code>, <code>enum_labeled_typed</code> and
+              <code>enum_flag</code> express finite vocabularies, their discriminants
+              and, where appropriate, names and payloads.
+            </p>
+          </div>
+          <div class="card">
+            <p class="kicker">Structure</p>
+            <p>
+              <code>struct</code>, <code>generic_struct</code> and
+              <code>struct_tuple</code> compose fields into reusable forms while
+              deriving the byte mechanics from the representation of their parts.
+            </p>
+          </div>
+          <div class="card">
+            <p class="kicker">Representation</p>
+            <p>
+              <code>Bytes&lt;Origin, Destination&gt;</code> makes size, alignment,
+              endianness and conversion to and from bytes explicit. Implementations
+              extend through primitives, options, slices, tuples and pointers.
+            </p>
+          </div>
+          <div class="card">
+            <p class="kicker">Reusable mechanics</p>
+            <p>
+              The macro tree spans <code>common</code>, <code>enums</code>,
+              <code>list</code>, <code>primitive</code>, <code>string</code>,
+              <code>structs</code>, <code>traits</code>, <code>tuples</code> and
+              <code>unions</code>: families of form, not application domains.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2>Origin is part of the representation</h2>
+        <div class="ecosystem">
+          <p>
+            Serialization is not treated as an unrelated service layered on after a
+            type exists. The representation traits carry <code>Origin</code> and
+            <code>Destination</code> in their type story. Much of today's generated
+            machinery is the direct <code>Origin → Origin</code> case, while the trait
+            boundary preserves the distinction between where a representation comes
+            from and where it is meant to go.
+          </p>
+          <pre><code>concept
   │
-  ├── List&lt;T&gt;
-  ├── Vec&lt;T&gt;
-  ├── String
-  ├── generic traits
-  └── abstract math
-       ↓
-domain crates give the forms meaning</code></pre>
+  ├── taxonomy
+  ├── structure
+  └── Bytes&lt;Origin, Destination&gt;
+          │
+          ├── BYTES_SIZE
+          ├── BYTES_ALIGN
+          ├── to_le_bytes / to_be_bytes
+          └── from_le_bytes / from_be_bytes</code></pre>
+        </div>
+      </section>
+
+      <section>
+        <h2>Why macros belong here</h2>
+        <div class="boundary">
+          <div class="card">
+            <p class="kicker">The ample side</p>
+            <ul>
+              <li>Describe a general kind of structure once.</li>
+              <li>Generate repetitive representation mechanics from that structure.</li>
+              <li>Keep constants attached to the taxonomy that defines them.</li>
+              <li>Make nomenclature and serialization reusable across domains.</li>
+            </ul>
+          </div>
+          <div class="card">
+            <p class="kicker">The domain side</p>
+            <ul>
+              <li>Choose what the structure means in a real domain.</li>
+              <li>Supply ELF, Linux, human, browser or physical vocabulary.</li>
+              <li>Attach behavior that only makes sense inside that domain.</li>
+              <li>Keep platform APIs and protocols outside the abstraction layer.</li>
+            </ul>
+          </div>
         </div>
       </section>
 
@@ -61,15 +167,17 @@ domain crates give the forms meaning</code></pre>
           <div class="card">
             <p class="kicker">Belongs here</p>
             <ul>
-              <li>Generic containers and structures</li>
-              <li>Relations and operations independent of OS, people, machines or physics</li>
-              <li>Reusable traits that make sense without domain vocabulary</li>
+              <li>General enums, structs, tuples, unions and containers</li>
+              <li>Reusable taxonomy and nomenclature machinery</li>
+              <li>Byte representation, size, alignment and endianness traits</li>
+              <li>Domain-independent allocation, collections and mathematical forms</li>
             </ul>
           </div>
           <div class="card">
             <p class="kicker">Does not belong here</p>
             <ul>
-              <li>System calls or operating-system ABI</li>
+              <li>System calls or an operating-system ABI</li>
+              <li>ELF as a file-format domain</li>
               <li>People, colors, machines or virtual machines</li>
               <li>DOM/browser concepts</li>
               <li>Physical models, sensors or actuators</li>
@@ -79,37 +187,45 @@ domain crates give the forms meaning</code></pre>
       </section>
 
       <section>
-        <h2>Today</h2>
+        <h2>What this enables upstream</h2>
         <div class="grid">
           <div class="card">
-            <p class="kicker">Current surface</p>
-            <ul>
-              <li>Vec and String</li>
-              <li>Lists, nodes and queues</li>
-              <li>Generic traits and result types</li>
-              <li>Shared macros</li>
-              <li>Domain-independent math</li>
-            </ul>
+            <p class="kicker">Example: ELF</p>
+            <p>
+              <code>userspace</code> can model ELF headers, classes, machines,
+              segment types and flags using ample's structural and enum macros.
+              The taxonomy remains ELF's; the machinery for representing that taxonomy
+              does not need to be reinvented inside the loader.
+            </p>
           </div>
           <div class="card">
             <p class="kicker">Start here</p>
             <pre><code>cargo add ample</code></pre>
-            <p>The design rule is strict: if an abstraction needs to know what domain it belongs to, it probably does not belong in ample.</p>
+            <p>
+              The design rule is strict: ample may know how a form is represented,
+              but not what an application domain says that form means.
+            </p>
           </div>
-          
         </div>
       </section>
 
       <section>
         <div class="ecosystem">
-          <p><strong>From abstraction to reality.</strong> userspace.party keeps conceptual borders explicit: abstractions in <a href="/ample">ample</a>, process mechanisms in <a href="/userspace">userspace</a>, machines in <a href="/computers">computers</a>, human meaning in <a href="/humans">humans</a>, browser presentation in <a href="/webspace">webspace</a>, and physical-world simulation and control in <a href="/twins">twins</a>.</p>
+          <p>
+            <strong>From representation to reality.</strong> ample defines reusable
+            forms and their representation; <a href="/userspace">userspace</a> adds
+            process and operating-system meaning; <a href="/computers">computers</a>
+            describes machines; <a href="/humans">humans</a> adds human-facing meaning;
+            <a href="/webspace">webspace</a> owns browser presentation; and
+            <a href="/twins">twins</a> reaches simulation and control of the physical world.
+          </p>
         </div>
       </section>
     </main>
 
     <footer>
       <span><a href="/">← userspace.party</a></span>
-      <span>ample</span>
+      <span>ample / representation before domain</span>
     </footer>
   </div>
 </body>

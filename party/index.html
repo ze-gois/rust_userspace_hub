@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="userspace.party — a Rust ecosystem from domain-independent abstractions to systems and the physical world.">
+  <meta name="description" content="userspace.party — a Rust ecosystem where forms declare their representation before domains give them meaning.">
   <meta name="theme-color" content="#0b0d10">
   <title>userspace.party</title>
   <style>
@@ -364,12 +364,13 @@
     <main>
       <div class="hero">
         <div>
-          <p class="eyebrow">Rust / no_std-first / from abstraction to reality</p>
+          <p class="eyebrow">Rust / no_std-first / representation before domain</p>
           <h1>userspace<span>.</span>party</h1>
           <p class="lede">
-            A Rust ecosystem built around explicit boundaries. <strong>Define the forms.
-            Cross the operating-system boundary. Describe machines. Meet humans.
-            Simulate and control the physical world.</strong>
+            A Rust ecosystem built from declared forms and explicit boundaries.
+            <strong>Name the concept. Enumerate its states. Define its structure.
+            Let representation follow. Then add operating systems, machines, humans,
+            browsers and the physical world without erasing where each meaning belongs.</strong>
           </p>
           <div class="actions">
             <a class="button primary" href="#map">Explore the system</a>
@@ -378,34 +379,38 @@
         </div>
 
         <div class="terminal" aria-label="Conceptual map">
-          <div class="terminal-bar">from first principles</div>
-          <pre><code>ample       abstractions
-   ↓
-userspace   execution
-   ↓
+          <div class="terminal-bar">from declaration to reality</div>
+          <pre><code>ample       form + representation
+  ├─ enum   taxonomy → discriminants
+  ├─ struct composition → bytes
+  └─ Origin representation context
+       ↓
+userspace   process + OS
 computers   machines
 humans      perception
 webspace    presentation
-   ↓
+       ↓
 twins       physical world
 
-# small dependencies
-# explicit domains
-# open source</code></pre>
+# structure before behavior
+# domain after abstraction
+# small dependency surface</code></pre>
         </div>
       </div>
 
       <section id="map">
         <div class="section-head">
-          <h2>From form<br>to world.</h2>
+          <h2>From representation<br>to world.</h2>
           <p>
-            Each crate owns a different kind of meaning. The point is not to
-            hide boundaries behind one giant library, but to make them visible.
+            Each layer adds meaning without dissolving the one below it. <code>ample</code>
+            gives domain-independent forms a vocabulary and byte representation; the
+            other crates place those forms into operating-system, machine, human,
+            browser and physical contexts.
           </p>
         </div>
 
         <ol class="path">
-          <li><a href="/ample"><small>01</small><strong>ample</strong><span>abstract forms</span></a></li>
+          <li><a href="/ample"><small>01</small><strong>ample</strong><span>forms + representation</span></a></li>
           <li><a href="/userspace"><small>02</small><strong>userspace</strong><span>process + OS</span></a></li>
           <li><a href="/computers"><small>03</small><strong>computers</strong><span>machines</span></a></li>
           <li><a href="/humans"><small>04</small><strong>humans</strong><span>perception</span></a></li>
@@ -438,7 +443,7 @@ twins       physical world
           <article class="crate">
             <div>
               <strong>ample</strong>
-              <span>Abstractions, nothing more.</span>
+              <span>Declare forms. Derive representation.</span>
             </div>
             <div class="crate-links" aria-label="ample links">
               <a class="icon-link" href="/ample" aria-label="ample homepage" title="Homepage"><svg aria-hidden="true"><use href="#icon-home"/></svg></a>
@@ -529,19 +534,20 @@ twins       physical world
       <section id="about">
         <div class="manifesto">
           <p>
-            <strong>Hard borders. Small dependency surface.</strong><br><br>
-            <code>ample</code> does not know Linux. <code>userspace</code> owns
-            syscalls rather than exporting them upward into generic abstractions.
-            <code>humans</code> owns perceptual meaning while <code>webspace</code>
-            owns browser presentation. <code>twins</code> is where computation
-            returns to the physical world through simulation and control.
+            <strong>Definition is part of the architecture.</strong><br><br>
+            In <code>ample</code>, a type declaration can carry its taxonomy,
+            discriminants, names and byte representation together. Macros turn that
+            declaration into reusable mechanics instead of scattering constants,
+            serializers and conversion code across domains. <code>userspace</code>
+            can then model something like ELF without making ELF itself an ample concept.
           </p>
           <ul class="rules">
-            <li>Abstract before concrete.</li>
-            <li>Domain meaning stays in its domain.</li>
-            <li>Platform bindings stay at platform boundaries.</li>
+            <li>Name concepts before abbreviating them.</li>
+            <li>Enumerate taxonomy before scattering constants.</li>
+            <li>Let structure declare representation.</li>
+            <li>Keep domain meaning in its domain.</li>
+            <li>Keep platform bindings at platform boundaries.</li>
             <li>Prefer owned primitives over broad dependency trees.</li>
-            <li>Source on GitHub. Releases on crates.io. APIs on docs.rs.</li>
           </ul>
         </div>
       </section>
@@ -549,7 +555,7 @@ twins       physical world
 
     <footer>
       <span>userspace.party</span>
-      <span>from abstraction to reality.</span>
+      <span>from representation to reality.</span>
     </footer>
   </div>
 </body>
